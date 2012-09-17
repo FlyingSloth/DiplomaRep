@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Numerics;
 
 public class Matrix
 {
@@ -12,9 +11,9 @@ public class Matrix
 
     public Matrix(int n)
     {
-		this.matrix = new double[3 * n - 2, 3 * n - 2];
-        this.rows = 3 * n - 2;
-        this.cols = 3 * n - 2;
+		this.matrix = new double[3 * n - 1, 3 * n - 1];
+        this.rows = 3 * n - 1;
+        this.cols = 3 * n - 1;
 		for(int i = 0; i < this.Cols(); i++)
 			for (int j = 0; j < this.Rows(); j++)
 				this.matrix[i,j] = 0;
@@ -32,13 +31,15 @@ public class Matrix
 
     public void SetA(int n, double kc, double ec, int mc, double eps, double r)
     {
+		double hc = 1.0/n;
+		/*
 		if (this.matrix == NULL) 
 		{
 			this.rows = 3*n-2;
 			this.cols = 3*n-2;
 			this.matrix = new double[3 * n - 2, 3 * n - 2];
 		}
-		else
+		else*/
 		{ 
 			this.matrix[0,0] = pA22(eps,hc,kc,ec)+ pA11(1,hc,kc,ec);
 			this.matrix[0,1] = pA23(eps,hc,mc);
@@ -111,13 +112,13 @@ public class Matrix
     {
 		return 1.0 / Math.Pow(h,2) * Math.Log((j+1.0)*h, Math.E) + Math.Pow(k,2) * e * j + 1.0 / 2 * Math.Pow(k,2) * e - Math.Pow(k,2) * e * Math.Pow(j,2) * Math.Log((j+1.0)*h, Math.E) - Math.Pow(k,2) * e * j * Math.Log((j+1.0)*h, Math.E) - 1.0 / Math.Pow(h,2) * Math.Log(j*h, Math.E) + Math.Pow(k,2) * e * j * Math.Log(j*h, Math.E) + Math.Pow(k,2) * e * Math.Pow(j,2) * Math.Log(j*h, Math.E);
     }
-    private double pA13(double j, double h, double k)
+    private double pA13(double j, double h, double m)
     {
 		return m * (Math.Log((j+1.0)*h, Math.E) - Math.Log(j*h, Math.E)) / h;
     }
     private double pA14(double j, double h, double k, double e, double m)
     {
-		return -1.0 / 2 * k * e * m * (-2 * j - 3.0 + 2 * Math.Pow(j,2) * log((j + 1.0) * h) + 4 * j * log((j + 1.0) * h) + 2 * log((j + 1.0) * h) - 2 * Math.Pow(j,2) * Math.Log(j*h, Math.E) - 4 * j * Math.Log(j*h, Math.E) - 2 * Math.Log(j*h, Math.E));
+		return -1.0 / 2 * k * e * m * (-2 * j - 3.0 + 2 * Math.Pow(j,2) * Math.Log((j+1.0)*h, Math.E) + 4 * j * Math.Log((j+1.0)*h, Math.E) + 2 * Math.Log((j+1.0)*h, Math.E) - 2 * Math.Pow(j,2) * Math.Log(j*h, Math.E) - 4 * j * Math.Log(j*h, Math.E) - 2 * Math.Log(j*h, Math.E));
     }
     private double pA15(double j, double h, double k, double e, double m)
     {
@@ -151,7 +152,7 @@ public class Matrix
     }
     private double pA32(double j, double h, double m)
     {
-		return m*1.0*(log(j+1)*h-Math.Log(j*h, Math.E))/h;
+		return m*1.0*(Math.Log(j+1.0, Math.E)*h-Math.Log(j*h, Math.E))/h;
     }
     private double pA33(double j, double h, double k, double e, double m)
     {
@@ -168,7 +169,7 @@ public class Matrix
     //4
     private double pA41(double j, double h, double k, double e, double m)
     {
-		return -(-1.0 / 2 * k * e * m * (-2 * j - 3.0 + 2 * Math.Pow(j,2) * log((j + 1.0) * h) + 4 * j * log((j + 1.0) * h) + 2 * log((j + 1.0) * h) - 2 * Math.Pow(j,2) * Math.Log(j*h, Math.E) - 4 * j * Math.Log(j*h, Math.E) - 2 * Math.Log(j*h, Math.E)));
+		return -(-1.0 / 2 * k * e * m * (-2 * j - 3.0 + 2 * Math.Pow(j,2) * Math.Log((j+1.0)*h, Math.E) + 4 * j * Math.Log((j+1.0)*h, Math.E) + 2 * Math.Log((j+1.0)*h, Math.E) - 2 * Math.Pow(j,2) * Math.Log(j*h, Math.E) - 4 * j * Math.Log(j*h, Math.E) - 2 * Math.Log(j*h, Math.E)));
     }
     private double pA42(double j, double h, double k, double e, double m)
     {
@@ -223,7 +224,7 @@ public class Matrix
     }
     private double pB22(double j, double h)
     {
-		return 1.0/2-j+j^2*(log(j+1.0)*h-Math.Log(j*h, Math.E));
+		return 1.0/2-j+Math.Pow(j,2)*(Math.Log(j+1.0, Math.E)*h-Math.Log(j*h, Math.E));
     }
     private double pB33(double j, double h)
     {
