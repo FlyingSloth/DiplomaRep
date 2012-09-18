@@ -1,6 +1,6 @@
 ﻿namespace FEA
 {
-    partial class Form1
+    partial class frmIniData
     {
         /// <summary>
         /// Required designer variable.
@@ -51,15 +51,15 @@
 			this.dataGridView1.Size = new System.Drawing.Size(692, 408);
 			this.dataGridView1.TabIndex = 1;
 			// 
-			// Form1
+			// frmIniData
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(693, 430);
 			this.Controls.Add(this.dataGridView1);
 			this.Controls.Add(this.button1);
-			this.Name = "Form1";
-			this.Text = "Form1";
+			this.Name = "frmIniData";
+			this.Text = "Initial Data";
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.ResumeLayout(false);
 

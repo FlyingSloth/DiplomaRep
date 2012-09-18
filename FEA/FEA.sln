@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FEA", "FEA\FEA.csproj", "{888C0DB4-4A3F-4F68-A210-785713464295}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FD78A2B4-8D6E-4EE4-91C6-2CB4BF1B3828}"
-	ProjectSection(SolutionItems) = preProject
-		Matrix.cs = Matrix.cs
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

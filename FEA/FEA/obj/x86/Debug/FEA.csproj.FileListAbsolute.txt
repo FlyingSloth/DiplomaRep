@@ -1,9 +1,9 @@
 C:\DiplomaRep\FEA\FEA\bin\Debug\FEA.exe
 C:\DiplomaRep\FEA\FEA\bin\Debug\FEA.pdb
 C:\DiplomaRep\FEA\FEA\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\DiplomaRep\FEA\FEA\obj\x86\Debug\FEA.Form1.resources
 C:\DiplomaRep\FEA\FEA\obj\x86\Debug\FEA.Properties.Resources.resources
 C:\DiplomaRep\FEA\FEA\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\DiplomaRep\FEA\FEA\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\DiplomaRep\FEA\FEA\obj\x86\Debug\FEA.exe
 C:\DiplomaRep\FEA\FEA\obj\x86\Debug\FEA.pdb
+C:\DiplomaRep\FEA\FEA\obj\x86\Debug\FEA.frmIniData.resources

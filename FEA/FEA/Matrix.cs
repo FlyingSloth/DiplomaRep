@@ -7,16 +7,18 @@ public class Matrix
 
 	public Matrix()
 	{
+		this.cols = 0;
+		this.rows = 0;
 	}
 
     public Matrix(int n)
     {
-		this.matrix = new double[3 * n - 1, 3 * n - 1];
-        this.rows = 3 * n - 1;
-        this.cols = 3 * n - 1;
-		for(int i = 0; i < this.Cols(); i++)
-			for (int j = 0; j < this.Rows(); j++)
-				this.matrix[i,j] = 0;
+		this.matrix = new double[3 * n - 2, 3 * n - 2];
+        this.rows = 3 * n - 2;
+        this.cols = 3 * n - 2;
+		for(int i = 0; i < this.cols; i++)
+			for (int j = 0; j < this.rows; j++)
+				this.matrix[i,j] = 0.0;
     }
 
 	public int Rows()
@@ -32,14 +34,14 @@ public class Matrix
     public void SetA(int n, double kc, double ec, int mc, double eps, double r)
     {
 		double hc = 1.0/n;
-		/*
-		if (this.matrix == NULL) 
+		double ec1 = 0;
+		if (this.Cols() == 0 || this.Rows() == 0) 
 		{
 			this.rows = 3*n-2;
 			this.cols = 3*n-2;
 			this.matrix = new double[3 * n - 2, 3 * n - 2];
 		}
-		else*/
+		else
 		{ 
 			this.matrix[0,0] = pA22(eps,hc,kc,ec)+ pA11(1,hc,kc,ec);
 			this.matrix[0,1] = pA23(eps,hc,mc);
@@ -94,14 +96,101 @@ public class Matrix
 			this.matrix[8,6] = pA52(2,hc,kc,ec,mc) + pA41(3,hc,kc,ec,mc);
 			this.matrix[8,7] = pA53(2,hc,kc,ec);
 			this.matrix[8,8] = pA55(2,hc,ec,mc) + pA44(3,hc,ec,mc);
+
+			for (int i1 = 1; i1 < n-3; i1++)
+			{
+				ec1 = ec;
+				if ((i1 + 3)*hc > r-0.0051)
+					ec1 = 1;
+				if ((i1 + 3)*hc > r-0.0001)
+					ec = 1;
+
+				this.matrix[3 + i1*3,6 + i1*3] = pA12(2 + i1,hc,kc,ec);
+				this.matrix[3 + i1*3,7 + i1*3] = pA13(2 + i1,hc,mc);
+				this.matrix[3 + i1*3,8 + i1*3] = pA15(2 + i1,hc,kc,ec,mc);
+				this.matrix[5 + i1*3,6 + i1*3] = pA42(2 + i1,hc,kc,ec,mc);
+				this.matrix[5 + i1*3,7 + i1*3] = pA43(2 + i1,hc,kc,ec);
+				this.matrix[5 + i1*3,8 + i1*3] = pA45(2 + i1,hc,ec,mc);
+				this.matrix[6 + i1*3,3 + i1*3] = pA21(2 + i1,hc,kc,ec);
+				this.matrix[6 + i1*3,5 + i1*3] = pA24(2 + i1,hc,kc,ec,mc);
+				this.matrix[6 + i1*3,6 + i1*3] = pA22(2 + i1,hc,kc,ec) + pA11(3 + i1,hc,kc,ec1);
+				this.matrix[6 + i1*3,7 + i1*3] = pA23(2 + i1,hc,mc);
+				this.matrix[6 + i1*3,8 + i1*3] = pA25(2 + i1,hc,kc,ec,mc) + pA14(3 + i1,hc,kc,ec1,mc);
+				this.matrix[7 + i1*3,3 + i1*3] = pA31(2 + i1,hc,mc);
+				this.matrix[7 + i1*3,5 + i1*3] = pA34(2 + i1,hc,kc,ec);
+				this.matrix[7 + i1*3,6 + i1*3] = pA32(2 + i1,hc,mc);
+				this.matrix[7 + i1*3,7 + i1*3] = pA33(2 + i1,hc,kc,ec,mc);
+				this.matrix[7 + i1*3,8 + i1*3] = pA35(2 + i1,hc,kc,ec);
+				this.matrix[8 + i1*3,3 + i1*3] = pA51(2 + i1,hc,kc,ec,mc);
+				this.matrix[8 + i1*3,5 + i1*3] = pA54(2 + i1,hc,ec,mc);
+				this.matrix[8 + i1*3,6 + i1*3] = pA52(2 + i1,hc,kc,ec,mc) + pA41(3 + i1,hc,kc,ec1,mc);
+				this.matrix[8 + i1*3,7+ i1*3] = pA53(2 + i1,hc,kc,ec);
+				this.matrix[8 + i1*3,8 + i1*3] = pA55(2 + i1,hc,ec,mc) + pA44(3 + i1,hc,ec1,mc);
+			}
+
+			this.matrix[6 + 3 * (n - 4), 9 + 3 * (n - 4)] = pA13(3 + n - 4, hc, mc);
+			this.matrix[8 + 3 * (n - 4), 9 + 3 * (n - 4)] = pA43(3 + n - 4, hc, kc, ec);
+			this.matrix[9 + 3 * (n - 4), 6 + 3 * (n - 4)] = pA31(3 + n - 4, hc, mc);
+			this.matrix[9 + 3 * (n - 4), 8 + 3 * (n - 4)] = pA34(3 + n - 4, hc, kc, ec);
+			this.matrix[9 + 3 * (n - 4), 9 + 3 * (n - 4)] = pA33(3 + n - 4, hc, kc, ec, mc);
 		}
     }
 
+	
     public void SetB(int n, double kc, double ec, int mc, double eps, double r)
     {
-		//
+		double hc = 1.0/n;
+		double ec1 = 0;
+		if (this.Cols() == 0 || this.Rows() == 0)
+		{
+			this.rows = 3 * n - 2;
+			this.cols = 3 * n - 2;
+			this.matrix = new double[3 * n - 2, 3 * n - 2];
+		}
+		else
+		{
+			this.matrix[0, 0] = pB22(eps, hc) + pB11(1, hc);
+			this.matrix[1, 1] = pB33(eps, hc);
+			this.matrix[2, 2] = pB55(eps, hc, ec) + pB44(1, hc, ec);
+
+			this.matrix[0, 3] = pB12(1, hc);
+			this.matrix[2, 5] = pB45(1, hc, ec);
+			this.matrix[3, 0] = pB21(1, hc);
+			this.matrix[3, 3] = pB22(1, hc) + pB11(2, hc);
+			this.matrix[4, 4] = pB33(1, hc);
+			this.matrix[5, 2] = pB54(1, hc, ec);
+			this.matrix[5, 5] = pB55(1, hc, ec) + pB44(2, hc, ec);
+
+			this.matrix[3, 6] = pB12(2, hc);
+			this.matrix[5, 8] = pB45(2, hc, ec);
+			this.matrix[6, 3] = pB21(2, hc);
+			this.matrix[6, 6] = pB22(2, hc) + pB11(3, hc);
+			this.matrix[7, 7] = pB33(2, hc);
+			this.matrix[8, 5] = pB54(2, hc, ec);
+			this.matrix[8, 8] = pB55(2, hc, ec) + pB44(3, hc, ec);
+
+			for (int i1 = 1; i1 < n - 3; i1++)
+			{
+				ec1 = ec;
+				if ((i1 + 3) * hc > r - 0.0051)
+					ec1 = 1;
+				if ((i1 + 3) * hc > r - 0.0001)
+					ec = 1;
+				this.matrix[3 + i1*3,6 + i1*3] = pB12(2 + i1,hc);
+				this.matrix[5 + i1*3,8 + i1*3] = pB45(2 + i1,hc,ec);
+				this.matrix[6 + i1*3,3 + i1*3] = pB21(2 + i1,hc);
+				this.matrix[6 + i1*3,6 + i1*3] = pB22(2 + i1,hc) + pB11(3 + i1,hc);
+				this.matrix[7 + i1*3,7 + i1*3] = pB33(2 + i1,hc);
+				this.matrix[8 + i1*3,5 + i1*3] = pB54(2 + i1,hc,ec);
+				this.matrix[8 + i1*3,8 + i1*3] = pB55(2 + i1,hc,ec) + pB44(3 + i1,hc,ec1);
+			}
+			this.matrix[6 + 3*(n-4),9 + 3*(n-4)] = pB12(3 + n-4,hc);
+			this.matrix[9 + 3*(n-4),6 + 3*(n-4)] = pB21(3 + n-4,hc);
+			this.matrix[9 + 3*(n-4),9 + 3*(n-4)] = pB33(3 + n-4,hc);
+		}
     }
 
+	
 
     //1
     private double pA11(double j, double h, double k, double e)
@@ -114,7 +203,7 @@ public class Matrix
     }
     private double pA13(double j, double h, double m)
     {
-		return m * (Math.Log((j+1.0)*h, Math.E) - Math.Log(j*h, Math.E)) / h;
+		return Convert.ToDouble(m * (Math.Log((j+1.0)*h, Math.E) - Math.Log(j*h, Math.E))) / h;
     }
     private double pA14(double j, double h, double k, double e, double m)
     {

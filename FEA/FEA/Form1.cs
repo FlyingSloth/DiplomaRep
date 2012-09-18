@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace FEA
 {
-    public partial class Form1 : Form
+    public partial class frmIniData : Form
     {
-        public Form1()
+        public frmIniData()
         {
             InitializeComponent();
         }
@@ -26,7 +26,7 @@ namespace FEA
 			
 			for (int i = 0; i < A.Rows(); i++)
 			{
-				string[] str = new string[9];
+				string[] str = new string[25];
 				for (int j = 0; j < A.Cols(); j++)
 					str[j] = Convert.ToString(A.matrix[i, j]);
 				dataGridView1.Rows.Add(str);
