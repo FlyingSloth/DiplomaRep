@@ -14,7 +14,7 @@ public class Matrix
 	}
 
 	/// <summary>
-	/// Main constructor. Fills matrices with 0.
+	/// Square matrix constructor. Fills matrices with 0.
 	/// </summary>
 	/// <param name="n">Number of columns and rows</param>
     public Matrix(int n)
@@ -373,6 +373,7 @@ public class Matrix
 	{
 		this.rows = n;
 		this.cols = n;
+		this.matrix = new double[n, n];
 		this.matrix[0, 0] = 1;
 		this.matrix[0, 1] = 2;
 		this.matrix[0, 2] = 3;
@@ -388,6 +389,7 @@ public class Matrix
 	{
 		this.rows = n;
 		this.cols = n;
+		this.matrix = new double[n, n];
 		this.matrix[0, 0] = 3;
 		this.matrix[0, 1] = 2;
 		this.matrix[0, 2] = 1;
@@ -503,8 +505,21 @@ public class Matrix
 		return this;
 	}
 
+	public Matrix Copy(Matrix M)
+	{
+		this.cols = M.cols;
+		this.rows = M.rows;
+		this.matrix = new double[this.rows, this.cols];
+
+		for (int i = 0; i < M.rows; i++)
+			for (int j = 0; j < M.cols; j++)
+				this.matrix[i, j] = M.matrix[i, j];
+		return this;
+	}
+
 	public static Matrix operator * (Matrix M1, Matrix M2)
 	{
+
 		double tmp = 0.0;
 		Matrix res = new Matrix();
 
