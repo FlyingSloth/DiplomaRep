@@ -2,8 +2,10 @@
 
 public class Matrix
 {
-    private int cols, rows;
-    public double[,] matrix;
+    private int cols, rows; // nubler of columns and rows
+    public double[,] matrix; // array for matrix
+	private const double epsR = 0.000001; // radius of inside rod (to avoid singularity in 0)
+
 
 	public Matrix()
 	{
@@ -11,6 +13,10 @@ public class Matrix
 		this.rows = 0;
 	}
 
+	/// <summary>
+	/// Main constructor. Fills matrices with 0.
+	/// </summary>
+	/// <param name="n">Number of columns and rows</param>
     public Matrix(int n)
     {
 		this.matrix = new double[3 * n - 2, 3 * n - 2];
@@ -21,18 +27,37 @@ public class Matrix
 				this.matrix[i,j] = 0.0;
     }
 
+	/// <summary>
+	/// Number of rows
+	/// </summary>
+	/// <returns></returns>
 	public int Rows()
 	{
 		return this.rows;
 	}
 
+	/// <summary>
+	/// Number of columns
+	/// </summary>
+	/// <returns></returns>
 	public int Cols()
 	{
 		return this.cols;
 	}
 
-    public void SetA(int n, double kc, double ec, int mc, double eps, double r)
+	//TODO: check in Matlab
+	//TODO: Multilayer
+	/// <summary>
+	/// Setting of matrix A
+	/// </summary>
+	/// <param name="n">number of columns and rows</param>
+	/// <param name="kc">wave number</param>
+	/// <param name="ec">permitivity</param>
+	/// <param name="mc">mode</param>
+	/// <param name="r">Width of layer</param>
+    public void SetA(int n, double kc, double ec, int mc, double r)
     {
+		double eps = epsR;
 		double hc = 1.0/n;
 		double ec1 = 0;
 		if (this.Cols() == 0 || this.Rows() == 0) 
@@ -136,9 +161,17 @@ public class Matrix
 		}
     }
 
-	
-    public void SetB(int n, double kc, double ec, int mc, double eps, double r)
+	/// <summary>
+	/// Setting of matrix B
+	/// </summary>
+	/// <param name="n">number of columns and rows</param>
+	/// <param name="kc">wave number</param>
+	/// <param name="ec">permitivity</param>
+	/// <param name="mc">mode</param>
+	/// <param name="r">Width of layer</param>
+    public void SetB(int n, double kc, double ec, int mc, double r)
     {
+		double eps = epsR;
 		double hc = 1.0/n;
 		double ec1 = 0;
 		if (this.Cols() == 0 || this.Rows() == 0)
@@ -191,8 +224,8 @@ public class Matrix
     }
 
 	
-
-    //1
+	//elements of elementary matrices 5x5
+    //A 1 row
     private double pA11(double j, double h, double k, double e)
     {
 		return -1.0 / Math.Pow(h,2) * Math.Log((j+1.0)*h, Math.E) - Math.Pow(k,2) * e * j - 3.0 / 2 * Math.Pow(k,2) * e + Math.Pow(k,2) * e * Math.Pow(j,2) * Math.Log((j+1.0)*h, Math.E) + 2 * Math.Pow(k,2) * e * j * Math.Log((j+1.0)*h, Math.E) + Math.Pow(k,2) * e * Math.Log((j+1.0)*h, Math.E) + 1.0 / Math.Pow(h,2) * Math.Log(j*h, Math.E) - 2 * Math.Pow(k,2) * e * j * Math.Log(j*h, Math.E) - Math.Pow(k,2) * e * Math.Pow(j,2) * Math.Log(j*h, Math.E) - Math.Pow(k,2) * e * Math.Log(j*h, Math.E);
@@ -213,7 +246,7 @@ public class Matrix
     {
 		return -1.0 / 2 * k * e * m + k * e * m * Math.Pow(j,2) * (Math.Log((j+1.0)*h, Math.E) - Math.Log(j*h, Math.E)) - k * e * m * j + k * e * m * j * (Math.Log((j+1.0)*h, Math.E) - Math.Log(j*h, Math.E));
     }
-    //2
+	//A 2 row
     private double pA21(double j, double h, double k, double e)
     {
 		return 1.0 * (1.0 / Math.Pow(h,2) * Math.Log((j+1.0)*h, Math.E) + Math.Pow(k,2) * e * j + 1.0 / 2 * Math.Pow(k,2) * e - Math.Pow(k,2) * e * Math.Pow(j,2) * Math.Log((j+1.0)*h, Math.E) - Math.Pow(k,2) * e * j * Math.Log((j+1.0)*h, Math.E) - 1.0 / Math.Pow(h,2) * Math.Log(j*h, Math.E) + Math.Pow(k,2) * e * j * Math.Log(j*h, Math.E) + Math.Pow(k,2) * e * Math.Pow(j,2) * Math.Log(j*h, Math.E));
@@ -234,7 +267,7 @@ public class Matrix
     {
 		return k * e * m * (j - 1.0 / 2 - Math.Pow(j,2) * Math.Log((j+1.0)*h, Math.E) + Math.Pow(j,2) * Math.Log(j*h, Math.E));
     }
-    //3
+	//A 3 row
     private double pA31(double j, double h, double m)
     {
 		return -m * 1.0 * (Math.Log((j+1.0)*h, Math.E) - Math.Log(j*h, Math.E)) / h;
@@ -255,7 +288,7 @@ public class Matrix
     {
 		return -1.0 / 2 * k * e * h * (2 * j + 1.0);
     }
-    //4
+	//A 4 row
     private double pA41(double j, double h, double k, double e, double m)
     {
 		return -(-1.0 / 2 * k * e * m * (-2 * j - 3.0 + 2 * Math.Pow(j,2) * Math.Log((j+1.0)*h, Math.E) + 4 * j * Math.Log((j+1.0)*h, Math.E) + 2 * Math.Log((j+1.0)*h, Math.E) - 2 * Math.Pow(j,2) * Math.Log(j*h, Math.E) - 4 * j * Math.Log(j*h, Math.E) - 2 * Math.Log(j*h, Math.E)));
@@ -276,7 +309,7 @@ public class Matrix
     {
 		return ((e * Math.Log((j+1.0)*h, Math.E) * j - 1.0 / 2 * e - e * j + e * Math.Pow(j,2) * Math.Log((j+1.0)*h, Math.E) - e * Math.Pow(j,2) * Math.Log(j*h, Math.E) - e * Math.Log(j*h, Math.E) * j) * Math.Pow(m,2) + 1.0 / 2 * e + e * j);
     }
-    //5
+	//A 5 row
     private double pA51(double j, double h, double k, double e, double m)
     {
 		return -(1.0 * (-1.0 / 2 * k * e * m + k * e * m * Math.Pow(j,2) * (Math.Log((j+1.0)*h, Math.E) - Math.Log(j*h, Math.E)) - k * e * m * j + k * e * m * j * (Math.Log((j+1.0)*h, Math.E) - Math.Log(j*h, Math.E))));
@@ -335,4 +368,169 @@ public class Matrix
     {
 		return 1.0 / 12 * e * Math.Pow(h,2) * (4 * j + 3.0);
     }
+
+	public void setTest1(int n)
+	{
+		this.rows = n;
+		this.cols = n;
+		this.matrix[0, 0] = 1;
+		this.matrix[0, 1] = 2;
+		this.matrix[0, 2] = 3;
+		this.matrix[1, 0] = 1;
+		this.matrix[1, 1] = 2;
+		this.matrix[1, 2] = 3;
+		this.matrix[2, 0] = 1;
+		this.matrix[2, 1] = 2;
+		this.matrix[2, 2] = 3;
+	}
+
+	public void setTest2(int n)
+	{
+		this.rows = n;
+		this.cols = n;
+		this.matrix[0, 0] = 3;
+		this.matrix[0, 1] = 2;
+		this.matrix[0, 2] = 1;
+		this.matrix[1, 0] = 3;
+		this.matrix[1, 1] = 2;
+		this.matrix[1, 2] = 1;
+		this.matrix[2, 0] = 2;
+		this.matrix[2, 1] = 2;
+		this.matrix[2, 2] = 1;
+	}
+
+	/// <summary>
+	/// Returns inverted matrix
+	/// </summary>
+	/// <returns></returns>
+	private Matrix Invert()
+	{ 
+		int n = this.rows;
+        int[] row = new int[n];
+        int[] col = new int[n];
+        double[] temp = new double[n];
+        int hold; // buffer
+		int I_majel, J_majel; // place of major element
+        double majel, abs_majel;// major element
+
+        // rows and cols are gradient
+        for (int k = 0; k < n; k++) 
+		{
+            row[k] = k;
+            col[k] = k;
+        }
+        
+        for (int k = 0; k < n; k++) 
+		{
+            // finding the major element
+            majel = this.matrix[row[k],col[k]];
+            I_majel = k;
+            J_majel = k;
+            for (int i = k; i < n; i++) 
+			{
+                for (int j = k; j < n; j++) 
+				{
+                    abs_majel = Math.Abs(majel);
+                    if (Math.Abs(this.matrix[row[i],col[j]]) > abs_majel) 
+					{
+                        I_majel = i;
+                        J_majel = j;
+                        majel = this.matrix[row[i],col[j]];
+                    }
+                }
+            }
+            if (Math.Abs(majel) < 1.0E-10)
+			{
+				System.Windows.Forms.MessageBox.Show("Singularity!");
+            }
+
+            // changing places of k-row and k-col with majel
+            hold = row[k];
+            row[k] = row[I_majel];
+            row[I_majel] = hold;
+            hold = col[k];
+            col[k] = col[J_majel];
+            col[J_majel] = hold;
+            // division of k-row on majel
+            this.matrix[row[k],col[k]] = 1.0 / majel;
+            for (int j = 0; j < n; j++) 
+			{
+                if (j != k) 
+				{
+                    this.matrix[row[k],col[j]] = this.matrix[row[k],col[j]] * this.matrix[row[k],col[k]];
+                }
+            }
+            
+            for (int i = 0; i < n; i++) 
+			{
+                if (k != i) {
+                    for (int j = 0; j < n; j++) 
+					{
+                        if (k != j) 
+						{
+							this.matrix[row[i],col[j]] = this.matrix[row[i],col[j]] - this.matrix[row[i],col[k]] * this.matrix[row[k],col[j]];
+                        }
+                    }
+					this.matrix[row[i],col[k]] = -this.matrix[row[i],col[k]] * this.matrix[row[k],col[k]];
+                }
+            }
+        }
+
+        // putting back rows
+        for (int j = 0; j < n; j++) 
+		{
+            for (int i = 0; i < n; i++) 
+			{
+				temp[col[i]] = this.matrix[row[i],j];
+            }
+            for (int i = 0; i < n; i++) 
+			{
+				this.matrix[i,j] = temp[i];
+            }
+        }
+        // putting back cols
+        for (int i = 0; i < n; i++) 
+		{
+            for (int j = 0; j < n; j++) 
+			{
+				temp[row[j]] = this.matrix[i,col[j]];
+            }
+            for (int j = 0; j < n; j++) 
+			{
+				this.matrix[i,j] = temp[j];
+            }
+        }
+		return this;
+	}
+
+	public static Matrix operator * (Matrix M1, Matrix M2)
+	{
+		double tmp = 0.0;
+		Matrix res = new Matrix();
+
+		if (M1.cols != M2.rows)
+		{
+			System.Windows.Forms.MessageBox.Show("Matrix's sizes don't match!");
+		};
+
+		res.matrix = new double[M1.rows, M2.cols];
+
+		res.cols = M2.cols;
+		res.rows = M1.rows;
+
+		int i, j, k;
+		for (k = 0; k < M2.cols; k++)
+		{
+			for (j = 0; j < M1.rows; j++)
+			{
+				for (i = 0; i < M1.cols; i++)
+				{
+					tmp += M1.matrix[i,j] * M2.matrix[k,i];
+				}
+				res.matrix[k,j] = tmp;
+				tmp = 0;
+			}
+		}
+		return res;
+	}
 }
