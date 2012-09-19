@@ -5,8 +5,7 @@ public class Matrix
     private int cols, rows; // nubler of columns and rows
     public double[,] matrix; // array for matrix
 	private const double epsR = 0.000001; // radius of inside rod (to avoid singularity in 0)
-
-
+	
 	public Matrix()
 	{
 		this.cols = 0;
@@ -396,16 +395,28 @@ public class Matrix
 		this.matrix[1, 0] = 3;
 		this.matrix[1, 1] = 2;
 		this.matrix[1, 2] = 1;
-		this.matrix[2, 0] = 2;
+		this.matrix[2, 0] = 3;
 		this.matrix[2, 1] = 2;
 		this.matrix[2, 2] = 1;
 	}
+
+	public Matrix Copy(Matrix M)
+		{
+			this.cols = M.cols;
+			this.rows = M.rows;
+			this.matrix = new double[this.rows, this.cols];
+
+			for (int i = 0; i < M.rows; i++)
+				for (int j = 0; j < M.cols; j++)
+					this.matrix[i, j] = M.matrix[i, j];
+			return this;
+		}
 
 	/// <summary>
 	/// Returns inverted matrix
 	/// </summary>
 	/// <returns></returns>
-	private Matrix Invert()
+	public Matrix Invert()
 	{ 
 		int n = this.rows;
         int[] row = new int[n];
@@ -505,47 +516,109 @@ public class Matrix
 		return this;
 	}
 
-	public Matrix Copy(Matrix M)
-	{
-		this.cols = M.cols;
-		this.rows = M.rows;
-		this.matrix = new double[this.rows, this.cols];
+	public static Matrix operator + (Matrix M1, Matrix M2)
+	{ 
+		if (M1.cols != M2.cols || M1.rows != M2.rows)
+		{
+			System.Windows.Forms.MessageBox.Show("Matrix's sizes don't match!");
+		};
+		Matrix res = new Matrix();
+		res.matrix = new double[M1.rows, M1.cols];
 
-		for (int i = 0; i < M.rows; i++)
-			for (int j = 0; j < M.cols; j++)
-				this.matrix[i, j] = M.matrix[i, j];
-		return this;
+		int i, j;
+		for (j = 0; j < M1.rows; j++)
+		{
+			for (i = 0; i < M1.cols; i++)
+			{
+				res.matrix[i,j] = M1.matrix[i, j] + M2.matrix[i, j];
+			}
+		}
+		return res;
+	}
+
+	public static Matrix operator -(Matrix M1, Matrix M2)
+	{
+		if (M1.cols != M2.cols || M1.rows != M2.rows)
+		{
+			System.Windows.Forms.MessageBox.Show("Matrix's sizes don't match!");
+		};
+		Matrix res = new Matrix();
+		res.matrix = new double[M1.rows, M1.cols];
+
+		int i, j;
+		for (j = 0; j < M1.rows; j++)
+		{
+			for (i = 0; i < M1.cols; i++)
+			{
+				res.matrix[i, j] = M1.matrix[i, j] - M2.matrix[i, j];
+			}
+		}
+		return res;
+	}
+
+	public static Matrix operator -(Matrix M1)
+	{
+		int i, j;
+		for (i = 0; i < M1.rows; i++)
+		{
+			for (j = 0; j < M1.cols; j++)
+			{
+				M1.matrix[i,j] *= -1;
+			}
+		}
+		return M1;
 	}
 
 	public static Matrix operator * (Matrix M1, Matrix M2)
 	{
-
-		double tmp = 0.0;
-		Matrix res = new Matrix();
-
 		if (M1.cols != M2.rows)
 		{
 			System.Windows.Forms.MessageBox.Show("Matrix's sizes don't match!");
 		};
 
+		Matrix res = new Matrix();
 		res.matrix = new double[M1.rows, M2.cols];
 
 		res.cols = M2.cols;
 		res.rows = M1.rows;
 
 		int i, j, k;
-		for (k = 0; k < M2.cols; k++)
+
+		for (i = 0; i < M1.rows; i++)
 		{
-			for (j = 0; j < M1.rows; j++)
+			for (j = 0; j < M2.rows; j++)
 			{
-				for (i = 0; i < M1.cols; i++)
+				res.matrix[i, j] = 0;
+				for (k = 0; k < M1.cols; k++)
 				{
-					tmp += M1.matrix[i,j] * M2.matrix[k,i];
+					res.matrix[i, j] += M1.matrix[i, k] * M2.matrix[k, j];
 				}
-				res.matrix[k,j] = tmp;
-				tmp = 0;
 			}
 		}
 		return res;
 	}
+
+	public static bool operator ==(Matrix M1, Matrix M2)
+	{
+		if (M1.cols != M2.cols || M1.rows != M2.rows) return false;
+		for (int i = 0; i < M1.rows; i ++)
+			for (int j = 0; j < M1.cols; j++)
+			{
+				if (M1.matrix[i, j] != M2.matrix[i, j]) return false;
+			}
+		return true;
+	}
+
+	public static bool operator !=(Matrix M1, Matrix M2)
+	{
+		if (M1.cols != M2.cols || M1.rows != M2.rows) return true;
+		for (int i = 0; i < M1.rows; i++)
+			for (int j = 0; j < M1.cols; j++)
+			{
+				if (M1.matrix[i, j] != M2.matrix[i, j]) return true;
+			}
+		return false;
+	}
+
+	//TODO: eigenvalues
 }

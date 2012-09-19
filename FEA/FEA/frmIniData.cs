@@ -19,7 +19,7 @@ namespace FEA
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			n = 9;
+			n = 3;
 
 			/*
 			Matrix A = new Matrix(n);
@@ -68,14 +68,13 @@ namespace FEA
 			}
 			*/
 			
-			/*
+			
 			Matrix test1 = new Matrix(n);
 			test1.setTest1(n);
 			Matrix test2 = new Matrix(n);
 			test2.setTest2(n);
 			Matrix resmult = new Matrix(n);
 
-			//test1.Copy(test2);
 			resmult = test1 * test2;
 			{
 				dataGridView1.ColumnCount = n;
@@ -86,12 +85,10 @@ namespace FEA
 				{
 					string[] str = new string[n];
 					for (int j = 0; j < n; j++)
-						str[j] = Convert.ToString(Math.Round(test1.matrix[i, j], 4));
+						str[j] = Convert.ToString(Math.Round(-test1.matrix[i, j], 4));
 					dataGridView1.Rows.Add(str);
 				}
 			}
-			
-			test.Invert();
 			
 			dataGridView2.ColumnCount = n;
 			for (int i = 0; i < n; i++)
@@ -104,7 +101,7 @@ namespace FEA
 					str[j] = Convert.ToString(Math.Round(resmult.matrix[i, j], 4));
 				dataGridView2.Rows.Add(str);
 			}
-			*/
+			
 		}
     }
 }
