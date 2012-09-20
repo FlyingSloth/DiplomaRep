@@ -19,9 +19,9 @@ namespace FEA
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			n = 3;
+			n = 9;
 
-			/*
+			
 			Matrix A = new Matrix(n);
 			A.SetA(n, 1, 10, 1, 0.43);
 			dataGridView1.ColumnCount = 3*n-2;
@@ -35,7 +35,7 @@ namespace FEA
 					str[j] = Convert.ToString(Math.Round(A.matrix[i, j],4));
 				dataGridView1.Rows.Add(str);
 			}
-			*/
+			
 
 			/*
 			A.Invert();
@@ -52,7 +52,7 @@ namespace FEA
 			}
 			*/
 			
-			/*
+			
 			Matrix B = new Matrix(n);
 			B.SetB(n, 1, 10, 1, 0.43);
 			dataGridView2.ColumnCount = 3 * n - 2;
@@ -66,9 +66,9 @@ namespace FEA
 					str[j] = Convert.ToString(Math.Round(B.matrix[i, j], 4));
 				dataGridView2.Rows.Add(str);
 			}
-			*/
 			
 			
+			/*
 			Matrix test1 = new Matrix(n);
 			test1.setTest1(n);
 			Matrix test2 = new Matrix(n);
@@ -101,7 +101,17 @@ namespace FEA
 					str[j] = Convert.ToString(Math.Round(resmult.matrix[i, j], 4));
 				dataGridView2.Rows.Add(str);
 			}
-			
+			*/
+		}
+
+		private void button2_Click(object sender, EventArgs e)
+		{
+			textBox1.Text = "";
+			Complex c1 = new Complex(1, 4.899);
+			Complex c2 = new Complex(4, 3);
+			//if (c1 > c2) textBox1.Text = "c1>c2";
+			//else textBox1.Text = "c1<c2";
+			textBox1.Text = Convert.ToString(c1.Arg()) + "  " + Convert.ToString(c2.Arg());
 		}
     }
 }
