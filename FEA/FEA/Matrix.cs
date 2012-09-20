@@ -1,9 +1,10 @@
 ﻿using System;
+using FEA;
 
 public class Matrix
 {
     private int cols, rows; // nubler of columns and rows
-    public double[,] matrix; // array for matrix
+    public Complex[,] matrix; // array for matrix
 	private const double epsR = 0.000001; // radius of inside rod (to avoid singularity in 0)
 
 	public Matrix()
@@ -18,12 +19,12 @@ public class Matrix
 	/// <param name="n">Number of columns and rows</param>
     public Matrix(int n)
     {
-		this.matrix = new double[3 * n - 2, 3 * n - 2];
+		this.matrix = new Complex[3 * n - 2, 3 * n - 2];
         this.rows = 3 * n - 2;
         this.cols = 3 * n - 2;
 		for(int i = 0; i < this.cols; i++)
 			for (int j = 0; j < this.rows; j++)
-				this.matrix[i,j] = 0.0;
+				this.matrix[i,j] = new Complex();
     }
 
 	/// <summary>
@@ -62,63 +63,63 @@ public class Matrix
 		{
 			this.rows = 3*n-2;
 			this.cols = 3*n-2;
-			this.matrix = new double[3 * n - 2, 3 * n - 2];
+			this.matrix = new Complex[3 * n - 2, 3 * n - 2];
 		}
 		else
 		{ 
-			this.matrix[0,0] = pA22(eps,hc,kc,ec)+ pA11(1,hc,kc,ec);
-			this.matrix[0,1] = pA23(eps,hc,mc);
-			this.matrix[0,2] = pA25(eps,hc,kc,ec,mc)+ pA14(1,hc,kc,ec,mc);
-			this.matrix[1,0] = pA32(eps,hc,mc);
-			this.matrix[1,1] = pA33(eps,hc,kc,ec,mc);
-			this.matrix[1,2] = pA35(eps,hc,kc,ec);
-			this.matrix[2,0] = pA52(eps,hc,kc,ec,mc)+ pA41(1,hc,kc,ec,mc);
-			this.matrix[2,1] = pA53(eps,hc,kc,ec);
-			this.matrix[2,2] = pA55(eps,hc,ec,mc)+ pA44(1,hc,ec,mc);
+			this.matrix[0, 0] = new Complex(pA22(eps,hc,kc,ec)+ pA11(1,hc,kc,ec));
+			this.matrix[0, 1] = new Complex(pA23(eps, hc, mc));
+			this.matrix[0, 2] = new Complex(pA25(eps, hc, kc, ec, mc) + pA14(1, hc, kc, ec, mc));
+			this.matrix[1, 0] = new Complex(pA32(eps, hc, mc));
+			this.matrix[1, 1] = new Complex(pA33(eps, hc, kc, ec, mc));
+			this.matrix[1, 2] = new Complex(pA35(eps, hc, kc, ec));
+			this.matrix[2, 0] = new Complex(pA52(eps, hc, kc, ec, mc) + pA41(1, hc, kc, ec, mc));
+			this.matrix[2, 1] = new Complex(pA53(eps, hc, kc, ec));
+			this.matrix[2, 2] = new Complex(pA55(eps, hc, ec, mc) + pA44(1, hc, ec, mc));
 
-			this.matrix[0,3] = pA12(1,hc,kc,ec);
-			this.matrix[0,4] = pA13(1,hc,mc);
-			this.matrix[0,5] = pA15(1,hc,kc,ec,mc);
-			this.matrix[2,3] = pA42(1,hc,kc,ec,mc);
-			this.matrix[2,4] = pA43(1,hc,kc,ec);
-			this.matrix[2,5] = pA45(1,hc,ec,mc);
-			this.matrix[3,0] = pA21(1,hc,kc,ec);
-			this.matrix[3,2] = pA24(1,hc,kc,ec,mc);
-			this.matrix[3,3] = pA22(1,hc,kc,ec) + pA11(2,hc,kc,ec);
-			this.matrix[3,4] = pA23(1,hc,mc);
-			this.matrix[3,5] = pA25(1,hc,kc,ec,mc) + pA14(2,hc,kc,ec,mc);
-			this.matrix[4,0] = pA31(1,hc,mc);
-			this.matrix[4,2] = pA34(1,hc,kc,ec);
-			this.matrix[4,3] = pA32(1,hc,mc);
-			this.matrix[4,4] = pA33(1,hc,kc,ec,mc);
-			this.matrix[4,5] = pA35(1,hc,kc,ec);
-			this.matrix[5,0] = pA51(1,hc,kc,ec,mc);
-			this.matrix[5,2] = pA54(1,hc,ec,mc);
-			this.matrix[5,3] = pA52(1,hc,kc,ec,mc) + pA41(2,hc,kc,ec,mc);
-			this.matrix[5,4] = pA53(1,hc,kc,ec);
-			this.matrix[5,5] = pA55(1,hc,ec,mc) + pA44(2,hc,ec,mc);
+			this.matrix[0, 3] = new Complex(pA12(1, hc, kc, ec));
+			this.matrix[0, 4] = new Complex(pA13(1, hc, mc));
+			this.matrix[0, 5] = new Complex(pA15(1, hc, kc, ec, mc));
+			this.matrix[2, 3] = new Complex(pA42(1, hc, kc, ec, mc));
+			this.matrix[2, 4] = new Complex(pA43(1, hc, kc, ec));
+			this.matrix[2, 5] = new Complex(pA45(1, hc, ec, mc));
+			this.matrix[3, 0] = new Complex(pA21(1, hc, kc, ec));
+			this.matrix[3,2] = new Complex(pA24(1,hc,kc,ec,mc));
+			this.matrix[3,3] = new Complex(pA22(1,hc,kc,ec) + pA11(2,hc,kc,ec));
+			this.matrix[3,4] = new Complex(pA23(1,hc,mc));
+			this.matrix[3,5] = new Complex(pA25(1,hc,kc,ec,mc) + pA14(2,hc,kc,ec,mc));
+			this.matrix[4,0] = new Complex(pA31(1,hc,mc));
+			this.matrix[4,2] = new Complex(pA34(1,hc,kc,ec));
+			this.matrix[4,3] = new Complex(pA32(1,hc,mc));
+			this.matrix[4,4] = new Complex(pA33(1,hc,kc,ec,mc));
+			this.matrix[4,5] = new Complex(pA35(1,hc,kc,ec));
+			this.matrix[5,0] = new Complex(pA51(1,hc,kc,ec,mc));
+			this.matrix[5,2] = new Complex(pA54(1,hc,ec,mc));
+			this.matrix[5,3] = new Complex(pA52(1,hc,kc,ec,mc) + pA41(2,hc,kc,ec,mc));
+			this.matrix[5,4] = new Complex(pA53(1,hc,kc,ec));
+			this.matrix[5,5] = new Complex(pA55(1,hc,ec,mc) + pA44(2,hc,ec,mc));
 
-			this.matrix[3,6] = pA12(2,hc,kc,ec);
-			this.matrix[3,7] = pA13(2,hc,mc);
-			this.matrix[3,8] = pA15(2,hc,kc,ec,mc);
-			this.matrix[5,6] = pA42(2,hc,kc,ec,mc);
-			this.matrix[5,7] = pA43(2,hc,kc,ec);
-			this.matrix[5,8] = pA45(2,hc,ec,mc);
-			this.matrix[6,3] = pA21(2,hc,kc,ec);
-			this.matrix[6,5] = pA24(2,hc,kc,ec,mc);
-			this.matrix[6,6] = pA22(2,hc,kc,ec) + pA11(3,hc,kc,ec);
-			this.matrix[6,7] = pA23(2,hc,mc);
-			this.matrix[6,8] = pA25(2,hc,kc,ec,mc) + pA14(3,hc,kc,ec,mc);
-			this.matrix[7,3] = pA31(2,hc,mc);
-			this.matrix[7,5] = pA34(2,hc,kc,ec);
-			this.matrix[7,6] = pA32(2,hc,mc);
-			this.matrix[7,7] = pA33(2,hc,kc,ec,mc);
-			this.matrix[7,8] = pA35(2,hc,kc,ec);
-			this.matrix[8,3] = pA51(2,hc,kc,ec,mc);
-			this.matrix[8,5] = pA54(2,hc,ec,mc);
-			this.matrix[8,6] = pA52(2,hc,kc,ec,mc) + pA41(3,hc,kc,ec,mc);
-			this.matrix[8,7] = pA53(2,hc,kc,ec);
-			this.matrix[8,8] = pA55(2,hc,ec,mc) + pA44(3,hc,ec,mc);
+			this.matrix[3,6] = new Complex(pA12(2,hc,kc,ec));
+			this.matrix[3,7] = new Complex(pA13(2,hc,mc));
+			this.matrix[3,8] = new Complex(pA15(2,hc,kc,ec,mc));
+			this.matrix[5,6] = new Complex(pA42(2,hc,kc,ec,mc));
+			this.matrix[5,7] = new Complex(pA43(2,hc,kc,ec));
+			this.matrix[5,8] = new Complex(pA45(2,hc,ec,mc));
+			this.matrix[6,3] = new Complex(pA21(2,hc,kc,ec));
+			this.matrix[6,5] = new Complex(pA24(2,hc,kc,ec,mc));
+			this.matrix[6,6] = new Complex(pA22(2,hc,kc,ec) + pA11(3,hc,kc,ec));
+			this.matrix[6,7] = new Complex(pA23(2,hc,mc));
+			this.matrix[6,8] = new Complex(pA25(2,hc,kc,ec,mc) + pA14(3,hc,kc,ec,mc));
+			this.matrix[7,3] = new Complex(pA31(2,hc,mc));
+			this.matrix[7,5] = new Complex(pA34(2,hc,kc,ec));
+			this.matrix[7,6] = new Complex(pA32(2,hc,mc));
+			this.matrix[7,7] = new Complex(pA33(2,hc,kc,ec,mc));
+			this.matrix[7,8] = new Complex(pA35(2,hc,kc,ec));
+			this.matrix[8,3] = new Complex(pA51(2,hc,kc,ec,mc));
+			this.matrix[8,5] = new Complex(pA54(2,hc,ec,mc));
+			this.matrix[8,6] = new Complex(pA52(2,hc,kc,ec,mc) + pA41(3,hc,kc,ec,mc));
+			this.matrix[8,7] = new Complex(pA53(2,hc,kc,ec));
+			this.matrix[8,8] = new Complex(pA55(2,hc,ec,mc) + pA44(3,hc,ec,mc));
 
 			for (int i1 = 1; i1 < n-3; i1++)
 			{
@@ -128,34 +129,34 @@ public class Matrix
 				if ((i1 + 3)*hc > r-0.0001)
 					ec = 1;
 
-				this.matrix[3 + i1*3,6 + i1*3] = pA12(2 + i1,hc,kc,ec);
-				this.matrix[3 + i1*3,7 + i1*3] = pA13(2 + i1,hc,mc);
-				this.matrix[3 + i1*3,8 + i1*3] = pA15(2 + i1,hc,kc,ec,mc);
-				this.matrix[5 + i1*3,6 + i1*3] = pA42(2 + i1,hc,kc,ec,mc);
-				this.matrix[5 + i1*3,7 + i1*3] = pA43(2 + i1,hc,kc,ec);
-				this.matrix[5 + i1*3,8 + i1*3] = pA45(2 + i1,hc,ec,mc);
-				this.matrix[6 + i1*3,3 + i1*3] = pA21(2 + i1,hc,kc,ec);
-				this.matrix[6 + i1*3,5 + i1*3] = pA24(2 + i1,hc,kc,ec,mc);
-				this.matrix[6 + i1*3,6 + i1*3] = pA22(2 + i1,hc,kc,ec) + pA11(3 + i1,hc,kc,ec1);
-				this.matrix[6 + i1*3,7 + i1*3] = pA23(2 + i1,hc,mc);
-				this.matrix[6 + i1*3,8 + i1*3] = pA25(2 + i1,hc,kc,ec,mc) + pA14(3 + i1,hc,kc,ec1,mc);
-				this.matrix[7 + i1*3,3 + i1*3] = pA31(2 + i1,hc,mc);
-				this.matrix[7 + i1*3,5 + i1*3] = pA34(2 + i1,hc,kc,ec);
-				this.matrix[7 + i1*3,6 + i1*3] = pA32(2 + i1,hc,mc);
-				this.matrix[7 + i1*3,7 + i1*3] = pA33(2 + i1,hc,kc,ec,mc);
-				this.matrix[7 + i1*3,8 + i1*3] = pA35(2 + i1,hc,kc,ec);
-				this.matrix[8 + i1*3,3 + i1*3] = pA51(2 + i1,hc,kc,ec,mc);
-				this.matrix[8 + i1*3,5 + i1*3] = pA54(2 + i1,hc,ec,mc);
-				this.matrix[8 + i1*3,6 + i1*3] = pA52(2 + i1,hc,kc,ec,mc) + pA41(3 + i1,hc,kc,ec1,mc);
-				this.matrix[8 + i1*3,7+ i1*3] = pA53(2 + i1,hc,kc,ec);
-				this.matrix[8 + i1*3,8 + i1*3] = pA55(2 + i1,hc,ec,mc) + pA44(3 + i1,hc,ec1,mc);
+				this.matrix[3 + i1*3,6 + i1*3] = new Complex(pA12(2 + i1,hc,kc,ec));
+				this.matrix[3 + i1*3,7 + i1*3] = new Complex(pA13(2 + i1,hc,mc));
+				this.matrix[3 + i1*3,8 + i1*3] = new Complex(pA15(2 + i1,hc,kc,ec,mc));
+				this.matrix[5 + i1*3,6 + i1*3] = new Complex(pA42(2 + i1,hc,kc,ec,mc));
+				this.matrix[5 + i1*3,7 + i1*3] = new Complex(pA43(2 + i1,hc,kc,ec));
+				this.matrix[5 + i1*3,8 + i1*3] = new Complex(pA45(2 + i1,hc,ec,mc));
+				this.matrix[6 + i1*3,3 + i1*3] = new Complex(pA21(2 + i1,hc,kc,ec));
+				this.matrix[6 + i1*3,5 + i1*3] = new Complex(pA24(2 + i1,hc,kc,ec,mc));
+				this.matrix[6 + i1*3,6 + i1*3] = new Complex(pA22(2 + i1,hc,kc,ec) + pA11(3 + i1,hc,kc,ec1));
+				this.matrix[6 + i1*3,7 + i1*3] = new Complex(pA23(2 + i1,hc,mc));
+				this.matrix[6 + i1*3,8 + i1*3] = new Complex(pA25(2 + i1,hc,kc,ec,mc) + pA14(3 + i1,hc,kc,ec1,mc));
+				this.matrix[7 + i1*3,3 + i1*3] = new Complex(pA31(2 + i1,hc,mc));
+				this.matrix[7 + i1*3,5 + i1*3] = new Complex(pA34(2 + i1,hc,kc,ec));
+				this.matrix[7 + i1*3,6 + i1*3] = new Complex(pA32(2 + i1,hc,mc));
+				this.matrix[7 + i1*3,7 + i1*3] = new Complex(pA33(2 + i1,hc,kc,ec,mc));
+				this.matrix[7 + i1*3,8 + i1*3] = new Complex(pA35(2 + i1,hc,kc,ec));
+				this.matrix[8 + i1*3,3 + i1*3] = new Complex(pA51(2 + i1,hc,kc,ec,mc));
+				this.matrix[8 + i1*3,5 + i1*3] = new Complex(pA54(2 + i1,hc,ec,mc));
+				this.matrix[8 + i1*3,6 + i1*3] = new Complex(pA52(2 + i1,hc,kc,ec,mc) + pA41(3 + i1,hc,kc,ec1,mc));
+				this.matrix[8 + i1*3,7 + i1*3] = new Complex(pA53(2 + i1,hc,kc,ec));
+				this.matrix[8 + i1*3,8 + i1*3] = new Complex(pA55(2 + i1,hc,ec,mc) + pA44(3 + i1,hc,ec1,mc));
 			}
 
-			this.matrix[6 + 3 * (n - 4), 9 + 3 * (n - 4)] = pA13(3 + n - 4, hc, mc);
-			this.matrix[8 + 3 * (n - 4), 9 + 3 * (n - 4)] = pA43(3 + n - 4, hc, kc, ec);
-			this.matrix[9 + 3 * (n - 4), 6 + 3 * (n - 4)] = pA31(3 + n - 4, hc, mc);
-			this.matrix[9 + 3 * (n - 4), 8 + 3 * (n - 4)] = pA34(3 + n - 4, hc, kc, ec);
-			this.matrix[9 + 3 * (n - 4), 9 + 3 * (n - 4)] = pA33(3 + n - 4, hc, kc, ec, mc);
+			this.matrix[6 + 3 * (n - 4), 9 + 3 * (n - 4)] = new Complex(pA13(3 + n - 4, hc, mc));
+			this.matrix[8 + 3 * (n - 4), 9 + 3 * (n - 4)] = new Complex(pA43(3 + n - 4, hc, kc, ec));
+			this.matrix[9 + 3 * (n - 4), 6 + 3 * (n - 4)] = new Complex(pA31(3 + n - 4, hc, mc));
+			this.matrix[9 + 3 * (n - 4), 8 + 3 * (n - 4)] = new Complex(pA34(3 + n - 4, hc, kc, ec));
+			this.matrix[9 + 3 * (n - 4), 9 + 3 * (n - 4)] = new Complex(pA33(3 + n - 4, hc, kc, ec, mc));
 		}
     }
 
@@ -176,29 +177,29 @@ public class Matrix
 		{
 			this.rows = 3 * n - 2;
 			this.cols = 3 * n - 2;
-			this.matrix = new double[3 * n - 2, 3 * n - 2];
+			this.matrix = new Complex[3 * n - 2, 3 * n - 2];
 		}
 		else
 		{
-			this.matrix[0, 0] = pB22(eps, hc) + pB11(1, hc);
-			this.matrix[1, 1] = pB33(eps, hc);
-			this.matrix[2, 2] = pB55(eps, hc, ec) + pB44(1, hc, ec);
+			this.matrix[0, 0] = new Complex(pB22(eps, hc) + pB11(1, hc));
+			this.matrix[1, 1] = new Complex(pB33(eps, hc));
+			this.matrix[2, 2] = new Complex(pB55(eps, hc, ec) + pB44(1, hc, ec));
 
-			this.matrix[0, 3] = pB12(1, hc);
-			this.matrix[2, 5] = pB45(1, hc, ec);
-			this.matrix[3, 0] = pB21(1, hc);
-			this.matrix[3, 3] = pB22(1, hc) + pB11(2, hc);
-			this.matrix[4, 4] = pB33(1, hc);
-			this.matrix[5, 2] = pB54(1, hc, ec);
-			this.matrix[5, 5] = pB55(1, hc, ec) + pB44(2, hc, ec);
+			this.matrix[0, 3] = new Complex(pB12(1, hc));
+			this.matrix[2, 5] = new Complex(pB45(1, hc, ec));
+			this.matrix[3, 0] = new Complex(pB21(1, hc));
+			this.matrix[3, 3] = new Complex(pB22(1, hc) + pB11(2, hc));
+			this.matrix[4, 4] = new Complex(pB33(1, hc));
+			this.matrix[5, 2] = new Complex(pB54(1, hc, ec));
+			this.matrix[5, 5] = new Complex(pB55(1, hc, ec) + pB44(2, hc, ec));
 
-			this.matrix[3, 6] = pB12(2, hc);
-			this.matrix[5, 8] = pB45(2, hc, ec);
-			this.matrix[6, 3] = pB21(2, hc);
-			this.matrix[6, 6] = pB22(2, hc) + pB11(3, hc);
-			this.matrix[7, 7] = pB33(2, hc);
-			this.matrix[8, 5] = pB54(2, hc, ec);
-			this.matrix[8, 8] = pB55(2, hc, ec) + pB44(3, hc, ec);
+			this.matrix[3, 6] = new Complex(pB12(2, hc));
+			this.matrix[5, 8] = new Complex(pB45(2, hc, ec));
+			this.matrix[6, 3] = new Complex(pB21(2, hc));
+			this.matrix[6, 6] = new Complex(pB22(2, hc) + pB11(3, hc));
+			this.matrix[7, 7] = new Complex(pB33(2, hc));
+			this.matrix[8, 5] = new Complex(pB54(2, hc, ec));
+			this.matrix[8, 8] = new Complex(pB55(2, hc, ec) + pB44(3, hc, ec));
 
 			for (int i1 = 1; i1 < n - 3; i1++)
 			{
@@ -207,17 +208,17 @@ public class Matrix
 					ec1 = 1;
 				if ((i1 + 3) * hc > r - 0.0001)
 					ec = 1;
-				this.matrix[3 + i1*3,6 + i1*3] = pB12(2 + i1,hc);
-				this.matrix[5 + i1*3,8 + i1*3] = pB45(2 + i1,hc,ec);
-				this.matrix[6 + i1*3,3 + i1*3] = pB21(2 + i1,hc);
-				this.matrix[6 + i1*3,6 + i1*3] = pB22(2 + i1,hc) + pB11(3 + i1,hc);
-				this.matrix[7 + i1*3,7 + i1*3] = pB33(2 + i1,hc);
-				this.matrix[8 + i1*3,5 + i1*3] = pB54(2 + i1,hc,ec);
-				this.matrix[8 + i1*3,8 + i1*3] = pB55(2 + i1,hc,ec) + pB44(3 + i1,hc,ec1);
+				this.matrix[3 + i1*3,6 + i1*3] = new Complex(pB12(2 + i1,hc));
+				this.matrix[5 + i1*3,8 + i1*3] = new Complex(pB45(2 + i1,hc,ec));
+				this.matrix[6 + i1*3,3 + i1*3] = new Complex(pB21(2 + i1,hc));
+				this.matrix[6 + i1*3,6 + i1*3] = new Complex(pB22(2 + i1,hc) + pB11(3 + i1,hc));
+				this.matrix[7 + i1*3,7 + i1*3] = new Complex(pB33(2 + i1,hc));
+				this.matrix[8 + i1*3,5 + i1*3] = new Complex(pB54(2 + i1,hc,ec));
+				this.matrix[8 + i1*3,8 + i1*3] = new Complex(pB55(2 + i1,hc,ec) + pB44(3 + i1,hc,ec1));
 			}
-			this.matrix[6 + 3*(n-4),9 + 3*(n-4)] = pB12(3 + n-4,hc);
-			this.matrix[9 + 3*(n-4),6 + 3*(n-4)] = pB21(3 + n-4,hc);
-			this.matrix[9 + 3*(n-4),9 + 3*(n-4)] = pB33(3 + n-4,hc);
+			this.matrix[6 + 3*(n-4),9 + 3*(n-4)] = new Complex(pB12(3 + n-4,hc));
+			this.matrix[9 + 3*(n-4),6 + 3*(n-4)] = new Complex(pB21(3 + n-4,hc));
+			this.matrix[9 + 3*(n-4),9 + 3*(n-4)] = new Complex(pB33(3 + n-4,hc));
 		}
     }
 
@@ -372,39 +373,39 @@ public class Matrix
 	{
 		this.rows = n;
 		this.cols = n;
-		this.matrix = new double[n, n];
-		this.matrix[0, 0] = 1;
-		this.matrix[0, 1] = 2;
-		this.matrix[0, 2] = 3;
-		this.matrix[1, 0] = 1;
-		this.matrix[1, 1] = 2;
-		this.matrix[1, 2] = 3;
-		this.matrix[2, 0] = 1;
-		this.matrix[2, 1] = 2;
-		this.matrix[2, 2] = 3;
+		this.matrix = new Complex[n, n];
+		this.matrix[0, 0] = new Complex(1);
+		this.matrix[0, 1] = new Complex(2);
+		this.matrix[0, 2] = new Complex(3);
+		this.matrix[1, 0] = new Complex(1);
+		this.matrix[1, 1] = new Complex(2);
+		this.matrix[1, 2] = new Complex(3);
+		this.matrix[2, 0] = new Complex(1);
+		this.matrix[2, 1] = new Complex(2);
+		this.matrix[2, 2] = new Complex(3);
 	}
 
 	public void setTest2(int n)
 	{
 		this.rows = n;
 		this.cols = n;
-		this.matrix = new double[n, n];
-		this.matrix[0, 0] = 3;
-		this.matrix[0, 1] = 2;
-		this.matrix[0, 2] = 1;
-		this.matrix[1, 0] = 3;
-		this.matrix[1, 1] = 2;
-		this.matrix[1, 2] = 1;
-		this.matrix[2, 0] = 3;
-		this.matrix[2, 1] = 2;
-		this.matrix[2, 2] = 1;
+		this.matrix = new Complex[n, n];
+		this.matrix[0, 0] = new Complex(3);
+		this.matrix[0, 1] = new Complex(2);
+		this.matrix[0, 2] = new Complex(1);
+		this.matrix[1, 0] = new Complex(3);
+		this.matrix[1, 1] = new Complex(2);
+		this.matrix[1, 2] = new Complex(1);
+		this.matrix[2, 0] = new Complex(3);
+		this.matrix[2, 1] = new Complex(2);
+		this.matrix[2, 2] = new Complex(1);
 	}
 
 	public Matrix Copy(Matrix M)
 		{
 			this.cols = M.cols;
 			this.rows = M.rows;
-			this.matrix = new double[this.rows, this.cols];
+			this.matrix = new Complex[this.rows, this.cols];
 
 			for (int i = 0; i < M.rows; i++)
 				for (int j = 0; j < M.cols; j++)
@@ -436,7 +437,7 @@ public class Matrix
         for (int k = 0; k < n; k++) 
 		{
             // finding the major element
-            majel = this.matrix[row[k],col[k]];
+            majel = this.matrix[row[k],col[k]].ToDouble();
             I_majel = k;
             J_majel = k;
             for (int i = k; i < n; i++) 
@@ -444,11 +445,11 @@ public class Matrix
                 for (int j = k; j < n; j++) 
 				{
                     abs_majel = Math.Abs(majel);
-                    if (Math.Abs(this.matrix[row[i],col[j]]) > abs_majel) 
+                    if (Math.Abs(this.matrix[row[i],col[j]].ToDouble()) > abs_majel) 
 					{
                         I_majel = i;
                         J_majel = j;
-                        majel = this.matrix[row[i],col[j]];
+                        majel = this.matrix[row[i],col[j]].ToDouble();
                     }
                 }
             }
@@ -465,7 +466,7 @@ public class Matrix
             col[k] = col[J_majel];
             col[J_majel] = hold;
             // division of k-row on majel
-            this.matrix[row[k],col[k]] = 1.0 / majel;
+            this.matrix[row[k],col[k]] = new Complex(1.0 / majel);
             for (int j = 0; j < n; j++) 
 			{
                 if (j != k) 
@@ -494,11 +495,11 @@ public class Matrix
 		{
             for (int i = 0; i < n; i++) 
 			{
-				temp[col[i]] = this.matrix[row[i],j];
+				temp[col[i]] = this.matrix[row[i],j].ToDouble();
             }
             for (int i = 0; i < n; i++) 
 			{
-				this.matrix[i,j] = temp[i];
+				this.matrix[i,j] = new Complex(temp[i]);
             }
         }
         // putting back cols
@@ -506,11 +507,11 @@ public class Matrix
 		{
             for (int j = 0; j < n; j++) 
 			{
-				temp[row[j]] = this.matrix[i,col[j]];
+				temp[row[j]] = this.matrix[i,col[j]].ToDouble();
             }
             for (int j = 0; j < n; j++) 
 			{
-				this.matrix[i,j] = temp[j];
+				this.matrix[i,j] = new Complex(temp[j]);
             }
         }
 		return this;
@@ -523,14 +524,35 @@ public class Matrix
 			System.Windows.Forms.MessageBox.Show("Matrix's sizes don't match!");
 		};
 		Matrix res = new Matrix();
-		res.matrix = new double[M1.rows, M1.cols];
+		res.matrix = new Complex[M1.rows, M1.cols];
 
 		int i, j;
-		for (j = 0; j < M1.rows; j++)
+		for (i = 0; i < M1.rows; i++)
 		{
-			for (i = 0; i < M1.cols; i++)
+			for (j = 0; j < M1.cols; j++)
 			{
 				res.matrix[i,j] = M1.matrix[i, j] + M2.matrix[i, j];
+			}
+		}
+		return res;
+	}
+
+	public static Matrix operator +(Matrix M1, double d)
+	{
+		if (M1.cols != M1.rows)
+		{
+			System.Windows.Forms.MessageBox.Show("Matrix's sizes don't match!");
+		};
+		Matrix res = new Matrix();
+		res.matrix = new Complex[M1.rows, M1.cols];
+
+		int i, j;
+		for (i = 0; i < M1.rows; i++)
+		{
+			for (j = 0; j < M1.cols; j++)
+			{
+				if (i == j)
+					res.matrix[i, j] = M1.matrix[i, j] + d;
 			}
 		}
 		return res;
@@ -543,14 +565,14 @@ public class Matrix
 			System.Windows.Forms.MessageBox.Show("Matrix's sizes don't match!");
 		};
 		Matrix res = new Matrix();
-		res.matrix = new double[M1.rows, M1.cols];
+		res.matrix = new Complex[M1.rows, M1.cols];
 
 		int i, j;
 		for (j = 0; j < M1.rows; j++)
 		{
 			for (i = 0; i < M1.cols; i++)
 			{
-				res.matrix[i, j] = M1.matrix[i, j] - M2.matrix[i, j];
+				res.matrix[j, i] = M1.matrix[j, i] - M2.matrix[j, i];
 			}
 		}
 		return res;
@@ -577,7 +599,7 @@ public class Matrix
 		};
 
 		Matrix res = new Matrix();
-		res.matrix = new double[M1.rows, M2.cols];
+		res.matrix = new Complex[M1.rows, M2.cols];
 
 		res.cols = M2.cols;
 		res.rows = M1.rows;
@@ -588,7 +610,7 @@ public class Matrix
 		{
 			for (j = 0; j < M2.rows; j++)
 			{
-				res.matrix[i, j] = 0;
+				res.matrix[i, j] = new Complex();
 				for (k = 0; k < M1.cols; k++)
 				{
 					res.matrix[i, j] += M1.matrix[i, k] * M2.matrix[k, j];
@@ -596,6 +618,14 @@ public class Matrix
 			}
 		}
 		return res;
+	}
+
+	public static Matrix operator *(double d, Matrix M1)
+	{
+		for (int i = 0; i < M1.rows; i++)
+			for (int j = 0; j < M1.cols; j++)
+				M1.matrix[i, j] = d * M1.matrix[i, j];
+		return M1;
 	}
 
 	public static bool operator ==(Matrix M1, Matrix M2)
@@ -621,4 +651,100 @@ public class Matrix
 	}
 
 	//TODO: eigenvalues
+	/*
+	// это первая половина алгоритма, вторую доизучить
+	// в оригинале a - изначальная матрица, n - её размерность (ибо квадратная)
+	//d - диагональ трёхдиагональной матрицы
+	void Eigenval(float **a, int n, float *d, float *e) 
+	{ 
+		int l,k,j,i; 
+		Complex scale,hh,h,g,f; 
+		// Проход по стадиям процесса редукции  
+		for( i=n; i>=2; i--) 
+		{ 
+			l=i-1; h=scale=0.; 
+			// сложный процесс везде, кроме последней стадии 
+			if(l>1) 
+			{ 
+				// вычислить шкалу 
+				for(k=1; k<=l; k++) 
+					scale += fabs(a[i][k]); 
+				// малая величина шкалы -> пропустить преобразование 
+				if(scale==0.) e[i]=a[i][l]; 
+				else 
+				{ 
+					// отмасштабировать строку и вычислить s2 в h  
+					for(k=1;k<=l;k++) 
+					{ 
+						a[i][k]/=scale; h += a[i][k]*a[i][k]; 
+					} 
+					// вычислить вектор u 
+					f=a[i][l]; 
+					g=(f>=0.?-sqrt(h):sqrt(h)); 
+					e[i]=scale*g; h -= f*g; 
+					// записать u на место i-го ряда a  
+					a[i][l]=f-g; 
+					// вычисление u/h, Au, p, K  
+					f=0.; 
+					for(j=1;j<=l;j++) 
+					{ 
+						// следующая инструкция не нужна, если не требуются вектора, 
+						//     она содержит загрузку u/h в столбец a 
+						a[j][i]=a[i][j]/h; 
+						// сформировать элемент Au (в g)  
+						g=0.; 
+						for(k=1;k<=j;k++) 
+							g += a[j][k]*a[i][k]; 
+						for(k=j+1;k<=l;k++) 
+							g += a[k][j]*a[i][k]; 
+						// загрузить элемент p во временно неиспользуемую область e
+						e[j]=g/h; 
+						// подготовка к формированию K  
+						f += e[j]*a[i][j]; 
+					} 
+					// Сформировать K  
+					hh=f/(h+h); 
+					for(j=1;j<=l;j++) 
+					{ 
+						// Сформировать q и поместить на место p (в e) 
+						f=a[i][j]; e[j]=g=e[j]-hh*f; 
+						// Трансформировать матрицу a 
+						for(k=1;k<=j;k++) a[j][k] -= (f*e[k]+g*a[i][k]); 
+					} 
+				} 
+			} 
+			else e[i]=a[i][l]; 
+			d[i]=h; 
+		} 
+		// если не нужны собственные вектора, опустите следующую инструкцию  
+		d[1]=0.; 
+		// эту опускать не надо  
+		e[1]=0.; 
+		// Все содержание цикла, кроме одной инструкции, можно опустить, если не 
+		//требуются собственные вектора 
+		for(i=1;i<=n;i++) 
+		{ 
+			l=i-1; 
+			// этот блок будет пропущен при i=1
+			if(d[i]!=0.) 
+			{ 
+				for(j=1;j<=l;j++) 
+				{ 
+					g=0.; 
+					// формируем PQ, используя u и u/H  
+					for(k=1;k<=l;k++) 
+						g += a[i][k]*a[k][j]; 
+					for(k=1;k<=l;k++) 
+						a[k][j] -= g*a[k][i]; 
+				} 
+			} 
+			// эта инструкция остается  
+			d[i]=a[i][i]; 
+			// ряд и колонка матрицы a преобразуются к единичной, для след. итерации  
+			a[i][i]=0.; 
+			for(j=1;j<=l;j++) 
+				a[j][i]=a[i][j]=0.; 
+		} 
+	} 
+	*/
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FEA
 {
-	class Complex
+	public class Complex
 	{
 		private double re, im;
 		
@@ -199,12 +199,56 @@ namespace FEA
 			if (c1.re == c2.re && c1.im == c2.im) return true;
 			return false;
 		}
-		
+
+		public static bool operator !=(Complex c1, Complex c2)
+		{
+			if (c1.re == c2.re && c1.im == c2.im) return false;
+			return true;
+		}
 		//Complex to double
 		public double ToDouble()
 		{
 			if (this.im == 0) return this.re;
 			else return 0;
+		}
+
+		public Complex isLarger(Complex c)
+		{
+			if (this > c) return this;
+			else return c;
+		}
+
+		public Complex isSmaller(Complex c)
+		{
+			if (this > c) return c;
+			else return this;
+		}
+	
+		// d > 1, d = 0, d = 1/2;
+		public Complex Pow(double d)
+		{
+			double abs = Math.Sqrt(this.re * this.re + this.im * this.im);
+			double asin = Convert.ToDouble(this.im) / abs;
+			double acos = Convert.ToDouble(this.re) / abs;
+			double rr,ri;
+			Complex res1 = new Complex();
+			Complex res2 = new Complex();
+			if (d > 1)
+			{
+				rr = Math.Cos(d * acos);
+				ri = Math.Sin(d * asin);
+				return new Complex(abs * rr, abs * ri);
+			}
+			if (d == 0) return new Complex(1);
+			if (d == 0.5)
+			{
+				rr = Math.Cos(acos / 2);
+				ri = Math.Sin(asin / 2);
+				res1 = new Complex(Math.Sqrt(abs) * rr, Math.Sqrt(abs) * ri);
+				res2 = new Complex(Math.Sqrt(abs) * rr, -Math.Sqrt(abs) * ri);
+				return res1.isLarger(res2);
+			}
+			return new Complex();
 		}
 	}
 }
