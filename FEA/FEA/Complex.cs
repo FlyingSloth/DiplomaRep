@@ -61,7 +61,8 @@ namespace FEA
 		// *: compl*compl, compl*double,double*compl
 		public static Complex operator *(Complex c1, Complex c2)
 		{
-			return new Complex(c1.re*c2.re-c1.im*c2.im, c1.re*c2.im+c2.re*c1.im);
+			Complex res = new Complex(c1.re*c2.re-c1.im*c2.im, c1.re*c2.im+c2.re*c1.im);
+			return res;
 		}
 
 		public static Complex operator *(Complex c1, double d)
@@ -200,16 +201,40 @@ namespace FEA
 			return false;
 		}
 
+		public static bool operator ==(Complex c1, double d)
+		{
+			if (c1.re == d && c1.im == 0) return true;
+			return false;
+		}
+
 		public static bool operator !=(Complex c1, Complex c2)
 		{
 			if (c1.re == c2.re && c1.im == c2.im) return false;
 			return true;
 		}
+
+		public static bool operator !=(Complex c1, double d)
+		{
+			if (c1.im == 0 || c1.re == d && c1.im == 0) return false;
+			return true;
+		}
+
 		//Complex to double
 		public double ToDouble()
 		{
 			if (this.im == 0) return this.re;
 			else return 0;
+		}
+
+		public String ToString()
+		{
+			String compl;
+			compl = Convert.ToString(this.re);
+			if (this.im == 0) return compl;
+			if (this.im < 0) compl += "-i*";
+			if (this.im > 0) compl += "+i*";
+			compl += Convert.ToString(Math.Abs(this.im));
+			return compl;
 		}
 
 		public Complex isLarger(Complex c)
@@ -227,6 +252,7 @@ namespace FEA
 		// d > 1, d = 0, d = 1/2;
 		public Complex Pow(double d)
 		{
+			if (this.re == 0 && this.im == 0 && d != 0) return new Complex();
 			double abs = Math.Sqrt(this.re * this.re + this.im * this.im);
 			double asin = Convert.ToDouble(this.im) / abs;
 			double acos = Convert.ToDouble(this.re) / abs;

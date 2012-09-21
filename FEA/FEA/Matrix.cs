@@ -27,6 +27,16 @@ public class Matrix
 				this.matrix[i,j] = new Complex();
     }
 
+	public Matrix(int rows, int cols)
+	{
+		this.matrix = new Complex[rows, cols];
+		this.rows = rows;
+		this.cols = cols;
+		for (int i = 0; i < this.rows; i++)
+			for (int j = 0; j < this.cols; j++)
+				this.matrix[i, j] = new Complex(0);
+	}
+
 	/// <summary>
 	/// Number of rows
 	/// </summary>
@@ -608,7 +618,7 @@ public class Matrix
 
 		for (i = 0; i < M1.rows; i++)
 		{
-			for (j = 0; j < M2.rows; j++)
+			for (j = 0; j < M2.cols; j++)
 			{
 				res.matrix[i, j] = new Complex();
 				for (k = 0; k < M1.cols; k++)
@@ -625,6 +635,14 @@ public class Matrix
 		for (int i = 0; i < M1.rows; i++)
 			for (int j = 0; j < M1.cols; j++)
 				M1.matrix[i, j] = d * M1.matrix[i, j];
+		return M1;
+	}
+
+	public static Matrix operator /(Matrix M1, double d)
+	{
+		for (int i = 0; i < M1.rows; i++)
+			for (int j = 0; j < M1.cols; j++)
+				M1.matrix[i, j] = M1.matrix[i, j]/d;
 		return M1;
 	}
 
@@ -651,100 +669,179 @@ public class Matrix
 	}
 
 	//TODO: eigenvalues
-	/*
-	// это первая половина алгоритма, вторую доизучить
-	// в оригинале a - изначальная матрица, n - её размерность (ибо квадратная)
-	//d - диагональ трёхдиагональной матрицы
-	void Eigenval(float **a, int n, float *d, float *e) 
+
+	/// <summary>
+	/// Transformates matrix A to tridiagonal with Householder's method. Returns diagonal elements and saves
+	/// into private parameter E out of diagonal elements of transformed matrix
+	/// </summary>
+	/// <param name="A">Matrix to be transformed</param>
+	/// <returns>Diagonal elements</returns>
+
+	//TODO: проверить в матлабе, правильный ли результат даёт eig(B.Invert()*A), а то щас ничерта не работает
+	public Matrix TriDiagonal(ref Matrix A, ref Complex[] E) 
 	{ 
 		int l,k,j,i; 
-		Complex scale,hh,h,g,f; 
-		// Проход по стадиям процесса редукции  
-		for( i=n; i>=2; i--) 
+		Complex scale,hh,h,g,f;
+
+		Matrix d = new Matrix(A.rows, 1);
+
+		Matrix trid = new Matrix(A.rows, A.cols);
+
+		E = new Complex[A.rows];  
+		for( i = A.rows-1; i >= 1; i--) 
 		{ 
-			l=i-1; h=scale=0.; 
-			// сложный процесс везде, кроме последней стадии 
-			if(l>1) 
+			l = i - 1; 
+			h = scale = new Complex();  
+			if ( l > 1 ) 
 			{ 
-				// вычислить шкалу 
-				for(k=1; k<=l; k++) 
-					scale += fabs(a[i][k]); 
-				// малая величина шкалы -> пропустить преобразование 
-				if(scale==0.) e[i]=a[i][l]; 
+				for( k = 0; k < l; k++ ) 
+					scale += Math.Abs(A.matrix[i,k].ToDouble());  
+				if ( scale == 0)
+					E[i] = A.matrix[i, l]; 
 				else 
 				{ 
-					// отмасштабировать строку и вычислить s2 в h  
-					for(k=1;k<=l;k++) 
+					for ( k = 0; k < l; k++ ) 
 					{ 
-						a[i][k]/=scale; h += a[i][k]*a[i][k]; 
+						A.matrix[i,k] = A.matrix[i,k]/scale; 
+						h += A.matrix[i,k].Pow(2); 
 					} 
-					// вычислить вектор u 
-					f=a[i][l]; 
-					g=(f>=0.?-sqrt(h):sqrt(h)); 
-					e[i]=scale*g; h -= f*g; 
-					// записать u на место i-го ряда a  
-					a[i][l]=f-g; 
-					// вычисление u/h, Au, p, K  
-					f=0.; 
-					for(j=1;j<=l;j++) 
+					f=A.matrix[i,l]; 
+					if (f > new Complex(0,0) || f == new Complex(0,0))
+						g = new Complex(Math.Sqrt(Math.Abs(h.ToDouble())));
+					else g = new Complex(0, Math.Sqrt(Math.Abs(h.ToDouble())));
+
+					E[i]=scale*g; 
+					h -= f*g;  
+					A.matrix[i,l]=f-g; 
+					f = new Complex(); 
+					for( j = 0; j < l; j++ ) 
 					{ 
-						// следующая инструкция не нужна, если не требуются вектора, 
-						//     она содержит загрузку u/h в столбец a 
-						a[j][i]=a[i][j]/h; 
-						// сформировать элемент Au (в g)  
-						g=0.; 
-						for(k=1;k<=j;k++) 
-							g += a[j][k]*a[i][k]; 
-						for(k=j+1;k<=l;k++) 
-							g += a[k][j]*a[i][k]; 
-						// загрузить элемент p во временно неиспользуемую область e
-						e[j]=g/h; 
-						// подготовка к формированию K  
-						f += e[j]*a[i][j]; 
+						g = new Complex(); 
+						for( k = 0; k < j; k++ ) 
+							g += A.matrix[j,k]*A.matrix[i,k];
+						for( k = j; k < l; k++) 
+							g += A.matrix[k,j]*A.matrix[i,k]; 
+						E[j] = g / h; 
+						f += E[j]*A.matrix[i,j]; 
 					} 
-					// Сформировать K  
-					hh=f/(h+h); 
-					for(j=1;j<=l;j++) 
+					hh = f/(h+h); 
+					for( j = 0; j < l; j++ ) 
 					{ 
-						// Сформировать q и поместить на место p (в e) 
-						f=a[i][j]; e[j]=g=e[j]-hh*f; 
-						// Трансформировать матрицу a 
-						for(k=1;k<=j;k++) a[j][k] -= (f*e[k]+g*a[i][k]); 
+						f = A.matrix[i,j];
+						E[j] = g = E[j] - hh * f; 
+						for( k = 0; k < j; k++ ) 
+								A.matrix[j,k] -= (f * E[k] + g * A.matrix[i,k]); 
 					} 
 				} 
-			} 
-			else e[i]=a[i][l]; 
-			d[i]=h; 
+			}
+			else E[i] = A.matrix[i, l]; 
+			d.matrix[i,0] = h; 
 		} 
-		// если не нужны собственные вектора, опустите следующую инструкцию  
-		d[1]=0.; 
-		// эту опускать не надо  
-		e[1]=0.; 
-		// Все содержание цикла, кроме одной инструкции, можно опустить, если не 
-		//требуются собственные вектора 
-		for(i=1;i<=n;i++) 
+
+		E[0] = new Complex(); 
+ 
+		for(i = 0; i < A.rows; i++ ) 
 		{ 
-			l=i-1; 
-			// этот блок будет пропущен при i=1
-			if(d[i]!=0.) 
+			d.matrix[i,0]=A.matrix[i,i]; 
+		}
+
+		trid.matrix[0, 0] = d.matrix[0, 0];
+		trid.matrix[A.rows - 1, A.rows - 1] = d.matrix[A.rows - 1, 0];
+		for (int s = 0; s < A.rows-1; s++)
+		{
+			trid.matrix[s+1, s+1] = d.matrix[s+1,0];
+			trid.matrix[s, s + 1] = E[s+1];
+			trid.matrix[s + 1, s] = E[s+1];
+		}
+
+		return trid;
+	}
+	
+	public Matrix tqli(ref Matrix Z, ref Matrix d, Complex[] E) 
+	{ 
+		int m,l,iter,i,k; 
+		Complex s,r,p,g,f,c,b;
+		Complex dd = new Complex();
+
+		// удобнее будет перенумеровать элементы e  
+		for( i = 1; i < Z.rows; i ++) 
+			E[i-1]=E[i]; 
+		E[Z.rows-1]= new Complex(); 
+		// главный цикл идет по строкам матрицы  
+		for(l = 0; l < Z.rows; l ++) 
+		{ 
+			// обнуляем счетчик итераций для этой строки  
+			iter=0; 
+			// цикл проводится, пока минор 2х2 в левом верхнем углу начиная со строки l 
+			//не станет диагональным  
+			do 
 			{ 
-				for(j=1;j<=l;j++) 
+				// найти малый поддиагональный элемент, дабы расщепить матрицу  
+				for(m=l;m < Z.rows-1;m++) 
 				{ 
-					g=0.; 
-					// формируем PQ, используя u и u/H  
-					for(k=1;k<=l;k++) 
-						g += a[i][k]*a[k][j]; 
-					for(k=1;k<=l;k++) 
-						a[k][j] -= g*a[k][i]; 
+					Complex buf = new Complex();
+					buf = E[m] + dd;
+					dd=new Complex(Math.Abs(d.matrix[m,0].ToDouble())+Math.Abs(d.matrix[m+1,0].ToDouble()));
+					if (buf == dd) break;
 				} 
-			} 
-			// эта инструкция остается  
-			d[i]=a[i][i]; 
-			// ряд и колонка матрицы a преобразуются к единичной, для след. итерации  
-			a[i][i]=0.; 
-			for(j=1;j<=l;j++) 
-				a[j][i]=a[i][j]=0.; 
-		} 
-	} 
-	*/
+				// операции проводятся, если верхний левый угол 2х2 минора еще не диагональный  
+				if(m!=l) 
+				{
+					if (++iter >= 25) break;
+					// сформировать сдвиг  
+					g = (d.matrix[l + 1, 0] - d.matrix[l, 0]) / (2.0 * E[l]);
+					Complex sq = new Complex();
+					sq = g * g + 1;
+					r = sq.Pow(0.5);
+					// здесь d_m - k_s  
+					if (g > new Complex() || g == 0)
+						g += r;
+					else g -= r;
+					g = d.matrix[m, 0] - d.matrix[l, 0] + E[l] / g;
+					// инициализация s,c,p  
+					s = c = new Complex(1);
+					p = new Complex();
+					// плоская ротация оригинального QL алгоритма, сопровождаемая ротациями 
+					//Гивенса для восстановления трехдиагональной формы  
+					for (i = m - 2; i > l; i--)
+					{
+						f = s * E[i];
+						b = c * E[i];
+						sq = g * g + f * f;
+						E[i + 1] = r = sq.Pow(0.5);
+						// что делать при малом или нулевом знаменателе  
+						if (r == 0.0)
+						{
+							d.matrix[i + 1, 0] -= p;
+							E[m] = new Complex();
+							break;
+						}
+						// основные действия на ротации  
+						s = f / r;
+						c = g / r;
+						g = d.matrix[i + 1, 0] - p;
+						r = (d.matrix[i, 0] - g) * s + 2.0 * c * b;
+						d.matrix[i + 1, 0] = g + (p = s * r);
+						g = c * r - b;
+						// Содержимое следующего ниже цикла необходимо опустить, если 
+						//не требуются значения собственных векторов  
+						for (k = 1; k < Z.rows; k++)
+						{
+							f = Z.matrix[k, i + 1];
+							Z.matrix[k, i + 1] = s * Z.matrix[k, i] + c * f;
+							Z.matrix[k, i] = c * Z.matrix[k, i] - s * f;
+						}
+					}
+					// безусловный переход к новой итерации при нулевом знаменателе и недоведенной 
+					//до конца последовательности ротаций  
+					if (r == 0.0 && i >= l) continue;
+					// новые значения на диагонали и "под ней"  
+					d.matrix[l, 0] -= p;
+					E[l] = g;
+					E[m] = new Complex();
+				} 
+			} while(m!=l); 
+		}
+		return d;
+	}
 }
