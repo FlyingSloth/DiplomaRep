@@ -19,9 +19,9 @@ namespace FEA
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			n = 9;
+			n = 200;
 
-			
+			if (n < 200) n = 200;
 			Matrix A = new Matrix(n);
 			A.SetA(n, 1, 10, 1, 0.43);
 			dataGridView1.ColumnCount = 3*n-2;
@@ -32,23 +32,39 @@ namespace FEA
 			{
 				string[] str = new string[3 * n - 2];
 				for (int j = 0; j < A.Cols(); j++)
-					str[j] = Convert.ToString(Math.Round(A.matrix[i, j].ToDouble(),4));
+					str[j] = Convert.ToString(Math.Round(A.matrix[i, j],4));
 				dataGridView1.Rows.Add(str);
 			}
 
 			Matrix B = new Matrix(n);
 			B.SetB(n, 1, 10, 1, 0.43);
-
+			/*
 			Matrix AC = new Matrix(n);
 			AC.Copy(A);
 			Matrix AC1 = new Matrix(n);
 			AC1 = B.Invert() * A;
 			Matrix AC2 = new Matrix(n);
 			AC2.Copy(A);
+			*/
 
-			Complex[] E = new Complex[A.Rows()];
-			Matrix trid = new Matrix(3*n-2,1);
+			Complex[] E = new Complex[21];
+			
+			//Matrix trid = new Matrix(3*n-2,1);
 
+			E = A.eige(B);
+
+			dataGridView2.ColumnCount = 1;
+			for (int i = 0; i < 1; i++)
+				dataGridView2.Columns[i].Name = Convert.ToString(i);
+
+			for (int i = 0; i < 21; i++)
+			{
+				string str;
+				str = E[i].ToString();
+				dataGridView2.Rows.Add(str);
+			}
+
+			/*
 			AC2 = AC2.TriDiagonal(ref AC1, ref E);
 
 			dataGridView2.ColumnCount = 3 * n - 2;
@@ -82,7 +98,7 @@ namespace FEA
 					str[j] += resmult.matrix[i, j].ToString();
 				dataGridView3.Rows.Add(str);
 			}
-			
+			*/
 			/*
 			Matrix resmult = new Matrix(n);
 

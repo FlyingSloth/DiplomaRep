@@ -7,3 +7,4 @@ C:\DiplomaRep\FEA\FEA\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\DiplomaRep\FEA\FEA\obj\x86\Debug\FEA.exe
 C:\DiplomaRep\FEA\FEA\obj\x86\Debug\FEA.pdb
 C:\DiplomaRep\FEA\FEA\obj\x86\Debug\FEA.frmIniData.resources
+C:\DiplomaRep\FEA\FEA\bin\Debug\ei.dll

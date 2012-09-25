@@ -230,7 +230,7 @@ namespace FEA
 		{
 			String compl;
 			compl = Convert.ToString(this.re);
-			if (this.im == 0) return compl;
+			if (this.im == 0) compl += "+";
 			if (this.im < 0) compl += "-i*";
 			if (this.im > 0) compl += "+i*";
 			compl += Convert.ToString(Math.Abs(this.im));
@@ -275,6 +275,50 @@ namespace FEA
 				return res1.isLarger(res2);
 			}
 			return new Complex();
+		}
+
+		public Complex Sqrt()
+		{
+			if (this.im == 0)
+			{
+				if (this.re >= 0)
+					return new Complex(Math.Sqrt(this.re));
+				else
+					return new Complex(0, Math.Sqrt(Math.Abs(this.re)));
+			}
+			else return new Complex();
+		}
+
+		//quicksort
+
+		public void quickSort(ref Complex[] arr, int left, int right) 
+		{
+			int i = left, j = right;
+			Complex tmp;
+			Complex pivot = arr[(left + right) / 2];
+ 
+			  /* partition */
+			  while (i <= j) 
+			  {
+					while (arr[i] < pivot)
+						  i++;
+					while (arr[j] > pivot)
+						  j--;
+					if (i <= j) 
+					{
+						  tmp = arr[i];
+						  arr[i] = arr[j];
+						  arr[j] = tmp;
+						  i++;
+						  j--;
+					}
+			  };
+ 
+			  /* recursion */
+			  if (left < j)
+					quickSort(ref arr, left, j);
+			  if (i < right)
+					quickSort(ref arr, i, right);
 		}
 	}
 }
