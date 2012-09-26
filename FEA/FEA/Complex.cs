@@ -268,6 +268,7 @@ namespace FEA
 			if (d == 0) return new Complex(1);
 			if (d == 0.5)
 			{
+				if (this.im == 0) return this.Sqrt();
 				rr = Math.Cos(acos / 2);
 				ri = Math.Sin(asin / 2);
 				res1 = new Complex(Math.Sqrt(abs) * rr, Math.Sqrt(abs) * ri);

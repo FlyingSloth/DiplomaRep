@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace FEA
 {
@@ -25,19 +26,22 @@ namespace FEA
 			Matrix A = new Matrix(n);
 			A.SetA(n, 1, 10, 1, 0.43);
 			dataGridView1.ColumnCount = 3*n-2;
-			for (int i = 0; i < 3 * n - 2; i++)
-				dataGridView1.Columns[i].Name = Convert.ToString(i);
-			
-			for (int i = 0; i < A.Rows(); i++)
+			Parallel.For(0, A.Rows(), cou =>
+				{
+					dataGridView1.Columns[cou].Name = Convert.ToString(cou);
+				});
+
+			Parallel.For(0, A.Rows(), i =>
+			//for (int i = 0; i < A.Rows(); i++ )
 			{
 				string[] str = new string[3 * n - 2];
 				for (int j = 0; j < A.Cols(); j++)
-					str[j] = Convert.ToString(Math.Round(A.matrix[i, j],4));
+					str[j] = Convert.ToString(Math.Round(A.matrix[i, j], 4));
 				dataGridView1.Rows.Add(str);
-			}
+			});
 
-			Matrix B = new Matrix(n);
-			B.SetB(n, 1, 10, 1, 0.43);
+			//Matrix B = new Matrix(n);
+			//B.SetB(n, 1, 10, 1, 0.43);
 			/*
 			Matrix AC = new Matrix(n);
 			AC.Copy(A);
@@ -51,6 +55,8 @@ namespace FEA
 			
 			//Matrix trid = new Matrix(3*n-2,1);
 
+			//A.SetEigenvalues(A.eige(B));
+			/*
 			E = A.eige(B);
 
 			dataGridView2.ColumnCount = 1;
@@ -63,7 +69,7 @@ namespace FEA
 				str = E[i].ToString();
 				dataGridView2.Rows.Add(str);
 			}
-
+			*/
 			/*
 			AC2 = AC2.TriDiagonal(ref AC1, ref E);
 

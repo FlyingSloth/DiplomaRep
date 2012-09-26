@@ -3,8 +3,7 @@ using FEA;
 using MathWorks.MATLAB.NET.Arrays;
 using MathWorks.MATLAB.NET.Utility;
 using ei;
-
-
+using System.Threading.Tasks;
 
 public class Matrix
 {
@@ -72,6 +71,11 @@ public class Matrix
 	public void SetPermittivity(double perm)
 	{
 		this.permit = perm;
+	}
+
+	private void SetACycle(ref Matrix A, int i1, double hc, double kc, double ec, double mc, double r)
+	{
+		
 	}
 
 	//TODO: Multilayer
@@ -150,36 +154,38 @@ public class Matrix
 			this.matrix[8,7] = (pA53(2,hc,kc,ec));
 			this.matrix[8,8] = (pA55(2,hc,ec,mc) + pA44(3,hc,ec,mc));
 
-			for (int i1 = 1; i1 < n-3; i1++)
+			//int i1 = 1;
+			Parallel.For(1, n - 3, (i1, loopState) =>
 			{
-				ec1 = ec;
-				if ((i1 + 3)*hc > r-0.0051)
-					ec1 = 1;
-				if ((i1 + 3)*hc > r-0.0001)
-					ec = 1;
 
-				this.matrix[3 + i1*3,6 + i1*3] = (pA12(2 + i1,hc,kc,ec));
-				this.matrix[3 + i1*3,7 + i1*3] = (pA13(2 + i1,hc,mc));
-				this.matrix[3 + i1*3,8 + i1*3] = (pA15(2 + i1,hc,kc,ec,mc));
-				this.matrix[5 + i1*3,6 + i1*3] = (pA42(2 + i1,hc,kc,ec,mc));
-				this.matrix[5 + i1*3,7 + i1*3] = (pA43(2 + i1,hc,kc,ec));
-				this.matrix[5 + i1*3,8 + i1*3] = (pA45(2 + i1,hc,ec,mc));
-				this.matrix[6 + i1*3,3 + i1*3] = (pA21(2 + i1,hc,kc,ec));
-				this.matrix[6 + i1*3,5 + i1*3] = (pA24(2 + i1,hc,kc,ec,mc));
-				this.matrix[6 + i1*3,6 + i1*3] = (pA22(2 + i1,hc,kc,ec) + pA11(3 + i1,hc,kc,ec1));
-				this.matrix[6 + i1*3,7 + i1*3] = (pA23(2 + i1,hc,mc));
-				this.matrix[6 + i1*3,8 + i1*3] = (pA25(2 + i1,hc,kc,ec,mc) + pA14(3 + i1,hc,kc,ec1,mc));
-				this.matrix[7 + i1*3,3 + i1*3] = (pA31(2 + i1,hc,mc));
-				this.matrix[7 + i1*3,5 + i1*3] = (pA34(2 + i1,hc,kc,ec));
-				this.matrix[7 + i1*3,6 + i1*3] = (pA32(2 + i1,hc,mc));
-				this.matrix[7 + i1*3,7 + i1*3] = (pA33(2 + i1,hc,kc,ec,mc));
-				this.matrix[7 + i1*3,8 + i1*3] = (pA35(2 + i1,hc,kc,ec));
-				this.matrix[8 + i1*3,3 + i1*3] = (pA51(2 + i1,hc,kc,ec,mc));
-				this.matrix[8 + i1*3,5 + i1*3] = (pA54(2 + i1,hc,ec,mc));
-				this.matrix[8 + i1*3,6 + i1*3] = (pA52(2 + i1,hc,kc,ec,mc) + pA41(3 + i1,hc,kc,ec1,mc));
-				this.matrix[8 + i1*3,7 + i1*3] = (pA53(2 + i1,hc,kc,ec));
-				this.matrix[8 + i1*3,8 + i1*3] = (pA55(2 + i1,hc,ec,mc) + pA44(3 + i1,hc,ec1,mc));
-			}
+				ec1 = ec;
+				if ((i1 + 3) * hc > r - 0.0051)
+					ec1 = 1;
+				if ((i1 + 3) * hc > r - 0.0001)
+					ec = 1;
+				this.matrix[3 + i1 * 3, 6 + i1 * 3] = (pA12(2 + i1, hc, kc, ec));
+				this.matrix[3 + i1 * 3, 7 + i1 * 3] = (pA13(2 + i1, hc, mc));
+				this.matrix[3 + i1 * 3, 8 + i1 * 3] = (pA15(2 + i1, hc, kc, ec, mc));
+				this.matrix[5 + i1 * 3, 6 + i1 * 3] = (pA42(2 + i1, hc, kc, ec, mc));
+				this.matrix[5 + i1 * 3, 7 + i1 * 3] = (pA43(2 + i1, hc, kc, ec));
+				this.matrix[5 + i1 * 3, 8 + i1 * 3] = (pA45(2 + i1, hc, ec, mc));
+				this.matrix[6 + i1 * 3, 3 + i1 * 3] = (pA21(2 + i1, hc, kc, ec));
+				this.matrix[6 + i1 * 3, 5 + i1 * 3] = (pA24(2 + i1, hc, kc, ec, mc));
+				this.matrix[6 + i1 * 3, 6 + i1 * 3] = (pA22(2 + i1, hc, kc, ec) + pA11(3 + i1, hc, kc, ec1));
+				this.matrix[6 + i1 * 3, 7 + i1 * 3] = (pA23(2 + i1, hc, mc));
+				this.matrix[6 + i1 * 3, 8 + i1 * 3] = (pA25(2 + i1, hc, kc, ec, mc) + pA14(3 + i1, hc, kc, ec1, mc));
+				this.matrix[7 + i1 * 3, 3 + i1 * 3] = (pA31(2 + i1, hc, mc));
+				this.matrix[7 + i1 * 3, 5 + i1 * 3] = (pA34(2 + i1, hc, kc, ec));
+				this.matrix[7 + i1 * 3, 6 + i1 * 3] = (pA32(2 + i1, hc, mc));
+				this.matrix[7 + i1 * 3, 7 + i1 * 3] = (pA33(2 + i1, hc, kc, ec, mc));
+				this.matrix[7 + i1 * 3, 8 + i1 * 3] = (pA35(2 + i1, hc, kc, ec));
+				this.matrix[8 + i1 * 3, 3 + i1 * 3] = (pA51(2 + i1, hc, kc, ec, mc));
+				this.matrix[8 + i1 * 3, 5 + i1 * 3] = (pA54(2 + i1, hc, ec, mc));
+				this.matrix[8 + i1 * 3, 6 + i1 * 3] = (pA52(2 + i1, hc, kc, ec, mc) + pA41(3 + i1, hc, kc, ec1, mc));
+				this.matrix[8 + i1 * 3, 7 + i1 * 3] = (pA53(2 + i1, hc, kc, ec));
+				this.matrix[8 + i1 * 3, 8 + i1 * 3] = (pA55(2 + i1, hc, ec, mc) + pA44(3 + i1, hc, ec1, mc));
+				i1++;
+			});
 
 			this.matrix[6 + 3 * (n - 4), 9 + 3 * (n - 4)] = (pA13(3 + n - 4, hc, mc));
 			this.matrix[8 + 3 * (n - 4), 9 + 3 * (n - 4)] = (pA43(3 + n - 4, hc, kc, ec));
@@ -666,6 +672,22 @@ public class Matrix
 
 	private Complex[] eigenvalues;
 
+	public void SetEigenvalues(Complex[] eig)
+	{
+		this.eigenvalues = new Complex[21];
+		if (eig.Length > 220)
+		{
+			for (int i = 0; i < 21; i++)
+			{
+				this.eigenvalues[i] = eig[200 + i - 1];
+			}
+		}
+	}
+	public Complex[] GetEigenvalues()
+	{
+		return this.eigenvalues;
+	}
+
 	/// <summary>
 	/// Generalised eigenvalues of A and B (analog to MATLAB M = eig(A,B))
 	/// </summary>
@@ -688,7 +710,7 @@ public class Matrix
 		for (int i = 0; i < this.rows; i++)
 		{
 			eigenbuf[i] = new Complex(resCR[i, 0], resCI[i,0]);
-			eigenbuf[i] = eigenbuf[i].Sqrt();
+			eigenbuf[i] = eigenbuf[i].Pow(0.5);
 		}
 
 		Complex buf = new Complex();
@@ -701,7 +723,7 @@ public class Matrix
 			this.eigenvalues[i] = eigenbuf[200 + i-1];
 		}
 
-		return eigenvalues;
+		return this.eigenvalues;
 	}
 
 	//TODO: дисперсионные характеристики
