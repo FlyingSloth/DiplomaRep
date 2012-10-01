@@ -1,10 +1,11 @@
 /*
 * MATLAB Compiler: 4.14 (R2010b)
-* Date: Tue Sep 25 15:34:23 2012
+* Date: Sun Sep 30 17:05:47 2012
 * Arguments: "-B" "macro_default" "-W" "dotnet:ei,Eig,0.0,private" "-T" "link:lib" "-d"
-* "C:\DiplomaRep\FEA\ei\src" "-w" "enable:specified_file_mismatch" "-w"
+* "C:\учеба МИРЭА\Dip\DiplomaRep\FEA\ei\src" "-w" "enable:specified_file_mismatch" "-w"
 * "enable:repeated_file" "-w" "enable:switch_ignored" "-w" "enable:missing_lib_sentinel"
-* "-w" "enable:demo_license" "-v" "class{Eig:C:\DiplomaRep\FEA\Eigenvalues.m}" 
+* "-w" "enable:demo_license" "-v" "class{Eig:C:\учеба
+* МИРЭА\Dip\DiplomaRep\FEA\Eigenvalues.m}" 
 */
 using System;
 using System.Reflection;
@@ -22,7 +23,7 @@ namespace ei
   /// The Eig class provides a CLS compliant, MWArray interface to the M-functions
   /// contained in the files:
   /// <newpara></newpara>
-  /// C:\DiplomaRep\FEA\Eigenvalues.m
+  /// C:\учеба МИРЭА\Dip\DiplomaRep\FEA\Eigenvalues.m
   /// <newpara></newpara>
   /// deployprint.m
   /// <newpara></newpara>

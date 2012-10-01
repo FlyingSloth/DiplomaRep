@@ -73,11 +73,6 @@ public class Matrix
 		this.permit = perm;
 	}
 
-	private void SetACycle(ref Matrix A, int i1, double hc, double kc, double ec, double mc, double r)
-	{
-		
-	}
-
 	//TODO: Multilayer
 	/// <summary>
 	/// Setting of matrix A
@@ -98,7 +93,7 @@ public class Matrix
 			this.cols = 3*n-2;
 			this.matrix = new double[3 * n - 2, 3 * n - 2];
 		}
-		else
+		
 		{ 
 			this.matrix[0, 0] = (pA22(eps,hc,kc,ec)+ pA11(1,hc,kc,ec));
 			this.matrix[0, 1] = (pA23(eps, hc, mc));
@@ -154,8 +149,7 @@ public class Matrix
 			this.matrix[8,7] = (pA53(2,hc,kc,ec));
 			this.matrix[8,8] = (pA55(2,hc,ec,mc) + pA44(3,hc,ec,mc));
 
-			//int i1 = 1;
-			Parallel.For(1, n - 3, (i1, loopState) =>
+            Parallel.For(0, n - 3, i1 =>
 			{
 
 				ec1 = ec;
@@ -184,7 +178,6 @@ public class Matrix
 				this.matrix[8 + i1 * 3, 6 + i1 * 3] = (pA52(2 + i1, hc, kc, ec, mc) + pA41(3 + i1, hc, kc, ec1, mc));
 				this.matrix[8 + i1 * 3, 7 + i1 * 3] = (pA53(2 + i1, hc, kc, ec));
 				this.matrix[8 + i1 * 3, 8 + i1 * 3] = (pA55(2 + i1, hc, ec, mc) + pA44(3 + i1, hc, ec1, mc));
-				i1++;
 			});
 
 			this.matrix[6 + 3 * (n - 4), 9 + 3 * (n - 4)] = (pA13(3 + n - 4, hc, mc));
@@ -214,7 +207,7 @@ public class Matrix
 			this.cols = 3 * n - 2;
 			this.matrix = new double[3 * n - 2, 3 * n - 2];
 		}
-		else
+		
 		{
 			this.matrix[0, 0] = (pB22(eps, hc) + pB11(1, hc));
 			this.matrix[1, 1] = (pB33(eps, hc));
@@ -236,7 +229,7 @@ public class Matrix
 			this.matrix[8, 5] = (pB54(2, hc, ec));
 			this.matrix[8, 8] = (pB55(2, hc, ec) + pB44(3, hc, ec));
 
-			for (int i1 = 1; i1 < n - 3; i1++)
+			Parallel.For(0, n - 3, i1 =>
 			{
 				ec1 = ec;
 				if ((i1 + 3) * hc > r - 0.0051)
@@ -250,7 +243,8 @@ public class Matrix
 				this.matrix[7 + i1*3,7 + i1*3] = (pB33(2 + i1,hc));
 				this.matrix[8 + i1*3,5 + i1*3] = (pB54(2 + i1,hc,ec));
 				this.matrix[8 + i1*3,8 + i1*3] = (pB55(2 + i1,hc,ec) + pB44(3 + i1,hc,ec1));
-			}
+			});
+
 			this.matrix[6 + 3*(n-4),9 + 3*(n-4)] = (pB12(3 + n-4,hc));
 			this.matrix[9 + 3*(n-4),6 + 3*(n-4)] = (pB21(3 + n-4,hc));
 			this.matrix[9 + 3*(n-4),9 + 3*(n-4)] = (pB33(3 + n-4,hc));
@@ -666,7 +660,7 @@ public class Matrix
 	/// Including Matlab functions
 	/// </summary>
 	
-	private MWArray[] res = null; //выходной массив метода plane
+	private MWArray[] res = null;
 	private MWNumericArray real = null;
 	private MWNumericArray imag = null;
 
@@ -720,7 +714,7 @@ public class Matrix
 
 		for (int i = 0; i < 21; i++)
 		{
-			this.eigenvalues[i] = eigenbuf[200 + i-1];
+			this.eigenvalues[i] = eigenbuf[200 + i - 1];
 		}
 
 		return this.eigenvalues;
