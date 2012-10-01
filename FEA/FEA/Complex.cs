@@ -280,14 +280,10 @@ namespace FEA
 
 		public Complex Sqrt()
 		{
-			if (this.im == 0)
-			{
-				if (this.re >= 0)
-					return new Complex(Math.Sqrt(this.re));
-				else
-					return new Complex(0, Math.Sqrt(Math.Abs(this.re)));
-			}
-			else return new Complex();
+			if (this.re >= 0)
+				return new Complex(Math.Sqrt(this.re));
+			else
+				return new Complex(0, Math.Sqrt(Math.Abs(this.re)));
 		}
 
 		//quicksort
@@ -298,7 +294,7 @@ namespace FEA
 			Complex tmp;
 			Complex pivot = arr[(left + right) / 2];
  
-			  /* partition */
+			  // partition
 			  while (i <= j) 
 			  {
 					while (arr[i] < pivot)
@@ -315,7 +311,7 @@ namespace FEA
 					}
 			  };
  
-			  /* recursion */
+			  // recursion
 			  if (left < j)
 					quickSort(ref arr, left, j);
 			  if (i < right)

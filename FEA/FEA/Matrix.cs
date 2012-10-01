@@ -730,6 +730,6 @@ public class Matrix
 	/// <param name="R">Radius of layer</param>
 	public void dispersion(int fe, int Nsteps, double step, double R)
 	{ 
-		//
+		//сюда надо вписать длинную функцию. пусть eige возвращает не окончательные соб.значения, а локальные внутри функции
 	}
 }
