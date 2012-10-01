@@ -21,6 +21,16 @@ namespace FEA
 			this.im = im;
 		}
 
+        public double Re()
+        {
+            return this.re;
+        }
+
+        public double Im()
+        {
+            return this.im;
+        }
+
 		// +: compl+compl, compl+double,double+compl
 		public static Complex operator +(Complex c1, Complex c2)
 		{

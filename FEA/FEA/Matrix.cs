@@ -29,7 +29,7 @@ public class Matrix
 	/// <summary>
 	/// Square matrix constructor. Fills matrices with 0.
 	/// </summary>
-	/// <param name="n">Number of columns and rows</param>
+	/// <param name="n">Number of columns and rows will be 3*n-2</param>
     public Matrix(int n)
     {
 		this.matrix = new double[3 * n - 2, 3 * n - 2];
@@ -149,7 +149,8 @@ public class Matrix
 			this.matrix[8,7] = (pA53(2,hc,kc,ec));
 			this.matrix[8,8] = (pA55(2,hc,ec,mc) + pA44(3,hc,ec,mc));
 
-            Parallel.For(0, n - 3, i1 =>
+            //Parallel.For(1, n - 3, (i1, loopState) =>
+            for (int i1 = 1; i1 < n-3; i1++)
 			{
 
 				ec1 = ec;
@@ -178,7 +179,7 @@ public class Matrix
 				this.matrix[8 + i1 * 3, 6 + i1 * 3] = (pA52(2 + i1, hc, kc, ec, mc) + pA41(3 + i1, hc, kc, ec1, mc));
 				this.matrix[8 + i1 * 3, 7 + i1 * 3] = (pA53(2 + i1, hc, kc, ec));
 				this.matrix[8 + i1 * 3, 8 + i1 * 3] = (pA55(2 + i1, hc, ec, mc) + pA44(3 + i1, hc, ec1, mc));
-			});
+			}//);
 
 			this.matrix[6 + 3 * (n - 4), 9 + 3 * (n - 4)] = (pA13(3 + n - 4, hc, mc));
 			this.matrix[8 + 3 * (n - 4), 9 + 3 * (n - 4)] = (pA43(3 + n - 4, hc, kc, ec));
@@ -229,7 +230,8 @@ public class Matrix
 			this.matrix[8, 5] = (pB54(2, hc, ec));
 			this.matrix[8, 8] = (pB55(2, hc, ec) + pB44(3, hc, ec));
 
-			Parallel.For(0, n - 3, i1 =>
+			//Parallel.For(1, n - 3, (i1, loopState) =>
+            for (int i1 = 1; i1 < n-3; i1++)
 			{
 				ec1 = ec;
 				if ((i1 + 3) * hc > r - 0.0051)
@@ -243,7 +245,7 @@ public class Matrix
 				this.matrix[7 + i1*3,7 + i1*3] = (pB33(2 + i1,hc));
 				this.matrix[8 + i1*3,5 + i1*3] = (pB54(2 + i1,hc,ec));
 				this.matrix[8 + i1*3,8 + i1*3] = (pB55(2 + i1,hc,ec) + pB44(3 + i1,hc,ec1));
-			});
+			}//);
 
 			this.matrix[6 + 3*(n-4),9 + 3*(n-4)] = (pB12(3 + n-4,hc));
 			this.matrix[9 + 3*(n-4),6 + 3*(n-4)] = (pB21(3 + n-4,hc));
@@ -718,18 +720,5 @@ public class Matrix
 		}
 
 		return this.eigenvalues;
-	}
-
-	//TODO: дисперсионные характеристики
-	/// <summary>
-	/// Dispersion characteristics
-	/// </summary>
-	/// <param name="fe">Number of finite elements</param>
-	/// <param name="Nsteps">Number of steps</param>
-	/// <param name="step">Step</param>
-	/// <param name="R">Radius of layer</param>
-	public void dispersion(int fe, int Nsteps, double step, double R)
-	{ 
-		//сюда надо вписать длинную функцию. пусть eige возвращает не окончательные соб.значения, а локальные внутри функции
 	}
 }

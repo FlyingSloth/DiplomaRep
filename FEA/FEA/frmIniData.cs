@@ -21,10 +21,27 @@ namespace FEA
 		private void button1_Click(object sender, EventArgs e)
 		{
 			n = 200;
+            int N = 20;
+            dataGridView2.RowCount = 1;
+
+            WorkObject obj = new WorkObject();
+            obj.dispchar = obj.dispersion(n, N, 0.1, 1, 10, 0.7);
+
+            dataGridView2.ColumnCount = 2;
+            dataGridView2.Columns[0].Name = "k";
+            dataGridView2.Columns[0].Name = "y";
+
+            for (int i = 0; i < N; i++)
+            {
+                string[] str = new string[2];
+                str[0] = obj.dispchar[i].k.ToString();
+                str[1] = obj.dispchar[i].y.ToString();
+                dataGridView2.Rows.Add(str);
+            }
 
 			//if (n < 200) n = 200;
-			Matrix A = new Matrix(n);
-			A.SetA(n, 1, 10, 1, 0.43);
+			//Matrix A = new Matrix(n);
+			//A.SetA(n, 1, 10, 1, 0.43);
 
 			/*
             dataGridView1.ColumnCount = 3*n-2;
@@ -43,8 +60,8 @@ namespace FEA
                 dataGridView1.Rows.Add(str);
             }
             */
-			Matrix B = new Matrix(n);
-			B.SetB(n, 1, 10, 1, 0.43);
+			//Matrix B = new Matrix(n);
+			//B.SetB(n, 1, 10, 1, 0.43);
 			/*
 			Matrix AC = new Matrix(n);
 			AC.Copy(A);
@@ -54,12 +71,12 @@ namespace FEA
 			AC2.Copy(A);
 			*/
 
-			Complex[] E = new Complex[21];
+			//Complex[] E = new Complex[21];
 			
 			//Matrix trid = new Matrix(3*n-2,1);
 
 			//A.SetEigenvalues(A.eige(B));
-			
+			/*
 			E = A.eige(B);
 
 			dataGridView2.ColumnCount = 1;
@@ -72,7 +89,7 @@ namespace FEA
 				str = E[i].ToString();
 				dataGridView2.Rows.Add(str);
 			}
-			
+			*/
 			/*
 			AC2 = AC2.TriDiagonal(ref AC1, ref E);
 
