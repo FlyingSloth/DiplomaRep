@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace FEA
 {
@@ -17,16 +18,146 @@ namespace FEA
             InitializeComponent();
         }
 		private int n;
-
-		private void button1_Click(object sender, EventArgs e)
+		/*
+		public void FF()
 		{
 			n = 200;
-            int N = 20;
+			int N = 100;
+
+			System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+			sw.Start();
+
+			Matrix A = new Matrix();
+			A.SetA(n, 1, 10, 1, 0.43);
+			Matrix B = new Matrix();
+			B.SetB(n, 1, 10, 1, 0.43);
+			Matrix C = new Matrix();
+			Complex[] E1 = new Complex[21];
+			C.Eigen(B.Invert() * A, out E1);
+			sw.Stop();
+			TimeSpan ts;
+			ts = sw.Elapsed;
+
+			for (int i = 0; i < 21; i++)
+			{
+				string str;
+				str = E1[i].ToString() + "\n";
+				richTextBox1.Text += str;
+				//dataGridView1.Rows.Add(str);
+			}
+			this.textBox1.Text = ts.ToString();
+		}
+		public void SF()
+		{
+			n = 200;
+			int N = 100;
+			System.Diagnostics.Stopwatch sw1 = new System.Diagnostics.Stopwatch();
+			sw1.Start();
+
+			Matrix A1 = new Matrix();
+			A1.SetA(n, 1, 10, 1, 0.43);
+			Matrix B1 = new Matrix();
+			B1.SetB(n, 1, 10, 1, 0.43);
+			Matrix C1 = new Matrix();
+			Complex[] E2 = new Complex[21];
+			E2 = A1.eige(B1);
+			sw1.Stop();
+			TimeSpan ts1;
+			ts1 = sw1.Elapsed;
+
+			dataGridView2.RowCount = 1;
+			for (int i = 0; i < 21; i++)
+			{
+				string str;
+				str = E2[i].ToString() + "\n";
+				//richTextBox2.Text += str;
+				dataGridView2.Rows.Add(str);
+			}
+			this.textBox2.Text = ts1.ToString();
+		}
+		*/
+		private void button1_Click(object sender, EventArgs e)
+		{
+			//dataGridView1.RowCount = 1;
+			//dataGridView2.RowCount = 1;
+			//Thread ft = new Thread(new ThreadStart(FF));
+			//Thread st = new Thread(new ThreadStart(SF));
+			//ft.Start();
+			//st.Start();
+			//ft.Join();
+			//st.Join();
+
+
+			
+			n = 200;
+            int N = 100;
+			
+			System.Diagnostics.Stopwatch sw1 = new System.Diagnostics.Stopwatch();
+			sw1.Start();
+			
+            WorkObject obj = new WorkObject();
+            obj.dispchar = obj.dispersion(n, N, 0.01, 1, 10, 0.7);
+			/*
+			Matrix A1 = new Matrix();
+			A1.SetA(n, 1, 10, 1, 0.43);
+			Matrix B1 = new Matrix();
+			B1.SetB(n, 1, 10, 1, 0.43);
+			Matrix C1 = new Matrix();
+			Complex[] E2 = new Complex[21];
+			E2 = A1.eige(B1);*/
+			
+
+
+			dataGridView2.ColumnCount = 2;
+			dataGridView2.Columns[0].Name = "k";
+			dataGridView2.Columns[0].Name = "y";
+
+			for (int i = 0; i < N; i++)
+			//Parallel.For(0, N, (i, loopState) =>
+			{
+				string[] str = new string[2];
+				str[0] = obj.dispchar[i].k.ToString();
+				str[1] = obj.dispchar[i].y.ToString();
+				dataGridView2.Rows.Add(str);
+			}
+			sw1.Stop();
+			TimeSpan ts1;
+			ts1 = sw1.Elapsed;
+			this.textBox2.Text = ts1.ToString();
+
+			#region "Comments"
+			/*
             dataGridView2.RowCount = 1;
 
-            WorkObject obj = new WorkObject();
-            obj.dispchar = obj.dispersion(n, N, 0.1, 1, 10, 0.7);
+			System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+			sw.Start();
+			
+            //WorkObject obj = new WorkObject();
+            //obj.dispchar = obj.dispersion(n, N, 0.01, 1, 10, 0.7);
+			Matrix A = new Matrix();
+			A.SetA(n, 1, 10, 1, 0.43);
+			Matrix B = new Matrix();
+			B.SetB(n, 1, 10, 1, 0.43);
+			Matrix C = new Matrix();
+			Complex[] E1 = new Complex[21];
+			C.Eigen(B.Invert() * A, out E1);
+			sw.Stop();
+			TimeSpan ts;
+			ts = sw.Elapsed;
+			
 
+			dataGridView1.RowCount = 1;
+			for (int i = 0; i < 21; i++)
+			{
+				//string[] str = new string[3 * n - 2];
+				string str;
+				//for (int j = 0; j < A.Cols(); j++)
+					str = E1[i].ToString();
+				dataGridView1.Rows.Add(str);
+			}
+			this.textBox1.Text = ts.ToString();
+			*/
+			/*
             dataGridView2.ColumnCount = 2;
             dataGridView2.Columns[0].Name = "k";
             dataGridView2.Columns[0].Name = "y";
@@ -38,7 +169,7 @@ namespace FEA
                 str[1] = obj.dispchar[i].y.ToString();
                 dataGridView2.Rows.Add(str);
             }
-
+			*/
 			//if (n < 200) n = 200;
 			//Matrix A = new Matrix(n);
 			//A.SetA(n, 1, 10, 1, 0.43);
@@ -140,11 +271,11 @@ namespace FEA
 			{
 				string[] str = new string[3 * n - 2];
 				for (int j = 0; j < resmult.Cols(); j++)
-					str[j] = Convert.ToString(Math.Round(resmult.matrix[i, j].ToDouble(), 4));
+					str[j] = Convert.ToString(Math.Round(resmult.matrix[i, j], 4));
 				dataGridView2.Rows.Add(str);
 			}
 			*/
-			
+
 			/*
 			Matrix test1 = new Matrix(n);
 			test1.setTest1(n);
@@ -179,6 +310,7 @@ namespace FEA
 				dataGridView2.Rows.Add(str);
 			}
 			*/
+			#endregion
 		}
 
 		private void button2_Click(object sender, EventArgs e)

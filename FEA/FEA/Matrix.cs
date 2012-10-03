@@ -7,19 +7,14 @@ using System.Threading.Tasks;
 
 public class Matrix
 {
-    private int cols, rows; // nubler of columns and rows
+	#region "Private structures"
+	private int cols, rows; // nubler of columns and rows
     public double[,] matrix; // array for matrix
 	private const double epsR = 0.000001; // radius of inside rod (to avoid singularity in 0)
 	private double permit;
+	#endregion
 
-	private struct DISP
-	{
-		double k;
-		Complex y;
-	};
-
-	private DISP[] dispchar;
-	
+	#region "Constructors"
 	public Matrix()
 	{
 		this.cols = 0;
@@ -49,6 +44,7 @@ public class Matrix
 			for (int j = 0; j < this.cols; j++)
 				this.matrix[i, j] = 0;
 	}
+	#endregion
 
 	/// <summary>
 	/// Number of rows
@@ -73,6 +69,7 @@ public class Matrix
 		this.permit = perm;
 	}
 
+	#region "Final Matrices"
 	//TODO: Multilayer
 	/// <summary>
 	/// Setting of matrix A
@@ -252,8 +249,8 @@ public class Matrix
 			this.matrix[9 + 3*(n-4),9 + 3*(n-4)] = (pB33(3 + n-4,hc));
 		}
     }
-
-	
+	#endregion
+	#region "Initial matrices"
 	//elements of elementary matrices 5x5
     //A 1 row
     private double pA11(double j, double h, double k, double e)
@@ -399,7 +396,8 @@ public class Matrix
     {
 		return 1.0 / 12 * e * Math.Pow(h,2) * (4 * j + 3.0);
     }
-	
+	#endregion
+
 	public Matrix Copy(Matrix M)
 		{
 			this.cols = M.cols;
@@ -516,6 +514,7 @@ public class Matrix
 		return this;
 	}
 
+	#region "Standart matrix operation"
 	public static Matrix operator + (Matrix M1, Matrix M2)
 	{ 
 		if (M1.cols != M2.cols || M1.rows != M2.rows)
@@ -656,34 +655,16 @@ public class Matrix
 			}
 		return false;
 	}
+	#endregion
 
-
-	/// <summary>
-	/// Including Matlab functions
-	/// </summary>
-	
+	#region "Eigenvalues"
+	//Matlab Arrays for eigenvalues
 	private MWArray[] res = null;
 	private MWNumericArray real = null;
 	private MWNumericArray imag = null;
 
 	private Complex[] eigenvalues;
-
-	public void SetEigenvalues(Complex[] eig)
-	{
-		this.eigenvalues = new Complex[21];
-		if (eig.Length > 220)
-		{
-			for (int i = 0; i < 21; i++)
-			{
-				this.eigenvalues[i] = eig[200 + i - 1];
-			}
-		}
-	}
-	public Complex[] GetEigenvalues()
-	{
-		return this.eigenvalues;
-	}
-
+	
 	/// <summary>
 	/// Generalised eigenvalues of A and B (analog to MATLAB M = eig(A,B))
 	/// </summary>
@@ -691,12 +672,14 @@ public class Matrix
 	/// <returns>Generalised eigenvalues</returns>
 	public Complex[] eige(Matrix B)
 	{
+		//calling Matlab API
 		Eig testob = new Eig();
+		//Matlab Array which gets result of Matlab function eig(A,B)
 		res = testob.Eigenvalues(2, (MWNumericArray)this.matrix, (MWNumericArray)B.matrix, this.Rows());
-		
+		//arrays for real and imaginary parts
 		real = (MWNumericArray)res[0];
 		imag = (MWNumericArray)res[1];
-
+		//copying parts into CSharp arrays
 		double[,] resCR = (double[,])real.ToArray(MWArrayComponent.Real);
 		double[,] resCI = (double[,])imag.ToArray(MWArrayComponent.Real);
 
@@ -711,14 +694,181 @@ public class Matrix
 
 		Complex buf = new Complex();
 		
-
 		buf.quickSort(ref eigenbuf, 0, this.rows-1);
 
 		for (int i = 0; i < 21; i++)
 		{
 			this.eigenvalues[i] = eigenbuf[200 + i - 1];
 		}
-
 		return this.eigenvalues;
 	}
+	#endregion
+
+	/*
+	#region "Eigen Values and Vactors of Symmetric Matrix - неправильно"
+	/// <summary>
+	/// Returns the Eigenvalues and Eigenvectors of a real symmetric
+	/// matrix, which is of dimensions [n,n]. 
+	/// In case of an error the error is raised as an exception.
+	/// Note: This method is based on the 'Eigenvalues and Eigenvectors of a TridiagonalMatrix'
+	/// section of Numerical Recipes in C by William H. Press,
+	/// Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery,
+	/// University of Cambridge Press 1992.
+	/// </summary>
+	/// <param name="Mat">
+	/// The array whose Eigenvalues and Eigenvectors are to be found
+	/// </param>
+	/// <param name="d">An array where the eigenvalues are returned</param>
+	/// <param name="v">An array where the eigenvectors are returned</param>
+	public void Eigen(out double[,] d, out double[,] v)
+	{
+
+		Matrix a = new Matrix();
+		d = new double[this.Rows(), 1];
+		v = new double[this.Rows(), this.Rows()];
+		a.Copy(this);
+
+		if (a.Rows() == a.Cols())
+		{
+			int j, iq, ip, i, n, nrot;
+			double tresh, theta, tau, t, sm, s, h, g, c;
+			double[] b, z;
+
+			n = a.Rows();
+			d = new double[n, 1];
+			v = new double[n, n];
+
+			b = new double[n];
+			z = new double[n ];
+			for (ip = 0; ip < n; ip++)
+			{
+				for (iq = 0; iq < n; iq++) v[ip, iq] = 0.0;
+				v[ip, ip] = 1.0;
+			}
+			for (ip = 0; ip < n; ip++)
+			{
+				b[ip] = d[ip, 0] = a.matrix[ip, ip];
+				z[ip] = 0.0;
+			}
+
+			nrot = 0;
+			for (i = 0; i < 50; i++)
+			{
+				sm = 0.0;
+				for (ip = 0; ip < n - 1; ip++)
+				{
+					for (iq = ip + 1; iq < n; iq++)
+						sm += Math.Abs(a.matrix[ip, iq]);
+				}
+				if (sm == 0.0)
+				{
+					return;
+				}
+				if (i < 4)
+					tresh = 0.2 * sm / (n * n);
+				else
+					tresh = 0.0;
+				for (ip = 0; ip < n - 1; ip++)
+				{
+					for (iq = ip + 1; iq < n; iq++)
+					{
+						g = 100.0 * Math.Abs(a.matrix[ip, iq]);
+						if (i > 4 && (double)(Math.Abs(d[ip, 0]) + g) == (double)Math.Abs(d[ip, 0])
+							&& (double)(Math.Abs(d[iq, 0]) + g) == (double)Math.Abs(d[iq, 0]))
+							a.matrix[ip, iq] = 0.0;
+						else if (Math.Abs(a.matrix[ip, iq]) > tresh)
+						{
+							h = d[iq, 0] - d[ip, 0];
+							if ((double)(Math.Abs(h) + g) == (double)Math.Abs(h))
+								t = (a.matrix[ip, iq]) / h;
+							else
+							{
+								theta = 0.5 * h / (a.matrix[ip, iq]);
+								t = 1.0 / (Math.Abs(theta) + Math.Sqrt(1.0 + theta * theta));
+								if (theta < 0.0) t = -t;
+							}
+							c = 1.0 / Math.Sqrt(1 + t * t);
+							s = t * c;
+							tau = s / (1.0 + c);
+							h = t * a.matrix[ip, iq];
+							z[ip] -= h;
+							z[iq] += h;
+							d[ip, 0] -= h;
+							d[iq, 0] += h;
+							a.matrix[ip, iq] = 0.0;
+							for (j = 0; j < ip - 1; j++)
+							{
+								ROT(g, h, s, tau, a.matrix, j, ip, j, iq);
+							}
+							for (j = ip + 1; j < iq - 1; j++)
+							{
+								ROT(g, h, s, tau, a.matrix, ip, j, j, iq);
+							}
+							for (j = iq + 1; j < n; j++)
+							{
+								ROT(g, h, s, tau, a.matrix, ip, j, iq, j);
+							}
+							for (j = 0; j < n; j++)
+							{
+								ROT(g, h, s, tau, v, j, ip, j, iq);
+							}
+							++(nrot);
+						}
+					}
+				}
+				for (ip = 0; ip < n; ip++)
+				{
+					b[ip] += z[ip];
+					d[ip, 0] = b[ip];
+					z[ip] = 0.0;
+				}
+			}
+			//Console.WriteLine("Too many iterations in routine jacobi");
+		}
+	}
+
+	private static void ROT(double g, double h, double s, double tau,
+		double[,] a, int i, int j, int k, int l)
+	{
+		g = a[i, j]; h = a[k, l];
+		a[i, j] = g - s * (h + g * tau);
+		a[k, l] = h + s * (g - h * tau);
+	}
+
+	/// <summary>
+	/// Returns the Eigenvalues and Eigenvectors of a real symmetric
+	/// matrix, which is of dimensions [n,n]. In case of an error the
+	/// error is raised as an exception.
+	/// Note: This method is based on the 'Eigenvalues and Eigenvectors of a TridiagonalMatrix'
+	/// section of Numerical Recipes in C by William H. Press,
+	/// Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery,
+	/// University of Cambridge Press 1992.
+	/// </summary>
+	/// <param name="Mat">
+	/// The Matrix object whose Eigenvalues and Eigenvectors are to be found
+	/// </param>
+	/// <param name="d">A Matrix object where the eigenvalues are returned</param>
+	/// <param name="v">A Matrix object where the eigenvectors are returned</param>
+	public void Eigen(Matrix Mat, out Complex[] d)
+	{
+		double[,] D = new double[Mat.Rows(), 1];
+		double[,]V = new double[Mat.Rows(), Mat.Cols()];
+		d = new Complex[21];
+		Complex[] buf = new Complex[Mat.Rows()];
+		Mat.Eigen(out D, out V);
+		Complex tmp = new Complex();
+
+		for (int i = 0; i < Mat.Rows(); i++)
+		{
+			buf[i] = new Complex(D[i, 0]);
+			buf[i] = buf[i].Pow(0.5);
+		}
+		tmp.quickSort(ref buf,0,Mat.Rows()-1);
+
+		for (int i = 0; i < 21; i++)
+			d[i] = buf[200+i-1];
+		//v.Copy(V);
+	}
+	#endregion
+	*/
 }

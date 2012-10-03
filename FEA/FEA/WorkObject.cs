@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using FEA;
 using ei;
 
@@ -14,6 +15,13 @@ namespace FEA
             public double k;
             public Complex y;
         };
+
+		public struct CRIT
+		{
+			public double R;
+			public double k;
+			public double y;
+		};
 
         public DISP[] dispchar;
 
@@ -45,14 +53,23 @@ namespace FEA
             zeroValue = E1[mode-1];
             dispchar[0].k = 0;
             dispchar[0].y = zeroValue;
-
+			/*
+			Complex[,] E2 = new Complex[Nsteps,21];
+			int NP = Nsteps / 5;
+			for (int ii = 1; ii < 6; ii++)
+				Parallel.For(NP*(ii-1), NP*ii, (i0, loopState) =>
+					{
+						for (int i = 0; i < 21; i++)
+							E2[i0, i] = eigen(fe, step * i0, ec, mode, R)[i];
+					}
+					);
+			*/
             for (int i1 = 1; i1 < Nsteps + 1; i1++)
             {
                 Complex[] E2 = new Complex[21];
                 Complex[] buf = new Complex[21];
                 Complex[] tempbuf = new Complex[21];
-                
-                E2 = eigen(fe, step*i1, ec, mode, R);
+				E2 = eigen(fe, step * i1, ec, mode, R);
 
                 for (int i2 = 0; i2 < 21; i2++)
                     buf[i2] = new Complex(Math.Abs(zeroValue.Re() - E2[i2].Re()), Math.Abs(zeroValue.Im() - E2[i2].Im()));
@@ -73,5 +90,7 @@ namespace FEA
             }
             return dispchar;
         }
+
+		
     }
 }

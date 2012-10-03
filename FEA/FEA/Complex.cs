@@ -31,6 +31,7 @@ namespace FEA
             return this.im;
         }
 
+		#region "Standart operations"
 		// +: compl+compl, compl+double,double+compl
 		public static Complex operator +(Complex c1, Complex c2)
 		{
@@ -113,7 +114,8 @@ namespace FEA
 		{
 			return (180 / Math.PI) * Math.Atan(this.im / this.re);
 		}
-
+		#endregion
+		#region "Comparsion"
 		//comparsion (according to MATLAB)
 		public static bool operator >(Complex c1, Complex c2)
 		{
@@ -229,7 +231,19 @@ namespace FEA
 			return true;
 		}
 
-		//Complex to double
+		public Complex isLarger(Complex c)
+		{
+			if (this > c) return this;
+			else return c;
+		}
+
+		public Complex isSmaller(Complex c)
+		{
+			if (this > c) return c;
+			else return this;
+		}
+		#endregion
+		#region "Conversions"
 		public double ToDouble()
 		{
 			if (this.im == 0) return this.re;
@@ -246,19 +260,8 @@ namespace FEA
 			compl += Convert.ToString(Math.Abs(this.im));
 			return compl;
 		}
-
-		public Complex isLarger(Complex c)
-		{
-			if (this > c) return this;
-			else return c;
-		}
-
-		public Complex isSmaller(Complex c)
-		{
-			if (this > c) return c;
-			else return this;
-		}
-	
+		#endregion
+		#region "Pow"
 		// d > 1, d = 0, d = 1/2;
 		public Complex Pow(double d)
 		{
@@ -295,37 +298,36 @@ namespace FEA
 			else
 				return new Complex(0, Math.Sqrt(Math.Abs(this.re)));
 		}
-
-		//quicksort
-
-		public void quickSort(ref Complex[] arr, int left, int right) 
+		#endregion
+		
+		public void quickSort(ref Complex[] arr, int left, int right)
 		{
 			int i = left, j = right;
 			Complex tmp;
 			Complex pivot = arr[(left + right) / 2];
- 
-			  // partition
-			  while (i <= j) 
-			  {
-					while (arr[i] < pivot)
-						  i++;
-					while (arr[j] > pivot)
-						  j--;
-					if (i <= j) 
-					{
-						  tmp = arr[i];
-						  arr[i] = arr[j];
-						  arr[j] = tmp;
-						  i++;
-						  j--;
-					}
-			  };
- 
-			  // recursion
-			  if (left < j)
-					quickSort(ref arr, left, j);
-			  if (i < right)
-					quickSort(ref arr, i, right);
+
+			// partition
+			while (i <= j)
+			{
+				while (arr[i] < pivot)
+					i++;
+				while (arr[j] > pivot)
+					j--;
+				if (i <= j)
+				{
+					tmp = arr[i];
+					arr[i] = arr[j];
+					arr[j] = tmp;
+					i++;
+					j--;
+				}
+			};
+
+			// recursion
+			if (left < j)
+				quickSort(ref arr, left, j);
+			if (i < right)
+				quickSort(ref arr, i, right);
 		}
 	}
 }
