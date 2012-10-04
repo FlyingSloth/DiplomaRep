@@ -11,9 +11,7 @@ public class Matrix
 	private int cols, rows; // nubler of columns and rows
     public double[,] matrix; // array for matrix
 	private const double epsR = 0.000001; // radius of inside rod (to avoid singularity in 0)
-	private double permit;
 	#endregion
-
 	#region "Constructors"
 	public Matrix()
 	{
@@ -45,7 +43,7 @@ public class Matrix
 				this.matrix[i, j] = 0;
 	}
 	#endregion
-
+	#region "Rows&Cols"
 	/// <summary>
 	/// Number of rows
 	/// </summary>
@@ -63,12 +61,7 @@ public class Matrix
 	{
 		return this.cols;
 	}
-
-	public void SetPermittivity(double perm)
-	{
-		this.permit = perm;
-	}
-
+	#endregion
 	#region "Final Matrices"
 	//TODO: Multilayer
 	/// <summary>
@@ -397,7 +390,7 @@ public class Matrix
 		return 1.0 / 12 * e * Math.Pow(h,2) * (4 * j + 3.0);
     }
 	#endregion
-
+	#region "Copy&Inverse"
 	public Matrix Copy(Matrix M)
 		{
 			this.cols = M.cols;
@@ -513,7 +506,7 @@ public class Matrix
         }
 		return this;
 	}
-
+	#endregion
 	#region "Standart matrix operation"
 	public static Matrix operator + (Matrix M1, Matrix M2)
 	{ 
@@ -656,7 +649,6 @@ public class Matrix
 		return false;
 	}
 	#endregion
-
 	#region "Eigenvalues"
 	//Matlab Arrays for eigenvalues
 	private MWArray[] res = null;

@@ -87,16 +87,17 @@ namespace FEA
 			//ft.Join();
 			//st.Join();
 
-
-			
 			n = 200;
             int N = 100;
 			
 			System.Diagnostics.Stopwatch sw1 = new System.Diagnostics.Stopwatch();
 			sw1.Start();
 			
+			WorkObject.CRIT[] critCond = new WorkObject.CRIT[3*n];
+
             WorkObject obj = new WorkObject();
             obj.dispchar = obj.dispersion(n, N, 0.01, 1, 10, 0.7);
+			
 			/*
 			Matrix A1 = new Matrix();
 			A1.SetA(n, 1, 10, 1, 0.43);
@@ -104,9 +105,8 @@ namespace FEA
 			B1.SetB(n, 1, 10, 1, 0.43);
 			Matrix C1 = new Matrix();
 			Complex[] E2 = new Complex[21];
-			E2 = A1.eige(B1);*/
-			
-
+			E2 = A1.eige(B1);
+			 */
 
 			dataGridView2.ColumnCount = 2;
 			dataGridView2.Columns[0].Name = "k";

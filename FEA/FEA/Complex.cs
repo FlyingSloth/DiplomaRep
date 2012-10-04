@@ -8,7 +8,7 @@ namespace FEA
 	public class Complex
 	{
 		private double re, im;
-		
+		#region "Constructors"
 		public Complex()
 		{
 			this.re = 0;
@@ -20,18 +20,18 @@ namespace FEA
 			this.re = re;
 			this.im = im;
 		}
-
-        public double Re()
+		#endregion
+		#region "Return of Re&Im"
+		public double Re()
         {
             return this.re;
         }
-
-        public double Im()
+		public double Im()
         {
             return this.im;
         }
-
-		#region "Standart operations"
+		#endregion
+		#region "Standart ariphmetical operations"
 		// +: compl+compl, compl+double,double+compl
 		public static Complex operator +(Complex c1, Complex c2)
 		{
@@ -299,7 +299,20 @@ namespace FEA
 				return new Complex(0, Math.Sqrt(Math.Abs(this.re)));
 		}
 		#endregion
-		
+		#region "Complexity"
+		public bool isReal()
+		{
+			if (this.im == 0) return true;
+			else return false;
+		}
+
+		public bool isComplex()
+		{
+			if (!this.isReal()) return true;
+			else return false;
+		}
+		#endregion
+		#region "Sorting"
 		public void quickSort(ref Complex[] arr, int left, int right)
 		{
 			int i = left, j = right;
@@ -329,5 +342,6 @@ namespace FEA
 			if (i < right)
 				quickSort(ref arr, i, right);
 		}
+		#endregion
 	}
 }

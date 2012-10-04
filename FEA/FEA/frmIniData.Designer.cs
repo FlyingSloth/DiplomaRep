@@ -37,8 +37,6 @@
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.dataGridView3 = new System.Windows.Forms.DataGridView();
 			this.textBox2 = new System.Windows.Forms.TextBox();
-			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-			this.richTextBox2 = new System.Windows.Forms.RichTextBox();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -125,8 +123,6 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.panel1.AutoSize = true;
 			this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.panel1.Controls.Add(this.richTextBox2);
-			this.panel1.Controls.Add(this.richTextBox1);
 			this.panel1.Controls.Add(this.dataGridView3);
 			this.panel1.Location = new System.Drawing.Point(3, 234);
 			this.panel1.Name = "panel1";
@@ -142,7 +138,7 @@
 			this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridView3.Location = new System.Drawing.Point(9, 0);
 			this.dataGridView3.Name = "dataGridView3";
-			this.dataGridView3.Size = new System.Drawing.Size(120, 320);
+			this.dataGridView3.Size = new System.Drawing.Size(674, 320);
 			this.dataGridView3.TabIndex = 0;
 			// 
 			// textBox2
@@ -151,22 +147,6 @@
 			this.textBox2.Name = "textBox2";
 			this.textBox2.Size = new System.Drawing.Size(100, 20);
 			this.textBox2.TabIndex = 5;
-			// 
-			// richTextBox1
-			// 
-			this.richTextBox1.Location = new System.Drawing.Point(135, 3);
-			this.richTextBox1.Name = "richTextBox1";
-			this.richTextBox1.Size = new System.Drawing.Size(240, 314);
-			this.richTextBox1.TabIndex = 6;
-			this.richTextBox1.Text = "";
-			// 
-			// richTextBox2
-			// 
-			this.richTextBox2.Location = new System.Drawing.Point(438, 6);
-			this.richTextBox2.Name = "richTextBox2";
-			this.richTextBox2.Size = new System.Drawing.Size(240, 314);
-			this.richTextBox2.TabIndex = 7;
-			this.richTextBox2.Text = "";
 			// 
 			// frmIniData
 			// 
@@ -205,8 +185,6 @@
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.DataGridView dataGridView3;
 		private System.Windows.Forms.TextBox textBox2;
-		private System.Windows.Forms.RichTextBox richTextBox2;
-		private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
 

@@ -9,8 +9,10 @@ using ei;
 namespace FEA
 {
     class WorkObject
-    {
-        public struct DISP
+	{
+		//TODO: Проверку хотя бы на небольшом числе радиусов
+		#region "Structs of characteristics and critical values"
+		public struct DISP
         {
             public double k;
             public Complex y;
@@ -19,13 +21,12 @@ namespace FEA
 		public struct CRIT
 		{
 			public double R;
-			public double k;
-			public double y;
+			public DISP[] D;
 		};
-
-        public DISP[] dispchar;
-
-        private Complex[] eigen(int fen, double kc, double ec, int mc, double r)
+		#endregion
+		public DISP[] dispchar; //dispersion characteristics of waveguide
+		#region "Dispersion characteristics"
+		private Complex[] eigen(int fen, double kc, double ec, int mc, double r)
         {
             Matrix A = new Matrix(fen);
             A.SetA(fen, kc, ec, mc, r);
@@ -34,7 +35,6 @@ namespace FEA
             return A.eige(B);
         }
 
-        //TODO: дисперсионные характеристики
         /// <summary>
         /// Dispersion characteristics
         /// </summary>
@@ -53,17 +53,6 @@ namespace FEA
             zeroValue = E1[mode-1];
             dispchar[0].k = 0;
             dispchar[0].y = zeroValue;
-			/*
-			Complex[,] E2 = new Complex[Nsteps,21];
-			int NP = Nsteps / 5;
-			for (int ii = 1; ii < 6; ii++)
-				Parallel.For(NP*(ii-1), NP*ii, (i0, loopState) =>
-					{
-						for (int i = 0; i < 21; i++)
-							E2[i0, i] = eigen(fe, step * i0, ec, mode, R)[i];
-					}
-					);
-			*/
             for (int i1 = 1; i1 < Nsteps + 1; i1++)
             {
                 Complex[] E2 = new Complex[21];
@@ -89,8 +78,114 @@ namespace FEA
                 zeroValue = E2[minN];
             }
             return dispchar;
-        }
+		}
+		#endregion
+		#region "Critical values and conditions"
+		/// <summary>
+		/// Function searches critical values and condition. Result depends on param "isCond"
+		/// </summary>
+		/// <param name="fe">#finite elements</param>
+		/// <param name="Cstep">Step for radius checking</param>
+		/// <param name="Nsteps">Step of wave number</param>
+		/// <param name="step">Size of step of wave number</param>
+		/// <param name="mode">Mode #</param>
+		/// <param name="ec">Permittivity</param>
+		/// <param name="isCond">Choise of return</param>
+		/// <returns>
+		/// If isCond = true: function returns critical conditions, values that are the first and the last complex numbers in all
+		/// dispersion characteristics
+		/// If isCond = false: function returns critical values: all the numbers between critical(including them)
+		/// </returns>
+		public CRIT[] Crit(int fe, double Cstep, int Nsteps, double step, int mode, double ec, bool isCond = true)
+		{
+			int N = Convert.ToInt32(1 / Cstep);
+			CRIT[] buf = new CRIT[N];
+			CRIT[] precrit = new CRIT[N];
+			CRIT[] critVal = new CRIT[N];
+			//all the dispersion characteristics for every radius
+			for (int i = 0; i < N; i++)
+			{
+				buf[i].R = i * Cstep;
+				buf[i].D = dispersion(fe, Nsteps, step, mode, ec, i * Cstep);
+			}
+			#region "Filling critical values and conditions"
+			for (int i = 0; i < N; i++)
+			{
+				int Beg = 0, End = 0;
+				for (int ii = 0; ii < Nsteps; ii++)
+				{
+					if (buf[i].D[ii].y.isComplex())
+						{
+							precrit[i].R = buf[i].R;
+							precrit[i].D[0] = buf[i].D[ii];
+							Beg = ii;
+							break;
+						}
+				}
+				for (int ii = Nsteps - 1; ii > 1; ii--)
+				{
+					if (buf[i].D[ii].y.isComplex())
+					{
+						precrit[i].R = buf[i].R;
+						precrit[i].D[1] = buf[i].D[ii];
+						End = ii;
+						break;
+					}
+				}
 
-		
-    }
+				if (Beg != 0 && End != 0 && !isCond)
+				{
+					for (int o = 0; o < N; o++)
+					{
+						critVal[0].D = new DISP[End-Beg+1];
+					}
+					for (int ii = Beg; ii <= End; ii++)
+					{
+						critVal[i].R = buf[ii].R;
+						critVal[i].D[ii] = buf[ii].D[ii];
+					}
+				}
+			}
+
+			//deleting "null" in precrit
+			int counter = 0;
+			for (int i = 0; i < N; i++)
+			{
+				if (precrit[i].R == null)
+				{
+					counter++;
+					for (int j = i; j < N-1; j++ )
+						precrit[j] = precrit[j + 1];
+				}
+			}
+			//final array of critical conditions
+			int newLength = precrit.Length - counter;
+			CRIT[] bufcrit = new CRIT[newLength];
+			for (int i = 0; i < newLength; i++)
+			{
+				bufcrit[i] = precrit[i];
+			}
+			#region "Filling critical conditions"
+			CRIT[] critCond = new CRIT[2 * newLength];
+			for (int o = 0; o < 2 * newLength; o++)
+			{
+				critCond[0].D = new DISP[1];
+			}
+			for (int i = 0; i < newLength; i++)
+			{
+				critCond[i].R = bufcrit[i].R;
+				critCond[i].D[0] = bufcrit[i].D[0];
+			}
+			for (int i = newLength; i < 2 * newLength; i++)
+			{
+				critCond[i].R = bufcrit[i - N].R;
+				critCond[i].D[0] = bufcrit[i - N].D[1];
+			}
+			#endregion
+			#endregion
+			if (isCond) return critCond;
+			else return critVal;
+		}
+		#endregion
+	}
 }
