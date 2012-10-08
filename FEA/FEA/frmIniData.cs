@@ -96,7 +96,8 @@ namespace FEA
 			WorkObject.CRIT[] critCond = new WorkObject.CRIT[3*n];
 
             WorkObject obj = new WorkObject();
-            obj.dispchar = obj.dispersion(n, N, 0.01, 1, 10, 0.7);
+            //obj.dispchar = obj.dispersion(n, N, 0.01, 1, 10, 0.7);
+			critCond = obj.Crit(n, 0.2, 50, 0.02, 1, 10);
 			
 			/*
 			Matrix A1 = new Matrix();
@@ -107,23 +108,36 @@ namespace FEA
 			Complex[] E2 = new Complex[21];
 			E2 = A1.eige(B1);
 			 */
-
+			/*
 			dataGridView2.ColumnCount = 2;
 			dataGridView2.Columns[0].Name = "k";
-			dataGridView2.Columns[0].Name = "y";
+			dataGridView2.Columns[1].Name = "y";
 
-			for (int i = 0; i < N; i++)
-			//Parallel.For(0, N, (i, loopState) =>
+			for (int i = 0; i < N/2; i++)
 			{
 				string[] str = new string[2];
 				str[0] = obj.dispchar[i].k.ToString();
 				str[1] = obj.dispchar[i].y.ToString();
 				dataGridView2.Rows.Add(str);
-			}
+			}*/
 			sw1.Stop();
 			TimeSpan ts1;
 			ts1 = sw1.Elapsed;
 			this.textBox2.Text = ts1.ToString();
+
+			dataGridView3.ColumnCount = 3;
+			dataGridView3.Columns[0].Name = "R";
+			dataGridView3.Columns[1].Name = "k";
+			dataGridView3.Columns[2].Name = "y";
+
+			for (int i = 0; i < critCond.Length; i++)
+			{
+				string[] str = new string[3];
+				str[0] = critCond[i].R.ToString();
+				str[1] = critCond[i].D[0].k.ToString();
+				str[2] = critCond[i].D[0].y.ToString();
+				dataGridView3.Rows.Add(str);
+			}
 
 			#region "Comments"
 			/*

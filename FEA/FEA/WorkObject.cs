@@ -101,6 +101,12 @@ namespace FEA
 			int N = Convert.ToInt32(1 / Cstep);
 			CRIT[] buf = new CRIT[N];
 			CRIT[] precrit = new CRIT[N];
+
+			for (int i = 0; i < N; i++)
+			{
+				precrit[i].D = new DISP[2];
+			}
+
 			CRIT[] critVal = new CRIT[N];
 			//all the dispersion characteristics for every radius
 			for (int i = 0; i < N; i++)
@@ -167,19 +173,21 @@ namespace FEA
 			}
 			#region "Filling critical conditions"
 			CRIT[] critCond = new CRIT[2 * newLength];
-			for (int o = 0; o < 2 * newLength; o++)
+			for (int i = 0; i < 2 * newLength; i++)
 			{
-				critCond[0].D = new DISP[1];
+				critCond[i].D = new DISP[1];
 			}
 			for (int i = 0; i < newLength; i++)
 			{
 				critCond[i].R = bufcrit[i].R;
-				critCond[i].D[0] = bufcrit[i].D[0];
+				critCond[i].D[0].k = bufcrit[i].D[0].k;
+				critCond[i].D[0].y = bufcrit[i].D[0].y;
 			}
 			for (int i = newLength; i < 2 * newLength; i++)
 			{
 				critCond[i].R = bufcrit[i - N].R;
-				critCond[i].D[0] = bufcrit[i - N].D[1];
+				critCond[i].D[0].k = bufcrit[i - N].D[1].k;
+				critCond[i].D[0].y = bufcrit[i - N].D[1].y;
 			}
 			#endregion
 			#endregion
