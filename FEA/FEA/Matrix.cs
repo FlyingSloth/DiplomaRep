@@ -11,6 +11,7 @@ public class Matrix
 	private int cols, rows; // nubler of columns and rows
     public double[,] matrix; // array for matrix
 	private const double epsR = 0.000001; // radius of inside rod (to avoid singularity in 0)
+	private static double st1 = 0.0001, st2 = 0.0051;
 	#endregion
 	#region "Constructors"
 	public Matrix()
@@ -72,10 +73,11 @@ public class Matrix
 	/// <param name="ec">permitivity</param>
 	/// <param name="mc">mode</param>
 	/// <param name="r">Width of layer</param>
-    public void SetA(int n, double kc, double ec, int mc, double r)
+    public void SetA(int n, double kc, int mc, WorkObject.LAY[] layers)
     {
 		double eps = epsR;
 		double hc = 1.0/n;
+		double ec = layers[0].perm;
 		double ec1 = 0;
 		if (this.Cols() == 0 || this.Rows() == 0) 
 		{
@@ -139,15 +141,16 @@ public class Matrix
 			this.matrix[8,7] = (pA53(2,hc,kc,ec));
 			this.matrix[8,8] = (pA55(2,hc,ec,mc) + pA44(3,hc,ec,mc));
 
-            //Parallel.For(1, n - 3, (i1, loopState) =>
             for (int i1 = 1; i1 < n-3; i1++)
 			{
-
-				ec1 = ec;
-				if ((i1 + 3) * hc > r - 0.0051)
-					ec1 = 1;
-				if ((i1 + 3) * hc > r - 0.0001)
-					ec = 1;
+				for (int ii = 1; ii < layers.Length; ii++)
+				{
+					ec1 = ec;
+					if ((i1 + 3) * hc > layers[ii-1].R - st2)
+						ec1 = layers[ii].perm;
+					if ((i1 + 3) * hc > layers[ii-1].R - st1)
+						ec = layers[ii].perm;
+				}
 				this.matrix[3 + i1 * 3, 6 + i1 * 3] = (pA12(2 + i1, hc, kc, ec));
 				this.matrix[3 + i1 * 3, 7 + i1 * 3] = (pA13(2 + i1, hc, mc));
 				this.matrix[3 + i1 * 3, 8 + i1 * 3] = (pA15(2 + i1, hc, kc, ec, mc));
@@ -169,7 +172,7 @@ public class Matrix
 				this.matrix[8 + i1 * 3, 6 + i1 * 3] = (pA52(2 + i1, hc, kc, ec, mc) + pA41(3 + i1, hc, kc, ec1, mc));
 				this.matrix[8 + i1 * 3, 7 + i1 * 3] = (pA53(2 + i1, hc, kc, ec));
 				this.matrix[8 + i1 * 3, 8 + i1 * 3] = (pA55(2 + i1, hc, ec, mc) + pA44(3 + i1, hc, ec1, mc));
-			}//);
+			}
 
 			this.matrix[6 + 3 * (n - 4), 9 + 3 * (n - 4)] = (pA13(3 + n - 4, hc, mc));
 			this.matrix[8 + 3 * (n - 4), 9 + 3 * (n - 4)] = (pA43(3 + n - 4, hc, kc, ec));
@@ -187,10 +190,11 @@ public class Matrix
 	/// <param name="ec">permitivity</param>
 	/// <param name="mc">mode</param>
 	/// <param name="r">Width of layer</param>
-    public void SetB(int n, double kc, double ec, int mc, double r)
+    public void SetB(int n, double kc, int mc, WorkObject.LAY[] layers)
     {
 		double eps = epsR;
 		double hc = 1.0/n;
+		double ec = layers[0].perm;
 		double ec1 = 0;
 		if (this.Cols() == 0 || this.Rows() == 0)
 		{
@@ -220,14 +224,16 @@ public class Matrix
 			this.matrix[8, 5] = (pB54(2, hc, ec));
 			this.matrix[8, 8] = (pB55(2, hc, ec) + pB44(3, hc, ec));
 
-			//Parallel.For(1, n - 3, (i1, loopState) =>
             for (int i1 = 1; i1 < n-3; i1++)
 			{
-				ec1 = ec;
-				if ((i1 + 3) * hc > r - 0.0051)
-					ec1 = 1;
-				if ((i1 + 3) * hc > r - 0.0001)
-					ec = 1;
+				for (int ii = 1; ii < layers.Length; ii++)
+				{
+					ec1 = ec;
+					if ((i1 + 3) * hc > layers[ii - 1].R - st2)
+						ec1 = layers[ii].perm;
+					if ((i1 + 3) * hc > layers[ii - 1].R - st1)
+						ec = layers[ii].perm;
+				}
 				this.matrix[3 + i1*3,6 + i1*3] = (pB12(2 + i1,hc));
 				this.matrix[5 + i1*3,8 + i1*3] = (pB45(2 + i1,hc,ec));
 				this.matrix[6 + i1*3,3 + i1*3] = (pB21(2 + i1,hc));
@@ -235,7 +241,7 @@ public class Matrix
 				this.matrix[7 + i1*3,7 + i1*3] = (pB33(2 + i1,hc));
 				this.matrix[8 + i1*3,5 + i1*3] = (pB54(2 + i1,hc,ec));
 				this.matrix[8 + i1*3,8 + i1*3] = (pB55(2 + i1,hc,ec) + pB44(3 + i1,hc,ec1));
-			}//);
+			}
 
 			this.matrix[6 + 3*(n-4),9 + 3*(n-4)] = (pB12(3 + n-4,hc));
 			this.matrix[9 + 3*(n-4),6 + 3*(n-4)] = (pB21(3 + n-4,hc));

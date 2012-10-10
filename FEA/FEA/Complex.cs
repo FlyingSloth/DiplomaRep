@@ -308,7 +308,13 @@ namespace FEA
 
 		public bool isComplex()
 		{
-			if (!this.isReal()) return true;
+			if (this.im != 0 && this.re != 0) return true;
+			else return false;
+		}
+
+		public bool isPureComplex()
+		{
+			if (this.im != 0 && this.re == 0) return true;
 			else return false;
 		}
 		#endregion

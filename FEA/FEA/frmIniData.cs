@@ -89,7 +89,13 @@ namespace FEA
 
 			n = 200;
             int N = 100;
-			
+
+			WorkObject.LAY[] L = new WorkObject.LAY[2];
+			L[0].perm = 10;
+			L[0].R = 0.43;
+			L[1].perm = 1;
+			L[1].R = 1;
+
 			System.Diagnostics.Stopwatch sw1 = new System.Diagnostics.Stopwatch();
 			sw1.Start();
 			
@@ -97,7 +103,7 @@ namespace FEA
 
             WorkObject obj = new WorkObject();
             //obj.dispchar = obj.dispersion(n, N, 0.01, 1, 10, 0.7);
-			critCond = obj.Crit(n, 0.2, 50, 0.02, 1, 10);
+			critCond = obj.Crit(n, 0.05, 20, 0.1, 1, L, false);
 			
 			/*
 			Matrix A1 = new Matrix();
@@ -120,10 +126,7 @@ namespace FEA
 				str[1] = obj.dispchar[i].y.ToString();
 				dataGridView2.Rows.Add(str);
 			}*/
-			sw1.Stop();
-			TimeSpan ts1;
-			ts1 = sw1.Elapsed;
-			this.textBox2.Text = ts1.ToString();
+			
 
 			dataGridView3.ColumnCount = 3;
 			dataGridView3.Columns[0].Name = "R";
@@ -132,12 +135,25 @@ namespace FEA
 
 			for (int i = 0; i < critCond.Length; i++)
 			{
-				string[] str = new string[3];
-				str[0] = critCond[i].R.ToString();
-				str[1] = critCond[i].D[0].k.ToString();
-				str[2] = critCond[i].D[0].y.ToString();
-				dataGridView3.Rows.Add(str);
+				if (!obj.isNull(critCond[i].R))
+				{
+					for (int j = 0; j < critCond[i].D.Length; j++)
+					{
+						if (!obj.isNull(critCond[i].D[j].k) && !obj.isNull(critCond[i].D[j].y))
+						{
+							string[] str = new string[3];
+							str[0] = critCond[i].R.ToString();
+							str[1] = critCond[i].D[j].k.ToString();
+							str[2] = critCond[i].D[j].y.ToString();
+							dataGridView3.Rows.Add(str);
+						}
+					}
+				}
 			}
+			sw1.Stop();
+			TimeSpan ts1;
+			ts1 = sw1.Elapsed;
+			this.textBox2.Text = ts1.ToString();
 
 			#region "Comments"
 			/*
