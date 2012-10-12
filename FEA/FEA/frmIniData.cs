@@ -76,17 +76,42 @@ namespace FEA
 			this.textBox2.Text = ts1.ToString();
 		}
 		*/
+
+		WorkObject.LAY[] L = new WorkObject.LAY[2];
+		WorkObject.CRIT[] critCond;
+		WorkObject obj;
+		System.Diagnostics.Stopwatch sw1 = new System.Diagnostics.Stopwatch();
+		
+		private void FF()
+		{
+			n = 200;
+			int N = 100;
+
+			
+			L[0].perm = 10;
+			L[0].R = 0.43;
+			L[1].perm = 1;
+			L[1].R = 1;
+
+			critCond = new WorkObject.CRIT[3 * n];
+
+			obj = new WorkObject();
+			//obj.dispchar = obj.dispersion(n, N, 0.01, 1, 10, 0.7);
+			critCond = obj.Crit(n, 0.1, 40, 0.05, 1, L, false);
+		}
+		Thread ft;
 		private void button1_Click(object sender, EventArgs e)
 		{
 			//dataGridView1.RowCount = 1;
 			//dataGridView2.RowCount = 1;
-			//Thread ft = new Thread(new ThreadStart(FF));
+			
+			ft = new Thread(new ThreadStart(FF));
 			//Thread st = new Thread(new ThreadStart(SF));
-			//ft.Start();
+			ft.Start();
 			//st.Start();
 			//ft.Join();
 			//st.Join();
-
+			/*
 			n = 200;
             int N = 100;
 
@@ -103,8 +128,8 @@ namespace FEA
 
             WorkObject obj = new WorkObject();
             //obj.dispchar = obj.dispersion(n, N, 0.01, 1, 10, 0.7);
-			critCond = obj.Crit(n, 0.05, 20, 0.1, 1, L, false);
-			
+			critCond = obj.Crit(n, 0.1, 40, 0.05, 1, L, false);
+			*/
 			/*
 			Matrix A1 = new Matrix();
 			A1.SetA(n, 1, 10, 1, 0.43);
@@ -126,34 +151,36 @@ namespace FEA
 				str[1] = obj.dispchar[i].y.ToString();
 				dataGridView2.Rows.Add(str);
 			}*/
-			
-
-			dataGridView3.ColumnCount = 3;
-			dataGridView3.Columns[0].Name = "R";
-			dataGridView3.Columns[1].Name = "k";
-			dataGridView3.Columns[2].Name = "y";
-
-			for (int i = 0; i < critCond.Length; i++)
+			if (ft.ThreadState == ThreadState.Stopped)
 			{
-				if (!obj.isNull(critCond[i].R))
+				sw1.Start();
+				dataGridView3.ColumnCount = 3;
+				dataGridView3.Columns[0].Name = "R";
+				dataGridView3.Columns[1].Name = "k";
+				dataGridView3.Columns[2].Name = "y";
+
+				for (int i = 0; i < critCond.Length; i++)
 				{
-					for (int j = 0; j < critCond[i].D.Length; j++)
+					if (!obj.isNull(critCond[i].R))
 					{
-						if (!obj.isNull(critCond[i].D[j].k) && !obj.isNull(critCond[i].D[j].y))
+						for (int j = 0; j < critCond[i].D.Length; j++)
 						{
-							string[] str = new string[3];
-							str[0] = critCond[i].R.ToString();
-							str[1] = critCond[i].D[j].k.ToString();
-							str[2] = critCond[i].D[j].y.ToString();
-							dataGridView3.Rows.Add(str);
+							if (!obj.isNull(critCond[i].D[j].k) && !obj.isNull(critCond[i].D[j].y))
+							{
+								string[] str = new string[3];
+								str[0] = critCond[i].R.ToString();
+								str[1] = critCond[i].D[j].k.ToString();
+								str[2] = critCond[i].D[j].y.ToString();
+								dataGridView3.Rows.Add(str);
+							}
 						}
 					}
 				}
+				sw1.Stop();
+				TimeSpan ts1;
+				ts1 = sw1.Elapsed;
+				this.textBox2.Text = ts1.ToString();
 			}
-			sw1.Stop();
-			TimeSpan ts1;
-			ts1 = sw1.Elapsed;
-			this.textBox2.Text = ts1.ToString();
 
 			#region "Comments"
 			/*
@@ -351,6 +378,13 @@ namespace FEA
 			//if (c1 > c2) textBox1.Text = "c1>c2";
 			//else textBox1.Text = "c1<c2";
 			textBox1.Text = Convert.ToString(c1.Arg()) + "  " + Convert.ToString(c2.Arg());
+		}
+
+		private void frmIniData_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			if (ft != null)
+				if (ft.ThreadState == ThreadState.Running)
+					ft.Abort();
 		}
     }
 }

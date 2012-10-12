@@ -161,6 +161,7 @@
 			this.Controls.Add(this.button1);
 			this.Name = "frmIniData";
 			this.Text = "Initial Data";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmIniData_FormClosed);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
