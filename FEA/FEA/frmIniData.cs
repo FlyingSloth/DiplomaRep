@@ -108,6 +108,7 @@ namespace FEA
 			ft = new Thread(new ThreadStart(FF));
 			//Thread st = new Thread(new ThreadStart(SF));
 			ft.Start();
+			#region
 			//st.Start();
 			//ft.Join();
 			//st.Join();
@@ -151,7 +152,9 @@ namespace FEA
 				str[1] = obj.dispchar[i].y.ToString();
 				dataGridView2.Rows.Add(str);
 			}*/
-			if (ft.ThreadState == ThreadState.Stopped)
+			#endregion
+
+			if (!ft.IsAlive)
 			{
 				sw1.Start();
 				dataGridView3.ColumnCount = 3;
@@ -384,7 +387,9 @@ namespace FEA
 		{
 			if (ft != null)
 				if (ft.ThreadState == ThreadState.Running)
+				{
 					ft.Abort();
+				}
 		}
     }
 }

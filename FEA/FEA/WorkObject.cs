@@ -42,7 +42,8 @@ namespace FEA
             B.SetB(fen, kc,  mc, L);
             return A.eige(B);
         }
-
+		
+		string text = "";
         /// <summary>
         /// Dispersion characteristics
         /// </summary>
@@ -52,7 +53,8 @@ namespace FEA
         /// <param name="R">Radius of layer</param>
         public DISP[] dispersion(int fe, int Nsteps, double step, int mode, LAY[] L)
         {
-            dispchar = new DISP[Nsteps+1];
+			
+			dispchar = new DISP[Nsteps+1];
             Complex[] E1 = new Complex[21];
             Complex zeroValue = new Complex();
             int minN = 0;
@@ -84,6 +86,9 @@ namespace FEA
                 dispchar[i1].k = step * i1;
                 dispchar[i1].y = E2[minN];
                 zeroValue = E2[minN];
+
+				text += "Iteration " + i1 + " ";
+				System.IO.File.WriteAllText("log.txt",text);
             }
             return dispchar;
 		}
@@ -123,10 +128,13 @@ namespace FEA
 				//all the dispersion characteristics for every radius
 				for (int i = 0; i < N; i++)
 				{
+					text += "Dispersion " + i + " Radius" + i * Cstep +"   ";
+					
 					buf[i].R = i * Cstep;
 					bufL[0].R = i * Cstep;
 
 					buf[i].D = dispersion(fe, Nsteps, step, mode, bufL);
+					
 				}
 				#region "Filling critical values and conditions"
 				for (int i = 0; i < N; i++)
