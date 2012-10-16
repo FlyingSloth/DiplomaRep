@@ -8,7 +8,7 @@ MATLAB Builder NE (.NET Component)
 
 . If the MCR is not installed, run MCRInstaller.exe, located in:
 
-  <mcr_root>*\toolbox\compiler\deploy\win32\MCRInstaller.exe
+  <mcr_root>*\toolbox\compiler\deploy\win64\MCRInstaller.exe
 
 For more information on the MCR Installer, see the MATLAB Compiler 
 documentation.   
@@ -31,7 +31,7 @@ Auto-generated Documentation Templates:
 MWArray.xml - This file contains the code comments for the MWArray data conversion 
               classes and their methods. This file can be found in either the component 
               distrib directory or in
-              <mcr_root>*\toolbox\dotnetbuilder\bin\win32\v2.0
+              <mcr_root>*\toolbox\dotnetbuilder\bin\win64\v2.0
 
 ei_overview.html - HTML overview documentation file for the generated component. It 
                    contains the requirements for accessing the component and for 

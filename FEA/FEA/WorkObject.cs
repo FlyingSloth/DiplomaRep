@@ -87,7 +87,7 @@ namespace FEA
                 dispchar[i1].y = E2[minN];
                 zeroValue = E2[minN];
 
-				text += "Iteration " + i1 + " ";
+				text += "Iteration " + i1 + '\n';
 				System.IO.File.WriteAllText("log.txt",text);
             }
             return dispchar;
@@ -128,7 +128,7 @@ namespace FEA
 				//all the dispersion characteristics for every radius
 				for (int i = 0; i < N; i++)
 				{
-					text += "Dispersion " + i + " Radius" + i * Cstep +"   ";
+					text += "Dispersion " + i + " Radius" + i * Cstep + '\n';
 					
 					buf[i].R = i * Cstep;
 					bufL[0].R = i * Cstep;
