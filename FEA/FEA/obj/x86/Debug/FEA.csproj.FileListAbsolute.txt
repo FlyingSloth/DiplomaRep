@@ -21,7 +21,6 @@ C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\FEA\bin\Debug\FEA.exe
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\FEA\bin\Debug\FEA.pdb
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\FEA\bin\Debug\ei.dll
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\FEA\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\FEA\obj\x86\Debug\FEA.frmIniData.resources
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\FEA\obj\x86\Debug\FEA.Properties.Resources.resources
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\FEA\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\FEA\obj\x86\Debug\GenerateResource.write.1.tlog
@@ -29,3 +28,4 @@ C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\FEA\obj\x86\Debug\FEA.exe
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\FEA\obj\x86\Debug\FEA.pdb
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\FEA\bin\Debug\MWArray.dll
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\FEA\bin\Debug\MWArray.xml
+C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\FEA\obj\x86\Debug\FEA.CalculateCompletedEventArgs.resources

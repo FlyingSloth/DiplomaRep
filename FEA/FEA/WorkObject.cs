@@ -31,8 +31,7 @@ namespace FEA
 		};
 
 		#endregion
-		public DISP[] dispchar; //dispersion characteristics of waveguide
-
+		private DISP[] dispchar; //dispersion characteristics of waveguide
 		#region "Dispersion characteristics"
 		private Complex[] eigen(int fen, double kc, int mc, LAY[] L)
         {
@@ -87,7 +86,7 @@ namespace FEA
                 dispchar[i1].y = E2[minN];
                 zeroValue = E2[minN];
 
-				text += "Iteration " + i1 + '\n';
+				text += "Iteration " + i1 + ' ';
 				System.IO.File.WriteAllText("log.txt",text);
             }
             return dispchar;
@@ -128,7 +127,7 @@ namespace FEA
 				//all the dispersion characteristics for every radius
 				for (int i = 0; i < N; i++)
 				{
-					text += "Dispersion " + i + " Radius" + i * Cstep + '\n';
+					text += "Dispersion " + i + " Radius" + i * Cstep + ' ';
 					
 					buf[i].R = i * Cstep;
 					bufL[0].R = i * Cstep;
@@ -230,7 +229,6 @@ namespace FEA
 			}
 		}
 		#endregion
-
 		public bool isNull<T>(T value)
 		{
 			return object.Equals(value, default(T));

@@ -8,9 +8,21 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Threading;
+using System.ComponentModel;
 
 namespace FEA
 {
+    public delegate void CalculateCompletedEventHandler(object sender, CalculateCompletedEventArgs e);
+
+    public class CalculateCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs
+    {
+
+        public CalculateCompletedEventArgs(Exception error, bool cancelled, object userState)
+            : base(error, cancelled, userState)
+        {
+        }
+    }
+
     public partial class frmIniData : Form
     {
         public frmIniData()
@@ -99,15 +111,43 @@ namespace FEA
 			//obj.dispchar = obj.dispersion(n, N, 0.01, 1, 10, 0.7);
 			critCond = obj.Crit(n, 0.1, 40, 0.05, 1, L, false);
 		}
+
+        private void FO()
+        {
+            {
+                dataGridView3.ColumnCount = 3;
+                dataGridView3.Columns[0].Name = "R";
+                dataGridView3.Columns[1].Name = "k";
+                dataGridView3.Columns[2].Name = "y";
+
+                for (int i = 0; i < critCond.Length; i++)
+                {
+                    if (!obj.isNull(critCond[i].R))
+                    {
+                        for (int j = 0; j < critCond[i].D.Length; j++)
+                        {
+                            if (!obj.isNull(critCond[i].D[j].k) && !obj.isNull(critCond[i].D[j].y))
+                            {
+                                string[] str = new string[3];
+                                str[0] = critCond[i].R.ToString();
+                                str[1] = critCond[i].D[j].k.ToString();
+                                str[2] = critCond[i].D[j].y.ToString();
+                                dataGridView3.Rows.Add(str);
+                            }
+                        }
+                    }
+                }
+                sw1.Stop();
+                TimeSpan ts1;
+                ts1 = sw1.Elapsed;
+                this.textBox2.Text = ts1.ToString();
+            }
+        }
+
 		Thread ft;
+        BackgroundWorker bw;
 		private void button1_Click(object sender, EventArgs e)
 		{
-			//dataGridView1.RowCount = 1;
-			//dataGridView2.RowCount = 1;
-			
-			ft = new Thread(new ThreadStart(FF));
-			//Thread st = new Thread(new ThreadStart(SF));
-			ft.Start();
 			#region
 			//st.Start();
 			//ft.Join();
@@ -152,38 +192,19 @@ namespace FEA
 				str[1] = obj.dispchar[i].y.ToString();
 				dataGridView2.Rows.Add(str);
 			}*/
+            // ft = new Thread(new ThreadStart(FF));
+            // ft.Start();
+            //for (; ; )
+                //if (!ft.IsAlive)
 			#endregion
+            
+           
+            bw = new System.ComponentModel.BackgroundWorker();
+            bw.WorkerSupportsCancellation = true;
+            bw.DoWork += new System.ComponentModel.DoWorkEventHandler(bw_DoWork);
+            bw.RunWorkerCompleted+=new System.ComponentModel.RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
 
-			if (!ft.IsAlive)
-			{
-				sw1.Start();
-				dataGridView3.ColumnCount = 3;
-				dataGridView3.Columns[0].Name = "R";
-				dataGridView3.Columns[1].Name = "k";
-				dataGridView3.Columns[2].Name = "y";
-
-				for (int i = 0; i < critCond.Length; i++)
-				{
-					if (!obj.isNull(critCond[i].R))
-					{
-						for (int j = 0; j < critCond[i].D.Length; j++)
-						{
-							if (!obj.isNull(critCond[i].D[j].k) && !obj.isNull(critCond[i].D[j].y))
-							{
-								string[] str = new string[3];
-								str[0] = critCond[i].R.ToString();
-								str[1] = critCond[i].D[j].k.ToString();
-								str[2] = critCond[i].D[j].y.ToString();
-								dataGridView3.Rows.Add(str);
-							}
-						}
-					}
-				}
-				sw1.Stop();
-				TimeSpan ts1;
-				ts1 = sw1.Elapsed;
-				this.textBox2.Text = ts1.ToString();
-			}
+            bw.RunWorkerAsync();
 
 			#region "Comments"
 			/*
@@ -373,6 +394,32 @@ namespace FEA
 			#endregion
 		}
 
+        void  bw_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            FO();
+        }
+
+        void bw_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+			sw1.Start();
+            n = 200;
+            int N = 100;
+            L[0].perm = 10;
+            L[0].R = 0.43;
+            L[1].perm = 1;
+            L[1].R = 1;
+
+            critCond = new WorkObject.CRIT[3 * n];
+
+            obj = new WorkObject();
+            //obj.dispchar = obj.dispersion(n, N, 0.01, 1, 10, 0.7);
+            critCond = obj.Crit(n, 0.05, N, 1.0/N, 1, L, false);
+            if (bw.CancellationPending)
+            {
+                e.Cancel = true;
+            }
+        }
+
 		private void button2_Click(object sender, EventArgs e)
 		{
 			textBox1.Text = "";
@@ -385,11 +432,15 @@ namespace FEA
 
 		private void frmIniData_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			if (ft != null)
+			bw.CancelAsync();
+			/*
+            if (ft != null)
 				if (ft.ThreadState == ThreadState.Running)
 				{
-					ft.Abort();
+                    ft.Interrupt();
+                    ft.Abort();
 				}
+             */
 		}
     }
 }
