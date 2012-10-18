@@ -126,9 +126,9 @@ namespace FEA
                     {
                         for (int j = 0; j < critCond[i].D.Length; j++)
                         {
-                            if (!obj.isNull(critCond[i].D[j].k) && !obj.isNull(critCond[i].D[j].y))
-                            {
-                                string[] str = new string[3];
+                            string[] str = new string[3];
+							if (!obj.isNull(critCond[i].D[j].k) && !obj.isNull(critCond[i].D[j].y))
+                            { 
                                 str[0] = critCond[i].R.ToString();
                                 str[1] = critCond[i].D[j].k.ToString();
                                 str[2] = critCond[i].D[j].y.ToString();
@@ -403,7 +403,7 @@ namespace FEA
         {
 			sw1.Start();
             n = 200;
-            int N = 100;
+            int N = 20;
             L[0].perm = 10;
             L[0].R = 0.43;
             L[1].perm = 1;
@@ -413,11 +413,7 @@ namespace FEA
 
             obj = new WorkObject();
             //obj.dispchar = obj.dispersion(n, N, 0.01, 1, 10, 0.7);
-            critCond = obj.Crit(n, 0.05, N, 1.0/N, 1, L, false);
-            if (bw.CancellationPending)
-            {
-                e.Cancel = true;
-            }
+            critCond = obj.Crit(n, 0.1, N, 2.0/N, 1, L, false);
         }
 
 		private void button2_Click(object sender, EventArgs e)
@@ -433,14 +429,6 @@ namespace FEA
 		private void frmIniData_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			bw.CancelAsync();
-			/*
-            if (ft != null)
-				if (ft.ThreadState == ThreadState.Running)
-				{
-                    ft.Interrupt();
-                    ft.Abort();
-				}
-             */
 		}
     }
 }

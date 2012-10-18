@@ -149,23 +149,23 @@ namespace FEA
 							break;
 						}
 					}
-					for (int ii = Nsteps - 1; ii > 1; ii--)
+					if (Beg != 0)
 					{
-						if (buf[i].D[ii].y.isComplex())
+						for (int ii = Nsteps - 1; ii > 1; ii--)
 						{
-							precrit[i].R = buf[i].R;
-							precrit[i].D[1] = buf[i].D[ii];
-							End = ii;
-							break;
+							if (buf[i].D[ii].y.isComplex())
+							{
+								precrit[i].R = buf[i].R;
+								precrit[i].D[1] = buf[i].D[ii];
+								End = ii;
+								break;
+							}
 						}
 					}
 
 					if (Beg != 0 && End != 0 && !isCond)
 					{
-						for (int o = 0; o < N; o++)
-						{
-							critVal[o].D = new DISP[End - Beg + 1];
-						}
+						critVal[i].D = new DISP[End - Beg + 1];
 						critVal[i].R = buf[i].R;
 						for (int ii = Beg; ii <= End; ii++)
 						{
@@ -174,44 +174,62 @@ namespace FEA
 						}
 					}
 				}
-				if (!isCond) return critVal;
+				if (!isCond)
+				{
+
+					int counter = 0;
+					CRIT[] bufcrit = new CRIT[N];
+					for (int j = 0; j < N; j++)
+					{
+						if (!isNull(critVal[j].R))
+						{
+							bufcrit[counter] = critVal[j];
+							counter++;
+						}
+					}
+					critVal = new CRIT[counter];
+					for (int j = 0; j < counter; j++)
+						critVal[j] = bufcrit[j];
+					return critVal;
+				}
 				else
 				{
 					//deleting "null" in precrit
+					//TODO: починить смещение
 					int counter = 0;
+					CRIT[] bufcrit = new CRIT[N];
 					for (int i = 0; i < N; i++)
 					{
-						if (isNull(precrit[i].R))
+						if (!isNull(precrit[i].R))
 						{
+							bufcrit[counter] = precrit[i];
 							counter++;
-							for (int j = i; j < N - 1; j++)
-								precrit[j] = precrit[j + 1];
 						}
 					}
+
+					CRIT[] b = new CRIT[counter];
 					//final array of critical conditions
-					int newLength = precrit.Length - counter;
-					CRIT[] bufcrit = new CRIT[newLength];
-					for (int i = 0; i < newLength; i++)
+					for (int i = 0; i < counter; i++)
 					{
-						bufcrit[i] = precrit[i];
+						b[i] = bufcrit[i];
 					}
 					#region "Filling critical conditions"
-					CRIT[] critCond = new CRIT[2 * newLength];
-					for (int i = 0; i < 2 * newLength; i++)
+					CRIT[] critCond = new CRIT[2 * counter];
+					for (int i = 0; i < 2 * counter; i++)
 					{
 						critCond[i].D = new DISP[1];
 					}
-					for (int i = 0; i < newLength; i++)
+					for (int i = 0; i < counter; i++)
 					{
 						critCond[i].R = bufcrit[i].R;
 						critCond[i].D[0].k = bufcrit[i].D[0].k;
 						critCond[i].D[0].y = bufcrit[i].D[0].y;
 					}
-					for (int i = newLength; i < 2 * newLength; i++)
+					for (int i = counter; i < 2 * counter; i++)
 					{
-						critCond[i].R = bufcrit[i - newLength].R;
-						critCond[i].D[0].k = bufcrit[i - newLength].D[1].k;
-						critCond[i].D[0].y = bufcrit[i - newLength].D[1].y;
+						critCond[i].R = bufcrit[i - counter].R;
+						critCond[i].D[0].k = bufcrit[i - counter].D[1].k;
+						critCond[i].D[0].y = bufcrit[i - counter].D[1].y;
 					}
 					#endregion
 				#endregion
