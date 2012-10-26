@@ -1,0 +1,25 @@
+﻿<Window x:Class="FEA.Results"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        xmlns:wfi="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+        xmlns:dvc="clr-namespace:System.Windows.Forms.DataVisualization.Charting;assembly=System.Windows.Forms.DataVisualization"
+        Title="Results" Height="417" Width="524">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="212*" />
+            <ColumnDefinition Width="66" MaxWidth="66" MinWidth="66" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="131*" />
+            <RowDefinition Height="130*" />
+        </Grid.RowDefinitions>
+        <WindowsFormsHost>
+            <dvc:Chart x:Name="chartRe"></dvc:Chart>
+        </WindowsFormsHost>
+        <WindowsFormsHost Grid.Row="1">
+            <dvc:Chart x:Name="chartIm"></dvc:Chart>
+        </WindowsFormsHost>
+        <Button Content="Exit" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="0,87,0,0" Name="btnExit" VerticalAlignment="Top" Width="66" Click="btnExit_Click" />
+    </Grid>
+</Window>
