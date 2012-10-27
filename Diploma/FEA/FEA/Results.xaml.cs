@@ -110,7 +110,6 @@ namespace FEA
 
 			}
 		}
-
 		public Results(Progress pr, WorkObject.DISP[] disp)
 		{
 			InitializeComponent();
@@ -141,7 +140,6 @@ namespace FEA
 			chartIm.Series["ser1"].Points.DataBindXY(axisX, axisYIm);
 			chartRe.Series["ser1"].Points.DataBindXY(axisX, axisYRe);
 		}
-
 		private void btnExit_Click(object sender, RoutedEventArgs e)
 		{
 			this.Close();

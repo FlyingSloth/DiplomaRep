@@ -32,9 +32,6 @@ namespace FEA
 
 		#endregion
 		public DISP[] dispchar; //dispersion characteristics of waveguide
-
-		//public delegate void function(string val);
-
 		#region "Dispersion characteristics"
 		private Complex[] eigen(int fen, double kc, int mc, LAY[] L)
         {
@@ -44,17 +41,16 @@ namespace FEA
             B.SetB(fen, kc,  mc, L);
             return A.eige(B);
         }
-		
-		//string text = "";
+		#region "Timing"
 		long timeleft = 0;
 		long temptime = 0;
-
+		long firsttime = 0;
 		public string TimeLeft()
 		{
 			return timeleft.ToString();
 		}
-
-        /// <summary>
+		#endregion
+		/// <summary>
         /// Dispersion characteristics
         /// </summary>
         /// <param name="fe">Number of finite elements</param>
@@ -76,10 +72,8 @@ namespace FEA
             for (int i1 = 1; i1 < Nsteps + 1; i1++)
             {
 				Stopwatch sw = new Stopwatch();
-				if (!isChecked && i1 == 1)
-				{
-					sw.Start();
-				}
+				sw.Start();
+				
 				Complex[] E2 = new Complex[21];
                 Complex[] buf = new Complex[21];
                 Complex[] tempbuf = new Complex[21];
@@ -100,14 +94,16 @@ namespace FEA
                 dispchar[i1].k = step * i1;
                 dispchar[i1].y = E2[minN];
                 zeroValue = E2[minN];
+
 				if (sw.IsRunning)
 					sw.Stop();
 				if (!isChecked && i1 == 1)
 				{
-					temptime = (int)((sw.ElapsedMilliseconds)/1000);
-					timeleft = (int)((Nsteps-1) * sw.ElapsedMilliseconds/1000);
+					firsttime = (int)((sw.ElapsedMilliseconds)/1000);
+					timeleft = (int)((Nsteps-1) * firsttime);
 					if (coef != 0)  timeleft *= coef;
 				}
+				temptime = (int)((sw.ElapsedMilliseconds) / 1000);
 				if (coef != 0)
 				{
 					progress = (int)(Convert.ToDouble(i1)/Nsteps*100)/coef+iniProgress;

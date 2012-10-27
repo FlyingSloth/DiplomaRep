@@ -27,20 +27,17 @@ namespace FEA
 			txtbxRadius.Text = "";
 			txtbxPerm.Text = "";
 		}
-
-		void pr_Closed(object sender, EventArgs e)
-		{
-			if (pr.isExit) this.Close();
-		}
-
+		#region "Global params"
 		public BackgroundWorker bw;
 		WorkObject obj;
 		Progress pr;
+
+		//layers
 		double[] Rad;
 		double[] Perm;
-
-        #region "Initial data"
-        int layersN = 0;
+		#endregion
+		#region "Initial data"
+		int layersN = 0;
         int FEN = 0;
         int mode = 0;
         int stepWNN = 0;
@@ -55,12 +52,7 @@ namespace FEA
 		public WorkObject.DISP[] disp;
 		WorkObject.LAY[] Layers;
         #endregion
-
         #region "Entering data"
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
         
         private void txtbLayersNumber_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -174,7 +166,6 @@ namespace FEA
             this.isDispersion = false;
         }
         #endregion
-
         #region "Validation"
         private bool isValid()
         {
@@ -225,7 +216,6 @@ namespace FEA
             return false;
         }
         #endregion
-
 		#region "ParseLayers"
 		private bool isR(string R)
 		{
@@ -276,7 +266,6 @@ namespace FEA
 			return null;
 		}
 		#endregion
-
 		private void btnGo_Click(object sender, RoutedEventArgs e)
         {
             if (isValid())
@@ -298,11 +287,19 @@ namespace FEA
             }
 			
         }
+		private void MenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			this.Close();
+		}
+		void pr_Closed(object sender, EventArgs e)
+		{
+			if (pr.isExit) this.Close();
+		}
+		#region "BackGroundWorker functions"
 		void bw_DoWork(object sender, DoWorkEventArgs e)
 		{
 			obj = new WorkObject();
 			var bgw = sender as BackgroundWorker;
-			string str = "";
 			if (this.isDispersion)
 			{
 				disp = new WorkObject.DISP[stepWNN];
@@ -319,7 +316,8 @@ namespace FEA
 		}
 		void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			pr.SetTime("0 Process complete");
+			pr.SetTime("0 Process completed");
 		}
-    }
+		#endregion
+	}
 }

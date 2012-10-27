@@ -20,14 +20,16 @@ namespace FEA
 	/// </summary>
 	public partial class Progress : Window
 	{
+		#region "Global params"
+		private MainWindow _f1;
+		public BackgroundWorker _bg = new BackgroundWorker();
+		public bool isExit = false;
+		#endregion
+		#region "Constructors"
 		public Progress()
 		{
 			InitializeComponent();
 		}
-
-		private MainWindow _f1;
-		public BackgroundWorker _bg = new BackgroundWorker();
-		public bool isExit = false;
 		public Progress(MainWindow f1)
 		{
 			InitializeComponent();
@@ -36,13 +38,24 @@ namespace FEA
 			_bg.WorkerSupportsCancellation = true;
 			_bg.WorkerReportsProgress = true;
 		}
-		
+		#endregion
 		void _bg_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
 			progrCalculation.Value = (int)(progrCalculation.Maximum * e.ProgressPercentage/100);
-			lblTime.Content = e.UserState.ToString() + " sec";
+			int time = Convert.ToInt32(e.UserState);
+			if (time > 60)
+			{
+				time = (int)(Convert.ToDouble(time) / 60);
+				lblTime.Content = time + "min";
+			}
+			else lblTime.Content = e.UserState.ToString() + " sec";
 		}
-		
+		void res_Closed(object sender, EventArgs e)
+		{
+			isExit = true;
+			this.Close();
+		}
+
 		private void btnAbort_Click(object sender, RoutedEventArgs e)
 		{
 			if (_bg.IsBusy)
@@ -50,15 +63,6 @@ namespace FEA
 			_f1.Show();
 			this.Close();
 		}
-
-		private void Window_Closed(object sender, EventArgs e)
-		{
-			if (_bg.IsBusy)
-				_bg.CancelAsync();
-			_f1.Show();
-			this.Close();
-		}
-
 		private void btnShowRes_Click(object sender, RoutedEventArgs e)
 		{
 			Results res;
@@ -71,20 +75,21 @@ namespace FEA
 			res.Closed += new EventHandler(res_Closed);
 		}
 
-		void res_Closed(object sender, EventArgs e)
-		{
-			isExit = true;
-			this.Close();
-		}
-
 		public void SetTime(string val)
 		{
 			lblTime.Content = val;
 		}
-
+		
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			_bg.RunWorkerAsync();
+		}
+		private void Window_Closed(object sender, EventArgs e)
+		{
+			if (_bg.IsBusy)
+				_bg.CancelAsync();
+			_f1.Show();
+			this.Close();
 		}
 	}
 }
