@@ -40,6 +40,7 @@ namespace FEA
 		void _bg_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
 			progrCalculation.Value = (int)(progrCalculation.Maximum * e.ProgressPercentage/100);
+			lblTime.Content = e.UserState.ToString() + " sec";
 		}
 		
 		private void btnAbort_Click(object sender, RoutedEventArgs e)
@@ -76,9 +77,9 @@ namespace FEA
 			this.Close();
 		}
 
-		public void PrBar(int val)
+		public void SetTime(string val)
 		{
-			progrCalculation.Value = val;
+			lblTime.Content = val;
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)

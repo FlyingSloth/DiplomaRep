@@ -235,8 +235,9 @@ namespace FEA
 			for (int i = 0; i < layersN; i++)
 			{
 				double r;
-				if (double.TryParse(str[i], out r))
+				if (double.TryParse(str[i], out r) && r > 0)
 				{
+					if (i < layersN - 1 && r >= 1) return false;
 					Rad[i] = r;
 				}
 				else return false;
@@ -304,30 +305,21 @@ namespace FEA
 			string str = "";
 			if (this.isDispersion)
 			{
-				
 				disp = new WorkObject.DISP[stepWNN];
 				int coef = 0;
-				disp = obj.dispersion(FEN, stepWNN, stepWNSize, mode, Layers, ref bgw, ref coef, 1 , ref str, false);
+				disp = obj.dispersion(FEN, stepWNN, stepWNSize, mode, Layers, ref bgw, ref coef, 1, false);
 			}
 			else
 			{
 				int N = Convert.ToInt32(1.0 / stepRSize);
 				crit = new WorkObject.CRIT[2*N];
-				crit = obj.Crit(FEN, stepRSize, stepWNN, stepWNSize, mode, Layers, ref bgw, ref str, !isCritVal);
+				crit = obj.Crit(FEN, stepRSize, stepWNN, stepWNSize, mode, Layers, ref bgw, !isCritVal);
 			}
 			pr._bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
 		}
-
 		void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			//System.Windows.Forms.MessageBox.Show("Finished");
+			pr.SetTime("0 Process complete");
 		}
-		/*
-		void btnShowRes_Click(object sender, RoutedEventArgs e)
-		{
-			Results res = new Results();
-			
-		}
-		*/
     }
 }

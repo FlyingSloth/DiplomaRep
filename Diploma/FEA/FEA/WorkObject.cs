@@ -32,6 +32,9 @@ namespace FEA
 
 		#endregion
 		public DISP[] dispchar; //dispersion characteristics of waveguide
+
+		//public delegate void function(string val);
+
 		#region "Dispersion characteristics"
 		private Complex[] eigen(int fen, double kc, int mc, LAY[] L)
         {
@@ -43,6 +46,14 @@ namespace FEA
         }
 		
 		//string text = "";
+		long timeleft = 0;
+		long temptime = 0;
+
+		public string TimeLeft()
+		{
+			return timeleft.ToString();
+		}
+
         /// <summary>
         /// Dispersion characteristics
         /// </summary>
@@ -50,7 +61,7 @@ namespace FEA
         /// <param name="Nsteps">Number of steps</param>
         /// <param name="step">Step</param>
         /// <param name="R">Radius of layer</param>
-        public DISP[] dispersion(int fe, int Nsteps, double step, int mode, LAY[] L, ref System.ComponentModel.BackgroundWorker bg, ref int iniProgress, int coef, ref string timeleft, bool isChecked)
+        public DISP[] dispersion(int fe, int Nsteps, double step, int mode, LAY[] L, ref System.ComponentModel.BackgroundWorker bg, ref int iniProgress, int coef, bool isChecked)
         {
 			dispchar = new DISP[Nsteps+1];
             Complex[] E1 = new Complex[21];
@@ -65,7 +76,7 @@ namespace FEA
             for (int i1 = 1; i1 < Nsteps + 1; i1++)
             {
 				Stopwatch sw = new Stopwatch();
-				if (!isChecked)
+				if (!isChecked && i1 == 1)
 				{
 					sw.Start();
 				}
@@ -80,7 +91,6 @@ namespace FEA
                 for (int i = 0; i < 21; i++) tempbuf[i] = buf[i];
                 zeroValue.quickSort(ref tempbuf,0,20);
                 Complex minVal = tempbuf[0];
-                
 
                 for (int i3 = 0; i3 < 21; i3++)
                 {
@@ -92,13 +102,19 @@ namespace FEA
                 zeroValue = E2[minN];
 				if (sw.IsRunning)
 					sw.Stop();
-				if (isChecked)
-					timeleft = sw.Elapsed.ToString();
+				if (!isChecked && i1 == 1)
+				{
+					temptime = (int)((sw.ElapsedMilliseconds)/1000);
+					timeleft = (int)((Nsteps-1) * sw.ElapsedMilliseconds/1000);
+					if (coef != 0)  timeleft *= coef;
+				}
 				if (coef != 0)
 				{
 					progress = (int)(Convert.ToDouble(i1)/Nsteps*100)/coef+iniProgress;
-					bg.ReportProgress(progress);
+					
 				}
+				bg.ReportProgress(progress, (object)timeleft);
+				timeleft -= temptime;
             }
 			iniProgress = progress;
             return dispchar;
@@ -120,7 +136,7 @@ namespace FEA
 		/// dispersion characteristics
 		/// If isCond = false: function returns critical values: all the numbers between critical(including them)
 		/// </returns>
-		public CRIT[] Crit(int fe, double Cstep, int Nsteps, double step, int mode, LAY[] L, ref System.ComponentModel.BackgroundWorker bg, ref string timeleft, bool isCond = true)
+		public CRIT[] Crit(int fe, double Cstep, int Nsteps, double step, int mode, LAY[] L, ref System.ComponentModel.BackgroundWorker bg, bool isCond = true)
 		{
 			if (L.Length == 2)
 			{
@@ -149,7 +165,7 @@ namespace FEA
 					if (i == 0) isChecked = false;
 					else isChecked = true;
 
-					buf[i].D = dispersion(fe, Nsteps, step, mode, bufL, ref bg, ref iniProgress, coef, ref timeleft, isChecked);
+					buf[i].D = dispersion(fe, Nsteps, step, mode, bufL, ref bg, ref iniProgress, coef, isChecked);
 				}
 				#region "Filling critical values and conditions"
 				for (int i = 0; i < N; i++)
