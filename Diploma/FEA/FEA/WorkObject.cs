@@ -50,12 +50,13 @@ namespace FEA
         /// <param name="Nsteps">Number of steps</param>
         /// <param name="step">Step</param>
         /// <param name="R">Radius of layer</param>
-        public DISP[] dispersion(int fe, int Nsteps, double step, int mode, LAY[] L, ref System.ComponentModel.BackgroundWorker bg, int iniProgress, ref string timeleft, bool isChecked)
+        public DISP[] dispersion(int fe, int Nsteps, double step, int mode, LAY[] L, ref System.ComponentModel.BackgroundWorker bg, ref int iniProgress, int coef, ref string timeleft, bool isChecked)
         {
 			dispchar = new DISP[Nsteps+1];
             Complex[] E1 = new Complex[21];
             Complex zeroValue = new Complex();
             int minN = 0;
+			int progress = 0;
 
             E1 = eigen(fe, 0, mode, L);
             zeroValue = E1[mode-1];
@@ -93,9 +94,13 @@ namespace FEA
 					sw.Stop();
 				if (isChecked)
 					timeleft = sw.Elapsed.ToString();
-				bg.ReportProgress((int)(Convert.ToDouble(i1)/Nsteps*100));
-				//progress.Value = iniProgress + i1 / (Nsteps) * progress.Maximum / 100;
+				if (coef != 0)
+				{
+					progress = (int)(Convert.ToDouble(i1)/Nsteps*100)/coef+iniProgress;
+					bg.ReportProgress(progress);
+				}
             }
+			iniProgress = progress;
             return dispchar;
 		}
 		#endregion
@@ -115,7 +120,7 @@ namespace FEA
 		/// dispersion characteristics
 		/// If isCond = false: function returns critical values: all the numbers between critical(including them)
 		/// </returns>
-		public CRIT[] Crit(int fe, double Cstep, int Nsteps, double step, int mode, LAY[] L, bool isCond = true)
+		public CRIT[] Crit(int fe, double Cstep, int Nsteps, double step, int mode, LAY[] L, ref System.ComponentModel.BackgroundWorker bg, ref string timeleft, bool isCond = true)
 		{
 			if (L.Length == 2)
 			{
@@ -131,13 +136,20 @@ namespace FEA
 				}
 
 				CRIT[] critVal = new CRIT[N];
+
+				bool isChecked = false;
+				int iniProgress = 0;
+				int coef = N;
 				//all the dispersion characteristics for every radius
 				for (int i = 0; i < N; i++)
 				{
 					buf[i].R = i * Cstep;
 					bufL[0].R = i * Cstep;
 
-					//buf[i].D = dispersion(fe, Nsteps, step, mode, bufL);
+					if (i == 0) isChecked = false;
+					else isChecked = true;
+
+					buf[i].D = dispersion(fe, Nsteps, step, mode, bufL, ref bg, ref iniProgress, coef, ref timeleft, isChecked);
 				}
 				#region "Filling critical values and conditions"
 				for (int i = 0; i < N; i++)

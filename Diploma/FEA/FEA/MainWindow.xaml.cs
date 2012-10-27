@@ -276,7 +276,6 @@ namespace FEA
 		}
 		#endregion
 
-		int count = 0;
 		private void btnGo_Click(object sender, RoutedEventArgs e)
         {
             if (isValid())
@@ -286,16 +285,8 @@ namespace FEA
 				if (Layers != null)
 				{
 					pr = new Progress(this);
-					
 					pr._bg.DoWork+=new DoWorkEventHandler(bw_DoWork);
-					//bw = new System.ComponentModel.BackgroundWorker();
-					
-					//bw.DoWork += new DoWorkEventHandler(bw_DoWork);
-					//bw.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
-
-					
 					this.Hide();
-					
 					pr.Show();
 					pr.Closed += new EventHandler(pr_Closed);
 				}
@@ -306,45 +297,30 @@ namespace FEA
             }
 			
         }
-		/*
-		public void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
-		{
-			pr.progrCalculation.Value = (int)(pr.progrCalculation.Maximum*e.ProgressPercentage/100);
-		}
-		*/
 		void bw_DoWork(object sender, DoWorkEventArgs e)
 		{
 			obj = new WorkObject();
 			var bgw = sender as BackgroundWorker;
+			string str = "";
 			if (this.isDispersion)
 			{
-				string str = "";
+				
 				disp = new WorkObject.DISP[stepWNN];
-				disp = obj.dispersion(FEN, stepWNN, stepWNSize, mode, Layers, ref bgw, 0, ref str, false);
-				//for (int i = 0; i < 100; i++)
-				//{
-					//System.Threading.Thread.Sleep(100);
-					//bgw.ReportProgress(i);
-				//}
+				int coef = 0;
+				disp = obj.dispersion(FEN, stepWNN, stepWNSize, mode, Layers, ref bgw, ref coef, 1 , ref str, false);
 			}
 			else
 			{
 				int N = Convert.ToInt32(1.0 / stepRSize);
 				crit = new WorkObject.CRIT[2*N];
-				crit = obj.Crit(FEN, stepRSize, stepWNN, stepWNSize, mode, Layers, !isCritVal);
-				//for (int i = 0; i < 100; i++)
-				//{
-					//System.Threading.Thread.Sleep(100);
-					//bgw.ReportProgress(i);
-				//}
+				crit = obj.Crit(FEN, stepRSize, stepWNN, stepWNSize, mode, Layers, ref bgw, ref str, !isCritVal);
 			}
 			pr._bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
 		}
 
 		void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			//pr.btnShowRes.Click += new RoutedEventHandler(btnShowRes_Click);
-			System.Windows.Forms.MessageBox.Show("Finished");
+			//System.Windows.Forms.MessageBox.Show("Finished");
 		}
 		/*
 		void btnShowRes_Click(object sender, RoutedEventArgs e)
