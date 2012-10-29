@@ -10,7 +10,6 @@
             <RowDefinition Height="154" />
         </Grid.RowDefinitions>
         <Menu Height="21" HorizontalAlignment="Left" Name="menu1" VerticalAlignment="Top" Width="503">
-            <MenuItem Header="Load" TabIndex="-3" />
             <MenuItem Header="Info" TabIndex="-2">
                 <MenuItem Header="About program" />
                 <MenuItem Header="Usage" />
@@ -32,7 +31,7 @@
             <TextBox Height="20" Text="200" HorizontalAlignment="Left" Margin="59,11,0,0" Name="txtbFEN" VerticalAlignment="Top" Width="66" Grid.Column="2" TabIndex="2" LostFocus="txtbFEN_LostFocus" />
         </Grid>
         <StackPanel Grid.Row="3" Height="27" HorizontalAlignment="Left" Margin="1,3,0,0" Name="stackPanel1" VerticalAlignment="Top" Width="503" Orientation="Horizontal" Visibility="Visible">
-            <RadioButton Content="Dispersion characteristics" Height="17" Name="rdbtnDisp" Width="157" IsChecked="True" Visibility="Visible" />
+            <RadioButton Content="Dispersion characteristics" Height="17" Name="rdbtnDisp" Width="157" IsChecked="True" Visibility="Visible" Checked="rdbtnDisp_Checked" />
             <RadioButton Content="Critical conditions" Height="17" Name="rdbtnCrit" Width="157" Visibility="Hidden" Checked="rdbtnCrit_Checked" />
         </StackPanel>
         <Grid Grid.Row="3" Height="124" HorizontalAlignment="Left" Margin="0,30,0,0" Name="grid1" VerticalAlignment="Top" Width="504" Visibility="Visible">

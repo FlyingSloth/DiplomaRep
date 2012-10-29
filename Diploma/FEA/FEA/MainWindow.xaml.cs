@@ -53,7 +53,6 @@ namespace FEA
 		WorkObject.LAY[] Layers;
         #endregion
         #region "Entering data"
-        
         private void txtbLayersNumber_LostFocus(object sender, RoutedEventArgs e)
         {
 			this.txtbxRadius.Text = "";
@@ -78,25 +77,24 @@ namespace FEA
 						this.txtbxRadius.Text += "1";
 						this.txtbxPerm.Text += "1";
 					}
-                }
-                if (txtbLayersNumber.Text == "2")
-                {
-                    rdbtnCrit.Visibility = Visibility.Visible;
-                    label8.Visibility = Visibility.Visible;
-                    chbCritVal.Visibility = Visibility.Visible;
-                    txtRStep.Visibility = Visibility.Visible;
+					if (txtbLayersNumber.Text == "2")
+					{
+						rdbtnCrit.Visibility = Visibility.Visible;
+						label8.Visibility = Visibility.Visible;
+						chbCritVal.Visibility = Visibility.Visible;
+						txtRStep.Visibility = Visibility.Visible;
 
-                }
-                else
-                {
-                    rdbtnCrit.Visibility = Visibility.Hidden;
-                    label8.Visibility = Visibility.Hidden;
-                    chbCritVal.Visibility = Visibility.Hidden;
-                    txtRStep.Visibility = Visibility.Hidden;
+					}
+					else
+					{
+						rdbtnCrit.Visibility = Visibility.Hidden;
+						label8.Visibility = Visibility.Hidden;
+						chbCritVal.Visibility = Visibility.Hidden;
+						txtRStep.Visibility = Visibility.Hidden;
+					}
                 }
             }
         }
-
         private void txtbFEN_LostFocus(object sender, RoutedEventArgs e)
         {
             if (txtbFEN.Text.Length != 0)
@@ -109,13 +107,12 @@ namespace FEA
                     else
                     {
                         this.FEN = 200;
-                        MessageBox.Show("Number of finite elements might not be less than 200", "Error", MessageBoxButton.OK);
+                        MessageBox.Show("Number of finite elements might not be less than 200. Now it's automatically set as 200.", "Warning", MessageBoxButton.OK);
 
                     }
                 }
             }
         }
-
         private void txtModeN_LostFocus(object sender, RoutedEventArgs e)
         {
         int test;
@@ -125,7 +122,6 @@ namespace FEA
                     this.mode = test;
             }
         }
-
         private void txtWNstepN_LostFocus(object sender, RoutedEventArgs e)
         {
             int test;
@@ -135,7 +131,6 @@ namespace FEA
                         this.stepWNN = test;
                 }
         }
-
         private void txtWNsteps_LostFocus(object sender, RoutedEventArgs e)
             {
                 double test;
@@ -145,7 +140,6 @@ namespace FEA
                             this.stepWNSize = test;
                     }
             }
-
         private void txtRStep_LostFocus(object sender, RoutedEventArgs e)
         {
             double test;
@@ -155,16 +149,18 @@ namespace FEA
                         this.stepRSize = test;
                 }
         }
-
         private void chbCritVal_Checked(object sender, RoutedEventArgs e)
         {
             this.isCritVal = true;
         }
-
         private void rdbtnCrit_Checked(object sender, RoutedEventArgs e)
         {
             this.isDispersion = false;
         }
+		private void rdbtnDisp_Checked(object sender, RoutedEventArgs e)
+		{
+			this.isDispersion = true;
+		}
         #endregion
         #region "Validation"
         private bool isValid()
@@ -191,11 +187,14 @@ namespace FEA
                 msg += "Fill Size of Steps of WaveNumber";
                 allValid = false;
             }
-            if (isCritVal && stepRSize == 0)
-            {
-                msg += "Fill Size of Steps of Radius";
-                allValid = false;
-            }
+			if (!isDispersion)
+			{
+				if (isCritVal && stepRSize == 0)
+				{
+					msg += "Fill Size of Steps of Radius";
+					allValid = false;
+				}
+			}
             if (!allValid)
             {
                 MessageBox.Show(msg, "Not all data provided!", MessageBoxButton.OK);
@@ -304,19 +303,24 @@ namespace FEA
 			{
 				disp = new WorkObject.DISP[stepWNN];
 				int coef = 0;
+				pr.characteristics = "Dispersion LayersN " + layersN.ToString() + " Step of wavenumber " +  stepWNSize.ToString();
 				disp = obj.dispersion(FEN, stepWNN, stepWNSize, mode, Layers, ref bgw, ref coef, 1, false);
 			}
 			else
 			{
 				int N = Convert.ToInt32(1.0 / stepRSize);
 				crit = new WorkObject.CRIT[2*N];
+				if (isCritVal)
+					pr.characteristics = "Critical values. ";
+				pr.characteristics = "Critical conditions. ";
+				pr.characteristics += "LayersN " + layersN.ToString() + " Step of wavenumber " + stepWNSize.ToString();
 				crit = obj.Crit(FEN, stepRSize, stepWNN, stepWNSize, mode, Layers, ref bgw, !isCritVal);
 			}
 			pr._bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
 		}
 		void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			pr.SetTime("0 Process completed");
+			pr.SetTime("Process completed");
 		}
 		#endregion
 	}

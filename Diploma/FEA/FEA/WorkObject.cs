@@ -100,7 +100,7 @@ namespace FEA
 				if (!isChecked && i1 == 1)
 				{
 					firsttime = (int)((sw.ElapsedMilliseconds)/1000);
-					timeleft = (int)((Nsteps-1) * firsttime);
+					timeleft = (int)((Nsteps) * firsttime);
 					if (coef != 0)  timeleft *= coef;
 				}
 				temptime = (int)((sw.ElapsedMilliseconds) / 1000);

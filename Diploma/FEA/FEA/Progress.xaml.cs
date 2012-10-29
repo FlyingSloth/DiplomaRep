@@ -24,6 +24,8 @@ namespace FEA
 		private MainWindow _f1;
 		public BackgroundWorker _bg = new BackgroundWorker();
 		public bool isExit = false;
+		//public bool isPaused = false;
+		public string characteristics = "";
 		#endregion
 		#region "Constructors"
 		public Progress()
@@ -43,19 +45,19 @@ namespace FEA
 		{
 			progrCalculation.Value = (int)(progrCalculation.Maximum * e.ProgressPercentage/100);
 			int time = Convert.ToInt32(e.UserState);
+			if (time <= 0) lblTime.Content = "Process is finilazing";
+			if (time < 60 && time > 0) lblTime.Content = time + " sec";
 			if (time > 60)
 			{
-				time = (int)(Convert.ToDouble(time) / 60);
-				lblTime.Content = time + "min";
+				time = (int)(Convert.ToDouble(time) / 60 + 1.0/3);
+				lblTime.Content = "Over " +  time + " min";
 			}
-			else lblTime.Content = e.UserState.ToString() + " sec";
 		}
 		void res_Closed(object sender, EventArgs e)
 		{
 			isExit = true;
 			this.Close();
 		}
-
 		private void btnAbort_Click(object sender, RoutedEventArgs e)
 		{
 			if (_bg.IsBusy)
@@ -74,12 +76,10 @@ namespace FEA
 			res.Show();
 			res.Closed += new EventHandler(res_Closed);
 		}
-
 		public void SetTime(string val)
 		{
 			lblTime.Content = val;
 		}
-		
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			_bg.RunWorkerAsync();
@@ -91,5 +91,20 @@ namespace FEA
 			_f1.Show();
 			this.Close();
 		}
+		/*
+		private void btnPause_Click(object sender, RoutedEventArgs e)
+		{
+			if (!isPaused)
+			{
+				isPaused = true;
+				btnPause.Content = "Resume";
+			}
+			else
+			{
+				isPaused = false;
+				btnPause.Content = "Pause";
+			}
+		}
+		 */
 	}
 }

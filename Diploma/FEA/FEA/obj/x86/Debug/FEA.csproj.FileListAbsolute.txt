@@ -38,3 +38,9 @@ C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA_Mar
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.g.resources
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.Properties.Resources.resources
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.csproj.GenerateResource.Cache
+C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\About.baml
+C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Authors.baml
+C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Usage.baml
+C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\About.g.cs
+C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Authors.g.cs
+C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Usage.g.cs
