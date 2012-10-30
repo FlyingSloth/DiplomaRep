@@ -323,5 +323,23 @@ namespace FEA
 			pr.SetTime("Process completed");
 		}
 		#endregion
+
+		private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+		{
+			About ab = new About();
+			ab.Show();
+		}
+
+		private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+		{
+			Usage us = new Usage();
+			us.Show();
+		}
+
+		private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+		{
+			Authors au = new Authors();
+			au.Show();
+		}
 	}
 }

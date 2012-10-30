@@ -48,15 +48,10 @@ namespace FEA
 
 			if (isCond)
 			{
-				chartRe.ChartAreas.Add(new ChartArea("Re"));
 				chartIm.ChartAreas.Add(new ChartArea("Im"));
 
 				chartIm.ChartAreas["Im"].AxisY.IsReversed = true;
 				chartIm.ChartAreas["Im"].AxisX.IsReversed = true;
-
-				chartRe.Series.Add(new Series("ser1"));
-				chartRe.Series["ser1"].ChartArea = "Re";
-				chartRe.Series["ser1"].ChartType = SeriesChartType.Line;
 
 				chartIm.Series.Add(new Series("ser1"));
 				chartIm.Series["ser1"].ChartArea = "Im";
@@ -104,8 +99,8 @@ namespace FEA
 					chartRe.Series[i].ChartArea = i.ToString();
 					chartRe.Series[i].ChartType = SeriesChartType.Line;
 
-					chartIm.Series[i].Label = crit[i].R.ToString();
-					chartRe.Series[i].Label = crit[i].R.ToString();
+					chartIm.Series[i].AxisLabel = crit[i].R.ToString();
+					chartRe.Series[i].AxisLabel = crit[i].R.ToString();
 					
 					for (int j = 0; j < crit[i].D.Length; j++)
 					{
