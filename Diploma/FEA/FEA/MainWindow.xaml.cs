@@ -177,19 +177,41 @@ namespace FEA
                 msg += "Fill Mode Number\n";
                 allValid = false;
             }
+			if (FEN == 0)
+			{
+				if (txtbFEN.Text.Length != 0)
+				{
+					int test;
+					if (int.TryParse(txtbFEN.Text, out test))
+					{
+						if (test >= 200)
+							this.FEN = test;
+						else
+						{
+							this.FEN = 200;
+							MessageBox.Show("Number of finite elements might not be less than 200. Now it's automatically set as 200.", "Warning", MessageBoxButton.OK);
+						}
+					}
+				}
+				else
+				{
+					msg += "Fill number of finite elements";
+					allValid = false;
+				}
+			}
             if (stepWNN == 0)
             {
                 msg += "Fill Number of Steps of WaveNumber";
                 allValid = false;
             }
-            if (stepWNSize == 0)
+			if (stepWNSize == 0.0)
             {
                 msg += "Fill Size of Steps of WaveNumber";
                 allValid = false;
             }
 			if (!isDispersion)
 			{
-				if (isCritVal && stepRSize == 0)
+				if (stepRSize == 0)
 				{
 					msg += "Fill Size of Steps of Radius";
 					allValid = false;
@@ -202,13 +224,11 @@ namespace FEA
             }
             return true;
         }
-
         private bool Posit(int i)
         {
             if (i > 0) return true;
             return false;
         }
-
         private bool Posit(double i)
         {
             if (i > 0) return true;
@@ -228,12 +248,15 @@ namespace FEA
 				{
 					if (i < layersN - 1 && r >= 1) return false;
 					Rad[i] = r;
+					if (i > 0)
+					{
+						if (Rad[i] <= Rad[i - 1]) return false;
+					}
 				}
 				else return false;
 			}
 			return true;
 		}
-
 		private bool isE(string E)
 		{
 			string[] str = new string[layersN];
@@ -250,7 +273,6 @@ namespace FEA
 			}
 			return true;
 		}
-
 		private WorkObject.LAY[] layers(bool isR, bool isE)
 		{
 			if (isR && isE)
@@ -323,19 +345,16 @@ namespace FEA
 			pr.SetTime("Process completed");
 		}
 		#endregion
-
 		private void MenuItem_Click_1(object sender, RoutedEventArgs e)
 		{
 			About ab = new About();
 			ab.Show();
 		}
-
 		private void MenuItem_Click_2(object sender, RoutedEventArgs e)
 		{
 			Usage us = new Usage();
 			us.Show();
 		}
-
 		private void MenuItem_Click_3(object sender, RoutedEventArgs e)
 		{
 			Authors au = new Authors();

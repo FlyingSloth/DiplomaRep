@@ -52,10 +52,10 @@ namespace FEA
 				time = (int)(Convert.ToDouble(time) / 60 + 1.0/3);
 				lblTime.Content = "Over " +  time + " min";
 			}
+			if (time > 9000*60) lblTime.Content = "OVER9000. All your waveguides are belong to us.";
 		}
 		void res_Closed(object sender, EventArgs e)
 		{
-			isExit = true;
 			this.Close();
 		}
 		private void btnAbort_Click(object sender, RoutedEventArgs e)

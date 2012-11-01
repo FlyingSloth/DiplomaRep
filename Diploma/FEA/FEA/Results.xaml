@@ -21,7 +21,18 @@
         <WindowsFormsHost Height="Auto" Grid.Row="1" Margin="0,1,0,0" Grid.RowSpan="2">
             <dvc:Chart x:Name="chartIm" MouseMove="chartIm_MouseMove" MouseClick="chartIm_MouseClick"></dvc:Chart>
         </WindowsFormsHost>
-        <Button Content="Exit" Grid.Column="1" Height="23" HorizontalAlignment="Left" Name="btnExit" VerticalAlignment="Top" Width="66" Click="btnExit_Click" Grid.Row="2" Margin="0,10,0,0" />
-        <Button Content="Save" Height="23" HorizontalAlignment="Left" Margin="0,104,0,0" Name="btnSaveRes" VerticalAlignment="Top" Width="66" Grid.Column="1" Click="btnSaveRes_Click" />
+        
+        <Grid Grid.Column="1" Height="188" HorizontalAlignment="Left" Name="grid1" VerticalAlignment="Top" Width="66">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="24*" />
+                <RowDefinition Height="27" />
+                <RowDefinition Height="27" />
+                <RowDefinition Height="27" />
+                <RowDefinition Height="83*" />
+            </Grid.RowDefinitions>
+            <Button Content="Exit" Height="23" HorizontalAlignment="Left" Name="btnExit" VerticalAlignment="Top" Width="66" Click="btnExit_Click" Grid.Row="3" Margin="0,1,0,0" />
+            <Button Content="Save" Height="23" HorizontalAlignment="Left" Name="btnSaveRes" VerticalAlignment="Top" Width="66" Click="btnSaveRes_Click" Grid.Row="1" Margin="0,1,0,0" />
+            <Button Content="Back" HorizontalAlignment="Left" Name="btnBack" Width="66" Grid.Row="2" Click="btnBack_Click" Margin="0,1,0,3" />
+        </Grid>
     </Grid>
 </Window>

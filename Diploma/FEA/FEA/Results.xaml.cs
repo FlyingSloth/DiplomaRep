@@ -21,12 +21,6 @@ namespace FEA
 	public partial class Results : Window
 	{
 		Progress _pr;
-
-		struct DS
-		{
-			string[] x;
-			double[] y;
-		}
 		WorkObject.CRIT[] _crit;
 		WorkObject.DISP[] _disp;
 		bool _isCond = false;
@@ -149,6 +143,7 @@ namespace FEA
 		#endregion
 		private void btnExit_Click(object sender, RoutedEventArgs e)
 		{
+			_pr.isExit = true;
 			this.Close();
 		}
 		#region "Coordinates Hint"
@@ -249,6 +244,11 @@ namespace FEA
 				}
 			}
 			strwr.Close();
+		}
+		private void btnBack_Click(object sender, RoutedEventArgs e)
+		{
+			_pr.isExit = false;
+			this.Close();
 		}
 	}
 }
