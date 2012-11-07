@@ -211,7 +211,7 @@ namespace FEA
 			string newPathGraphIm = "";
 
 			System.IO.Directory.CreateDirectory(newPath);
-			string fileName = "characteristics.txt";
+			string fileName = "characteristics.csv";
 
 			newPathData = System.IO.Path.Combine(newPath, fileName);
 			newPathGraphIm = System.IO.Path.Combine(newPath, "Im.png");
@@ -224,22 +224,22 @@ namespace FEA
 
 			if (_crit != null)
 			{
-				strwr.WriteLine("  R      k      y  ");
+				strwr.WriteLine("R,k,y");
 				for (int i = 0; i < _crit.Length; i++)
 				{
 					for (int j = 0; j < _crit[i].D.Length; j++)
 					{
-						string str = _crit[i].R.ToString() + "     " + _crit[i].D[j].k + "     " + _crit[i].D[j].y;
+						string str = _crit[i].R.ToString() + "," + _crit[i].D[j].k + "," + _crit[i].D[j].y;
 						strwr.WriteLine(str);
 					}
 				}
 			}
 			if (_disp != null)
 			{
-				strwr.WriteLine("  k      y  ");
+				strwr.WriteLine("k,y");
 				for (int i = 0; i < _disp.Length; i++)
 				{
-					string str = _disp[i].k.ToString() + "     " + _disp[i].y.ToString();
+					string str = _disp[i].k.ToString() + "," + _disp[i].y.ToString();
 					strwr.WriteLine(str);
 				}
 			}
