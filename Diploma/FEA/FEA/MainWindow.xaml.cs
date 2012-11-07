@@ -115,39 +115,19 @@ namespace FEA
         }
         private void txtModeN_LostFocus(object sender, RoutedEventArgs e)
         {
-        int test;
-        if (int.TryParse(txtModeN.Text, out test))
-            {
-                if (Posit(test))
-                    this.mode = test;
-            }
+			ParseInt(txtModeN.Text, out mode);
         }
         private void txtWNstepN_LostFocus(object sender, RoutedEventArgs e)
         {
-            int test;
-            if (int.TryParse(txtWNstepN.Text, out test))
-                {
-                    if (Posit(test))    
-                        this.stepWNN = test;
-                }
+			ParseInt(txtWNstepN.Text, out this.stepWNN);
         }
         private void txtWNsteps_LostFocus(object sender, RoutedEventArgs e)
-            {
-                double test;
-                if (double.TryParse(txtWNsteps.Text, out test))
-                    {
-                        if (Posit(test))
-                            this.stepWNSize = test;
-                    }
-            }
+        {
+			ParseDouble(txtWNsteps.Text, out this.stepWNSize);
+        }
         private void txtRStep_LostFocus(object sender, RoutedEventArgs e)
         {
-            double test;
-            if (double.TryParse(txtRStep.Text, out test))
-                {
-                    if (Posit(test))    
-                        this.stepRSize = test;
-                }
+			ParseDouble(txtRStep.Text, out this.stepRSize);
         }
         private void chbCritVal_Checked(object sender, RoutedEventArgs e)
         {
@@ -174,8 +154,17 @@ namespace FEA
             }
             if(mode == 0)
             {
-                msg += "Fill Mode Number\n";
-                allValid = false;
+				if (txtModeN.Text.Length != 0)
+				{
+					ParseInt(txtModeN.Text, out this.mode);
+					if (Posit(mode))
+						allValid = true;
+				}
+				else
+				{
+					msg += "Fill Mode Number\n";
+					allValid = false;
+				}
             }
 			if (FEN == 0)
 			{
@@ -201,20 +190,47 @@ namespace FEA
 			}
             if (stepWNN == 0)
             {
-                msg += "Fill Number of Steps of WaveNumber";
-                allValid = false;
+				if (txtWNstepN.Text.Length != 0)
+				{
+					ParseInt(txtWNstepN.Text, out stepWNN);
+					if (Posit(stepWNN))
+						allValid = true;
+				}
+				else
+				{
+					msg += "Fill Number of Steps of WaveNumber";
+					allValid = false;
+				}
             }
 			if (stepWNSize == 0.0)
             {
-                msg += "Fill Size of Steps of WaveNumber";
-                allValid = false;
+				if (txtWNstepN.Text.Length != 0)
+				{
+					ParseDouble(txtWNstepN.Text, out stepWNSize);
+					if (Posit(stepWNSize))
+						allValid = true;
+				}
+				else
+				{
+					msg += "Fill Size of Steps of WaveNumber";
+					allValid = false;
+				}
             }
 			if (!isDispersion)
 			{
 				if (stepRSize == 0)
 				{
-					msg += "Fill Size of Steps of Radius";
-					allValid = false;
+					if (txtRStep.Text.Length != 0)
+					{
+						ParseDouble(txtRStep.Text, out stepRSize);
+						if (Posit(stepRSize))
+							allValid = true;
+					}
+					else
+					{
+						msg += "Fill Size of Steps of Radius";
+						allValid = false;
+					}
 				}
 			}
             if (!allValid)
@@ -235,7 +251,7 @@ namespace FEA
             return false;
         }
         #endregion
-		#region "ParseLayers"
+		#region "Parse"
 		private bool isR(string R)
 		{
 			string[] str = new string[layersN];
@@ -285,6 +301,27 @@ namespace FEA
 				return Layers;
 			}
 			return null;
+		}
+
+		private void ParseInt(string str, out int output)
+		{
+			output = 0;
+			int test;
+			if (int.TryParse(str, out test))
+			{
+				if (Posit(test))
+					output = test;
+			}
+		}
+		private void ParseDouble(string str, out double output)
+		{
+			output = 0.0;
+			double test;
+			if (double.TryParse(str, out test))
+			{
+				if (Posit(test))
+					output = test;
+			}
 		}
 		#endregion
 		private void btnGo_Click(object sender, RoutedEventArgs e)
