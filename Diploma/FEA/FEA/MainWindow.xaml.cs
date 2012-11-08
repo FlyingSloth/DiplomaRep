@@ -35,6 +35,10 @@ namespace FEA
 		//layers
 		double[] Rad;
 		double[] Perm;
+
+		//TODO: задать региональные настройки
+		IFormatProvider prov;
+
 		#endregion
 		#region "Initial data"
 		int layersN = 0;
@@ -252,6 +256,8 @@ namespace FEA
         }
         #endregion
 		#region "Parse"
+
+		//TODO: изменить систему чтения радиусов на абсолютную с пересчётом в процентную
 		private bool isR(string R)
 		{
 			string[] str = new string[layersN];
@@ -260,7 +266,8 @@ namespace FEA
 			for (int i = 0; i < layersN; i++)
 			{
 				double r;
-				if (double.TryParse(str[i], out r) && r > 0)
+				ParseDouble(str[i], out r);
+				if ( r != null  && r > 0)
 				{
 					if (i < layersN - 1 && r >= 1) return false;
 					Rad[i] = r;
@@ -281,7 +288,8 @@ namespace FEA
 			for (int i = 0; i < layersN; i++)
 			{
 				double e;
-				if (double.TryParse(str[i], out e))
+				ParseDouble(str[i], out e);
+				if (e != null)
 				{
 					Perm[i] = e;
 				}
@@ -307,21 +315,44 @@ namespace FEA
 		{
 			output = 0;
 			int test;
+			if (System.Globalization.CultureInfo.CurrentUICulture.Name == "ru-RU")
+			{
+				prov = new System.Globalization.CultureInfo("ru-RU");
+			}
+			else
+				prov = new System.Globalization.CultureInfo("en-US");
+			/*
 			if (int.TryParse(str, out test))
 			{
 				if (Posit(test))
 					output = test;
 			}
+
+			*/
+			test = int.Parse(str, prov);
+			if (Posit(test))
+				output = test;
 		}
 		private void ParseDouble(string str, out double output)
 		{
 			output = 0.0;
 			double test;
+			if (System.Globalization.CultureInfo.CurrentUICulture.Name == "ru-RU")
+			{
+				prov = new System.Globalization.CultureInfo("ru-RU");
+			}
+			else
+				prov = new System.Globalization.CultureInfo("en-US");
+			/*
 			if (double.TryParse(str, out test))
 			{
 				if (Posit(test))
 					output = test;
 			}
+			*/
+			test = double.Parse(str, prov);
+			if (Posit(test))
+				output = test;
 		}
 		#endregion
 		private void btnGo_Click(object sender, RoutedEventArgs e)
