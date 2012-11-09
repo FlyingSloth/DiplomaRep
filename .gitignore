@@ -24,3 +24,5 @@
 *.vspscc
 .builds
 *.dotCover
+[0-9]Dispersion[*]/
+[0-9]Crit[*]/

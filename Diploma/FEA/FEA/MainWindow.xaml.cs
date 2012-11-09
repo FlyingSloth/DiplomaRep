@@ -35,10 +35,6 @@ namespace FEA
 		//layers
 		double[] Rad;
 		double[] Perm;
-
-		//TODO: задать региональные настройки
-		IFormatProvider prov;
-
 		#endregion
 		#region "Initial data"
 		int layersN = 0;
@@ -64,7 +60,8 @@ namespace FEA
 			if (txtbFEN.Text.Length != 0)
             {
 				int test;
-                if (int.TryParse(txtbLayersNumber.Text, out test))
+				ParseInt(txtbLayersNumber.Text, out test);
+                if ( test != null)
                 {
 					if (Posit(test))
 					{
@@ -78,10 +75,8 @@ namespace FEA
 							this.txtbxRadius.Text += ";";
 							this.txtbxPerm.Text += ";";
 						}
-						this.txtbxRadius.Text += "1";
-						this.txtbxPerm.Text += "1";
 					}
-					if (txtbLayersNumber.Text == "2")
+					if (test == 2)
 					{
 						rdbtnCrit.Visibility = Visibility.Visible;
 						label8.Visibility = Visibility.Visible;
@@ -104,7 +99,8 @@ namespace FEA
             if (txtbFEN.Text.Length != 0)
             {
                 int test;
-                if (int.TryParse(txtbFEN.Text, out test))
+				ParseInt(txtbFEN.Text, out test);
+                if (test != null)
                 {
                     if (test >= 200)
                         this.FEN = test;
@@ -263,9 +259,14 @@ namespace FEA
 			string[] str = new string[layersN];
 			char[] sep = {';'};
 			str = R.Split(sep);
+			double[] pRad = new double[layersN];
+			double sumR = 0.0;
+			double prevr = 0.0;
 			for (int i = 0; i < layersN; i++)
 			{
-				double r;
+				double r = 0.0;
+				/*
+				 double r;
 				ParseDouble(str[i], out r);
 				if ( r != null  && r > 0)
 				{
@@ -277,6 +278,23 @@ namespace FEA
 					}
 				}
 				else return false;
+				 */
+
+				ParseDouble(str[i], out r);
+				if (r > 0)
+				{
+					pRad[i] = r;
+					sumR += r;
+				}
+				else return false;
+			}
+			for (int i = 0; i < layersN; i++)
+			{
+				Rad[0] = pRad[0] / sumR;
+				if (i > 0)
+				{
+					Rad[i] = pRad[i] / sumR + Rad[i - 1];
+				}
 			}
 			return true;
 		}
@@ -287,9 +305,9 @@ namespace FEA
 			str = E.Split(sep);
 			for (int i = 0; i < layersN; i++)
 			{
-				double e;
+				double e = 0.0;
 				ParseDouble(str[i], out e);
-				if (e != null)
+				if (e != 0.0)
 				{
 					Perm[i] = e;
 				}
@@ -315,44 +333,31 @@ namespace FEA
 		{
 			output = 0;
 			int test;
-			if (System.Globalization.CultureInfo.CurrentUICulture.Name == "ru-RU")
+			try
 			{
-				prov = new System.Globalization.CultureInfo("ru-RU");
-			}
-			else
-				prov = new System.Globalization.CultureInfo("en-US");
-			/*
-			if (int.TryParse(str, out test))
-			{
+				test = int.Parse(str, new System.Globalization.CultureInfo(System.Globalization.CultureInfo.InstalledUICulture.Name));
 				if (Posit(test))
 					output = test;
 			}
-
-			*/
-			test = int.Parse(str, prov);
-			if (Posit(test))
-				output = test;
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
 		}
 		private void ParseDouble(string str, out double output)
 		{
 			output = 0.0;
 			double test;
-			if (System.Globalization.CultureInfo.CurrentUICulture.Name == "ru-RU")
+			try
 			{
-				prov = new System.Globalization.CultureInfo("ru-RU");
-			}
-			else
-				prov = new System.Globalization.CultureInfo("en-US");
-			/*
-			if (double.TryParse(str, out test))
-			{
+				test = double.Parse(str, new System.Globalization.CultureInfo(System.Globalization.CultureInfo.InstalledUICulture.Name));
 				if (Posit(test))
 					output = test;
 			}
-			*/
-			test = double.Parse(str, prov);
-			if (Posit(test))
-				output = test;
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
 		}
 		#endregion
 		private void btnGo_Click(object sender, RoutedEventArgs e)
