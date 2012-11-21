@@ -37,6 +37,7 @@ namespace FEA
 		{
 			InitializeComponent();
 			_pr = pr;
+			_pr._f1.Show();
 			_crit = crit;
 			_isCond = isCond;
 
@@ -112,6 +113,7 @@ namespace FEA
 		{
 			InitializeComponent();
 			_pr = pr;
+			_pr._f1.Show();
 			_disp = disp;
 
 			chartRe.ChartAreas.Add(new ChartArea("Re"));

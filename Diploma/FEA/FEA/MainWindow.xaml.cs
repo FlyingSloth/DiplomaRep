@@ -34,6 +34,7 @@ namespace FEA
 
 		//layers
 		double[] Rad;
+		double[] pRad;
 		double[] Perm;
 		#endregion
 		#region "Initial data"
@@ -60,10 +61,10 @@ namespace FEA
 			if (txtbFEN.Text.Length != 0)
             {
 				int test;
-				ParseInt(txtbLayersNumber.Text, out test);
+				ParseInt(txtbLayersNumber.Text, label1.Content.ToString(), out test);
                 if ( test != null)
                 {
-					if (Posit(test))
+					if (Posit(test) && test <= 20)
 					{
 						this.layersN = test;
 
@@ -72,24 +73,24 @@ namespace FEA
 
 						for (int i = 0; i < test - 1; i++)
 						{
-							this.txtbxRadius.Text += ";";
-							this.txtbxPerm.Text += ";";
+							this.txtbxRadius.Text += "|";
+							this.txtbxPerm.Text += "|";
 						}
 					}
 					if (test == 2)
 					{
-						rdbtnCrit.Visibility = Visibility.Visible;
-						label8.Visibility = Visibility.Visible;
-						chbCritVal.Visibility = Visibility.Visible;
-						txtRStep.Visibility = Visibility.Visible;
+						rdbtnCrit.IsEnabled = true;
+						label8.IsEnabled = true;
+						chbCritVal.IsEnabled = true;
+						txtRStep.IsEnabled = true;
 
 					}
 					else
 					{
-						rdbtnCrit.Visibility = Visibility.Hidden;
-						label8.Visibility = Visibility.Hidden;
-						chbCritVal.Visibility = Visibility.Hidden;
-						txtRStep.Visibility = Visibility.Hidden;
+						rdbtnCrit.IsEnabled = false;
+						label8.IsEnabled = false;
+						chbCritVal.IsEnabled = false;
+						txtRStep.IsEnabled = false;
 					}
                 }
             }
@@ -99,10 +100,10 @@ namespace FEA
             if (txtbFEN.Text.Length != 0)
             {
                 int test;
-				ParseInt(txtbFEN.Text, out test);
+				ParseInt(txtbFEN.Text, label3.Content.ToString(), out test);
                 if (test != null)
                 {
-                    if (test >= 200)
+                    if (test >= 200 && test <= 1100)
                         this.FEN = test;
                     else
                     {
@@ -115,19 +116,21 @@ namespace FEA
         }
         private void txtModeN_LostFocus(object sender, RoutedEventArgs e)
         {
-			ParseInt(txtModeN.Text, out mode);
+			ParseInt(txtModeN.Text, label2.Content.ToString(), out mode);
+			if (!Posit(mode) || mode > 25)
+				MessageBox.Show("Mode number is invalid");
         }
         private void txtWNstepN_LostFocus(object sender, RoutedEventArgs e)
         {
-			ParseInt(txtWNstepN.Text, out this.stepWNN);
+			ParseInt(txtWNstepN.Text, label6.Content.ToString(), out this.stepWNN);
         }
         private void txtWNsteps_LostFocus(object sender, RoutedEventArgs e)
         {
-			ParseDouble(txtWNsteps.Text, out this.stepWNSize);
+			ParseDouble(txtWNsteps.Text, label7.Content.ToString(), out this.stepWNSize);
         }
         private void txtRStep_LostFocus(object sender, RoutedEventArgs e)
         {
-			ParseDouble(txtRStep.Text, out this.stepRSize);
+			ParseDouble(txtRStep.Text, label8.Content.ToString(), out this.stepRSize);
         }
         private void chbCritVal_Checked(object sender, RoutedEventArgs e)
         {
@@ -147,22 +150,31 @@ namespace FEA
         {
             string msg = "";
             bool allValid = true;
-            if (layersN == 0)
-            {
-                msg += "Fill Number of Layers\n";
-                allValid = false;
-            }
-            if(mode == 0)
-            {
-				if (txtModeN.Text.Length != 0)
+			if (this.layersN == 0)
+			{
+				if (txtbLayersNumber.Text.Length != 0)
 				{
-					ParseInt(txtModeN.Text, out this.mode);
-					if (Posit(mode))
+					ParseInt(txtbLayersNumber.Text, label1.Content.ToString(), out this.layersN);
+					if (Posit(this.layersN) && this.layersN <= 20)
 						allValid = true;
 				}
 				else
 				{
-					msg += "Fill Mode Number\n";
+					msg += "Number of Layers is invalid\n";
+					allValid = false;
+				}
+			}
+			if (this.mode == 0)
+            {
+				if (txtModeN.Text.Length != 0)
+				{
+					ParseInt(txtModeN.Text, label2.Content.ToString(), out this.mode);
+					if (Posit(this.mode) && this.mode <= 25)
+						allValid = true;
+				}
+				else
+				{
+					msg += "Mode Number is invalid\n";
 					allValid = false;
 				}
             }
@@ -173,7 +185,7 @@ namespace FEA
 					int test;
 					if (int.TryParse(txtbFEN.Text, out test))
 					{
-						if (test >= 200)
+						if (test >= 200 && test <= 1100)
 							this.FEN = test;
 						else
 						{
@@ -184,51 +196,51 @@ namespace FEA
 				}
 				else
 				{
-					msg += "Fill number of finite elements";
+					msg += "Number of finite elements is invalid";
 					allValid = false;
 				}
 			}
-            if (stepWNN == 0)
+			if (this.stepWNN == 0)
             {
 				if (txtWNstepN.Text.Length != 0)
 				{
-					ParseInt(txtWNstepN.Text, out stepWNN);
-					if (Posit(stepWNN))
+					ParseInt(txtWNstepN.Text, label6.Content.ToString(), out this.stepWNN);
+					if (Posit(this.stepWNN))
 						allValid = true;
 				}
 				else
 				{
-					msg += "Fill Number of Steps of WaveNumber";
+					msg += "Number of Steps of WaveNumber is invalid";
 					allValid = false;
 				}
             }
-			if (stepWNSize == 0.0)
+			if (this.stepWNSize == 0.0)
             {
 				if (txtWNstepN.Text.Length != 0)
 				{
-					ParseDouble(txtWNstepN.Text, out stepWNSize);
-					if (Posit(stepWNSize))
+					ParseDouble(txtWNstepN.Text, label7.Content.ToString(), out this.stepWNSize);
+					if (Posit(this.stepWNSize) && this.stepWNSize >= 0.000001)
 						allValid = true;
 				}
 				else
 				{
-					msg += "Fill Size of Steps of WaveNumber";
+					msg += "Size of Steps of WaveNumber is invalid";
 					allValid = false;
 				}
             }
 			if (!isDispersion)
 			{
-				if (stepRSize == 0)
+				if (this.stepRSize == 0)
 				{
 					if (txtRStep.Text.Length != 0)
 					{
-						ParseDouble(txtRStep.Text, out stepRSize);
-						if (Posit(stepRSize))
+						ParseDouble(txtRStep.Text, label8.Content.ToString(), out this.stepRSize);
+						if (Posit(this.stepRSize) && this.stepRSize >= 0.000001)
 							allValid = true;
 					}
 					else
 					{
-						msg += "Fill Size of Steps of Radius";
+						msg += "Size of Steps of Radius is invalid";
 						allValid = false;
 					}
 				}
@@ -257,56 +269,36 @@ namespace FEA
 		private bool isR(string R)
 		{
 			string[] str = new string[layersN];
-			char[] sep = {';'};
+			char[] sep = {'|'};
 			str = R.Split(sep);
-			double[] pRad = new double[layersN];
+			pRad = new double[layersN];
 			double sumR = 0.0;
-			double prevr = 0.0;
 			for (int i = 0; i < layersN; i++)
 			{
 				double r = 0.0;
-				/*
-				 double r;
-				ParseDouble(str[i], out r);
-				if ( r != null  && r > 0)
-				{
-					if (i < layersN - 1 && r >= 1) return false;
-					Rad[i] = r;
-					if (i > 0)
-					{
-						if (Rad[i] <= Rad[i - 1]) return false;
-					}
-				}
-				else return false;
-				 */
-
-				ParseDouble(str[i], out r);
+				ParseDouble(str[i], "Layer's radius #" + Convert.ToString(i+1), out r);
 				if (r > 0)
 				{
 					pRad[i] = r;
-					sumR += r;
 				}
 				else return false;
 			}
 			for (int i = 0; i < layersN; i++)
 			{
-				Rad[0] = pRad[0] / sumR;
-				if (i > 0)
-				{
-					Rad[i] = pRad[i] / sumR + Rad[i - 1];
-				}
+				sumR = pRad[layersN-1];
+				Rad[i] = pRad[i] / sumR;
 			}
 			return true;
 		}
 		private bool isE(string E)
 		{
 			string[] str = new string[layersN];
-			char[] sep = { ';' };
+			char[] sep = { '|' };
 			str = E.Split(sep);
 			for (int i = 0; i < layersN; i++)
 			{
 				double e = 0.0;
-				ParseDouble(str[i], out e);
+				ParseDouble(str[i], "Permettivity #" + Convert.ToString(i+1), out e);
 				if (e != 0.0)
 				{
 					Perm[i] = e;
@@ -329,7 +321,7 @@ namespace FEA
 			return null;
 		}
 
-		private void ParseInt(string str, out int output)
+		private void ParseInt(string str, string objectName, out int output)
 		{
 			output = 0;
 			int test;
@@ -341,10 +333,10 @@ namespace FEA
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);
+				MessageBox.Show("Cannot parse field " + "\"" + objectName + "\". Check if value is valid.");
 			}
 		}
-		private void ParseDouble(string str, out double output)
+		private void ParseDouble(string str, string objectName, out double output)
 		{
 			output = 0.0;
 			double test;
@@ -356,7 +348,7 @@ namespace FEA
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);
+				MessageBox.Show("Cannot parse field " + "\"" + objectName + "\". Check if value is valid.");
 			}
 		}
 		#endregion
@@ -368,11 +360,15 @@ namespace FEA
 				Layers = layers(isR(this.txtbxRadius.Text), isE(this.txtbxPerm.Text));
 				if (Layers != null)
 				{
-					pr = new Progress(this);
-					pr._bg.DoWork+=new DoWorkEventHandler(bw_DoWork);
-					this.Hide();
-					pr.Show();
-					pr.Closed += new EventHandler(pr_Closed);
+					if (stepRSize < pRad[layersN - 1])
+					{
+						pr = new Progress(this);
+						pr._bg.DoWork += new DoWorkEventHandler(bw_DoWork);
+						this.Hide();
+						pr.Show();
+						pr.Closed += new EventHandler(pr_Closed);
+					}
+					else MessageBox.Show("Cannot calculate critical values/conditions: size of radius step is larger than the biggest radius", "Logical error!");
 				}
 				else
 				{
@@ -381,10 +377,6 @@ namespace FEA
             }
 			
         }
-		private void MenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			this.Close();
-		}
 		void pr_Closed(object sender, EventArgs e)
 		{
 			if (pr.isExit) this.Close();
@@ -409,7 +401,7 @@ namespace FEA
 					pr.characteristics = "Critical values. ";
 				pr.characteristics = "Critical conditions. ";
 				pr.characteristics += "LayersN " + layersN.ToString() + " Step of wavenumber " + stepWNSize.ToString();
-				crit = obj.Crit(FEN, stepRSize, stepWNN, stepWNSize, mode, Layers, ref bgw, !isCritVal);
+				crit = obj.Crit(FEN, stepRSize / pRad[layersN - 1], stepWNN, stepWNSize, mode, Layers, ref bgw, !isCritVal);
 			}
 			pr._bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
 		}
@@ -418,6 +410,11 @@ namespace FEA
 			pr.SetTime("Process completed");
 		}
 		#endregion
+		#region "MenuItems"
+		private void MenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			this.Close();
+		}
 		private void MenuItem_Click_1(object sender, RoutedEventArgs e)
 		{
 			About ab = new About();
@@ -433,5 +430,6 @@ namespace FEA
 			Authors au = new Authors();
 			au.Show();
 		}
+		#endregion
 	}
 }

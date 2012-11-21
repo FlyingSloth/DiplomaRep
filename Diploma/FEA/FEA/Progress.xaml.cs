@@ -21,7 +21,7 @@ namespace FEA
 	public partial class Progress : Window
 	{
 		#region "Global params"
-		private MainWindow _f1;
+		public MainWindow _f1;
 		public BackgroundWorker _bg = new BackgroundWorker();
 		public bool isExit = false;
 		//public bool isPaused = false;
@@ -44,13 +44,15 @@ namespace FEA
 		void _bg_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
 			progrCalculation.Value = (int)(progrCalculation.Maximum * e.ProgressPercentage/100);
+			if (e.ProgressPercentage >= 99) lblPercent.Content = "99% completed";
+			lblPercent.Content = e.ProgressPercentage.ToString() + "% completed";
 			int time = Convert.ToInt32(e.UserState);
 			if (time <= 0) lblTime.Content = "Process is finilazing";
-			if (time < 60 && time > 0) lblTime.Content = time + " sec";
+			if (time < 60 && time > 0) lblTime.Content = time + " sec left";
 			if (time > 60)
 			{
 				time = (int)(Convert.ToDouble(time) / 60 + 1.0/3);
-				lblTime.Content = "Over " +  time + " min";
+				lblTime.Content = "About " +  time + " min left";
 			}
 			if (time > 9000*60) lblTime.Content = "OVER9000. All your waveguides are belong to us.";
 		}
@@ -79,6 +81,7 @@ namespace FEA
 		public void SetTime(string val)
 		{
 			lblTime.Content = val;
+			lblPercent.Content = "100% completed";
 		}
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
@@ -91,20 +94,5 @@ namespace FEA
 			_f1.Show();
 			this.Close();
 		}
-		/*
-		private void btnPause_Click(object sender, RoutedEventArgs e)
-		{
-			if (!isPaused)
-			{
-				isPaused = true;
-				btnPause.Content = "Resume";
-			}
-			else
-			{
-				isPaused = false;
-				btnPause.Content = "Pause";
-			}
-		}
-		 */
 	}
 }
