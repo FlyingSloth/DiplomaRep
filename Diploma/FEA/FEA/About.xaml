@@ -16,9 +16,9 @@
             <RowDefinition Height="58" />
         </Grid.RowDefinitions>
         <Label Content="System Requirements:" Name="l1" Margin="0,0,0,22" Grid.RowSpan="2"></Label>
-        <Label Content="Operation System: Windows XP/Vista/7" Name="l2" Margin="0,0,0,22" Grid.RowSpan="2" Grid.Row="1"></Label>
+        <Label Content="Operation System: Windows Vista/7" Name="l2" Margin="0,0,0,22" Grid.RowSpan="2" Grid.Row="1"></Label>
         <Label Content="RAM: 2GB" Margin="0,0,0,22" Name="label1" Grid.Row="2" Grid.RowSpan="2" />
-        <Label Content="Additional programs: Matlab 7.01+" Margin="0,0,0,16" Name="label2" Grid.Row="3" Grid.RowSpan="2" />
+        <Label Content="Additional programs: Matlab 7.1+, .Net 4.0" Margin="0,0,0,16" Name="label2" Grid.Row="3" Grid.RowSpan="2" />
         <Label Content="Brief: " Name="label3" Height="25" VerticalAlignment="Bottom" Grid.Row="5" />
         <Label Content=" Program calculates dispersion characteristics" Margin="0,0,0,16" Name="label4" Grid.Row="6" Grid.RowSpan="2" />
         <Label Content=" and critical values and conditions of cylindric" Margin="0,0,0,17" Name="label5" Grid.Row="7" Grid.RowSpan="2" />

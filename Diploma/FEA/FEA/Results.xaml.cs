@@ -44,6 +44,7 @@ namespace FEA
 
 			if (isCond)
 			{
+				this.Title = "Critical conditions";
 				chartIm.ChartAreas.Add(new ChartArea("Im"));
 
 				chartIm.ChartAreas["Im"].AxisY.IsReversed = true;
@@ -76,6 +77,7 @@ namespace FEA
 			}
 			else
 			{
+				this.Title = "Critical values";
 				string[][] axisX = new string[crit.Length][];
 				double[][] axisYIm = new double[crit.Length][];
 				double[][] axisYRe = new double[crit.Length][];
@@ -123,6 +125,7 @@ namespace FEA
 			_pr._f1.Show();
 			_disp = disp;
 
+			this.Title = "Dispersion characteristics";
 			chartRe.ChartAreas.Add(new ChartArea("Re"));
 			chartIm.ChartAreas.Add(new ChartArea("Im"));
 
