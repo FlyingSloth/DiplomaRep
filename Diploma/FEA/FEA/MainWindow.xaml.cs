@@ -390,7 +390,12 @@ namespace FEA
 			{
 				disp = new WorkObject.DISP[stepWNN];
 				int coef = 0;
-				pr.characteristics = "Dispersion LayersN " + layersN.ToString() + " Step of wavenumber " +  stepWNSize.ToString();
+				//pr.characteristics = "Dispersion LayersN " + layersN.ToString() + " Step of wavenumber " +  stepWNSize.ToString();
+				pr.dt.calculatingtype = "Dispersion";
+				pr.dt.Layers = Layers;
+				pr.dt.mode = mode;
+				pr.dt.stepWNN = stepWNN;
+				pr.dt.stepWNS = stepWNSize;
 				disp = obj.dispersion(FEN, stepWNN, stepWNSize, mode, Layers, ref bgw, ref coef, 1, false);
 			}
 			else
@@ -398,9 +403,15 @@ namespace FEA
 				int N = Convert.ToInt32(1.0 / stepRSize);
 				crit = new WorkObject.CRIT[2*N];
 				if (isCritVal)
-					pr.characteristics = "Critical values. ";
-				pr.characteristics = "Critical conditions. ";
-				pr.characteristics += "LayersN " + layersN.ToString() + " Step of wavenumber " + stepWNSize.ToString();
+					pr.dt.calculatingtype = "Critical values";
+				else
+					pr.dt.calculatingtype = "Critical conditions";
+				pr.dt.Layers = Layers;
+				pr.dt.mode = mode;
+				pr.dt.stepWNN = stepWNN;
+				pr.dt.stepWNS = stepWNSize;
+				pr.dt.stepRS = stepRSize;
+				//pr.characteristics += "LayersN " + layersN.ToString() + " Step of wavenumber " + stepWNSize.ToString();
 				crit = obj.Crit(FEN, stepRSize / pRad[layersN - 1], stepWNN, stepWNSize, mode, Layers, ref bgw, !isCritVal);
 			}
 			pr._bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);

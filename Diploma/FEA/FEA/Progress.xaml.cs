@@ -24,8 +24,17 @@ namespace FEA
 		public MainWindow _f1;
 		public BackgroundWorker _bg = new BackgroundWorker();
 		public bool isExit = false;
-		//public bool isPaused = false;
 		public string characteristics = "";
+		public struct Data
+		{
+			public string calculatingtype;
+			public int mode;
+			public int stepWNN;
+			public double stepWNS;
+			public double stepRS;
+			public WorkObject.LAY[] Layers;
+		}
+		public Data dt = new Data();
 		#endregion
 		#region "Constructors"
 		public Progress()

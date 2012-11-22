@@ -27,6 +27,7 @@ namespace FEA
 
 		System.Windows.Forms.ToolTip tooltip = new System.Windows.Forms.ToolTip();
 		System.Drawing.Point clickPosition = new System.Drawing.Point();
+		System.Windows.Forms.SaveFileDialog sfd = new System.Windows.Forms.SaveFileDialog();
 
 		#region "Constructors"
 		public Results()
@@ -70,6 +71,8 @@ namespace FEA
 					chartIm.Series["ser1"].Points[i].Label = crit[i].R.ToString();
 					chartIm.Series["ser2"].Points[i].Label = crit[i].R.ToString();
 				}
+				chartIm.ChartAreas["Im"].AxisY.Title = "Im(y) - propagation constant";
+				chartIm.ChartAreas["Im"].AxisX.Title = "k - wavenumber";
 			}
 			else
 			{
@@ -105,6 +108,10 @@ namespace FEA
 					}
 					chartIm.Series[i].Points.DataBindXY(axisX[i], axisYIm[i]);
 					chartRe.Series[i].Points.DataBindXY(axisX[i], axisYRe[i]);
+					chartIm.ChartAreas[i.ToString()].AxisY.Title = "Im(y), R = " + crit[i].R.ToString();
+					chartRe.ChartAreas[i.ToString()].AxisY.Title = "Re(y), R = " + crit[i].R.ToString();
+					chartIm.ChartAreas[i.ToString()].AxisX.Title = "k - wavenumber";
+					chartRe.ChartAreas[i.ToString()].AxisX.Title = "k - wavenumber";
 				}
 
 			}
@@ -128,6 +135,25 @@ namespace FEA
 			chartIm.Series["ser1"].ChartType = SeriesChartType.Line;
 			chartIm.ChartAreas["Im"].AxisY.IsReversed = true;
 
+
+			chartRe.Series.Add(new Series("0"));
+			chartRe.Series[0].ChartArea = "Re";
+			chartRe.Series[0].ChartType = SeriesChartType.Line;
+			chartIm.Series.Add(new Series("0"));
+			chartIm.Series[0].ChartArea = "Im";
+			chartIm.Series[0].ChartType = SeriesChartType.Line;
+
+
+			string[] axisX1 = new string[2];
+			double[] axisY1 = new double[2];
+			axisX1[0] = "-1";
+			axisX1[1] = "0";
+			axisY1[0] = 0;
+			axisY1[1] = 0;
+
+			chartIm.Series[0].Points.DataBindXY(axisX1, axisY1);
+			chartRe.Series[0].Points.DataBindXY(axisX1, axisY1);
+
 			string[] axisX = new string[disp.Length];
 			double[] axisYIm = new double[disp.Length];
 			double[] axisYRe = new double[disp.Length];
@@ -141,6 +167,10 @@ namespace FEA
 
 			chartIm.Series["ser1"].Points.DataBindXY(axisX, axisYIm);
 			chartRe.Series["ser1"].Points.DataBindXY(axisX, axisYRe);
+			chartIm.ChartAreas["Im"].AxisY.Title = "Im(y) - propagation constant";
+			chartIm.ChartAreas["Im"].AxisX.Title = "k - wavenumber";
+			chartRe.ChartAreas["Re"].AxisY.Title = "Im(y) - propagation constant";
+			chartRe.ChartAreas["Re"].AxisX.Title = "k - wavenumber";
 		}
 		#endregion
 		private void btnExit_Click(object sender, RoutedEventArgs e)
@@ -205,8 +235,15 @@ namespace FEA
 		#endregion
 		private void btnSaveRes_Click(object sender, RoutedEventArgs e)
 		{
-			string activeDir = @"";
-			string subPath = DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + " " + _pr.characteristics;
+			sfd.ShowDialog();
+			string activeDir = "";
+			if (sfd.FileName.Length != 0) activeDir = sfd.FileName;
+			else
+			{
+				activeDir = @"";
+				MessageBox.Show("Characteristics are saved to program folder", "Warning");
+			}
+			string subPath = DateTime.Now.Day.ToString() + "_" + DateTime.Now.Month.ToString() + "_" + DateTime.Now.Year.ToString() + "_" + DateTime.Now.Hour.ToString() + "_" + DateTime.Now.Minute.ToString() + "_" + DateTime.Now.Second.ToString();
 			string newPath = System.IO.Path.Combine(activeDir, subPath);
 			string newPathData = "";
 			string newPathGraphRe = "";
@@ -224,8 +261,23 @@ namespace FEA
 
 			StreamWriter strwr = new StreamWriter(newPathData);
 
+			strwr.WriteLine(_pr.dt.calculatingtype + ",Mode number," + _pr.dt.mode);
+			strwr.WriteLine("Initial layer's characteristics");
+			string R = "";
+			string E = "";
+			R = "Radius,";
+			E = "Permittivity,";
+			for (int i = 0; i < _pr.dt.Layers.Length; i++)
+			{
+				R += _pr.dt.Layers[i].R.ToString() + ",";
+				E += _pr.dt.Layers[i].perm.ToString() + ",";
+			}
+			strwr.WriteLine(R);
+			strwr.WriteLine(E);
+			strwr.WriteLine("Wavenumber changes:,Number os steps,"+_pr.dt.stepWNN+",Size of step," + _pr.dt.stepWNS);
 			if (_crit != null)
 			{
+				strwr.WriteLine("Step of changes of radius," + _pr.dt.stepRS);
 				strwr.WriteLine("R,k,y");
 				for (int i = 0; i < _crit.Length; i++)
 				{
