@@ -265,7 +265,6 @@ namespace FEA
         #endregion
 		#region "Parse"
 
-		//TODO: изменить систему чтения радиусов на абсолютную с пересчётом в процентную
 		private bool isR(string R)
 		{
 			string[] str = new string[layersN];
@@ -390,7 +389,6 @@ namespace FEA
 			{
 				disp = new WorkObject.DISP[stepWNN];
 				int coef = 0;
-				//pr.characteristics = "Dispersion LayersN " + layersN.ToString() + " Step of wavenumber " +  stepWNSize.ToString();
 				pr.dt.calculatingtype = "Dispersion";
 				pr.dt.Layers = Layers;
 				pr.dt.mode = mode;
@@ -411,7 +409,6 @@ namespace FEA
 				pr.dt.stepWNN = stepWNN;
 				pr.dt.stepWNS = stepWNSize;
 				pr.dt.stepRS = stepRSize;
-				//pr.characteristics += "LayersN " + layersN.ToString() + " Step of wavenumber " + stepWNSize.ToString();
 				crit = obj.Crit(FEN, stepRSize / pRad[layersN - 1], stepWNN, stepWNSize, mode, Layers, ref bgw, !isCritVal);
 			}
 			pr._bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);

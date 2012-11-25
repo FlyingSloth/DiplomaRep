@@ -286,7 +286,7 @@ namespace FEA
 				{
 					for (int j = 0; j < _crit[i].D.Length; j++)
 					{
-						string str = _crit[i].R.ToString() + "," + _crit[i].D[j].k + "," + _crit[i].D[j].y;
+						string str = _crit[i].R.ToString() + "," + _crit[i].D[j].k + "," + _crit[i].D[j].y.ToString();
 						strwr.WriteLine(str);
 					}
 				}

@@ -282,11 +282,10 @@ namespace FEA
 			if (d == 0.5)
 			{
 				if (this.im == 0) return this.Sqrt();
-				rr = Math.Cos(acos / 2);
-				ri = Math.Sin(asin / 2);
+				rr = Math.Sqrt(Convert.ToDouble(1 + acos) / 2);
+				ri = Math.Sqrt(Convert.ToDouble(1 - acos) / 2);
 				res1 = new Complex(Math.Sqrt(abs) * rr, Math.Sqrt(abs) * ri);
-				res2 = new Complex(Math.Sqrt(abs) * rr, -Math.Sqrt(abs) * ri);
-				return res1.isLarger(res2);
+				return res1;
 			}
 			return new Complex();
 		}

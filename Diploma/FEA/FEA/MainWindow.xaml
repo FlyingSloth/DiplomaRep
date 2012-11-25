@@ -76,6 +76,6 @@
             <TextBox Grid.Row="1" Height="28" HorizontalAlignment="Left" Margin="1,4,0,0" Name="txtbxRadius" VerticalAlignment="Top" Width="Auto" TabIndex="3" Grid.Column="1" ToolTip="Enter radiuses of layers from waveguide's center to layers edge. Ex.: 1|5|7 or 0.7|3 (decimal numbers)" />
             <TextBox Grid.Row="2" Height="28" HorizontalAlignment="Left" Margin="1,4,0,0" Name="txtbxPerm" VerticalAlignment="Top" Width="Auto" TabIndex="4" Grid.Column="1" ToolTip="Enter permittivities of layers (decimal numbers)" />
         </Grid>
-        <Label Content="Characteristics of layers (delimeted by ; ). Enter radiuses in absolute magnitude." Grid.Row="2" Height="37" HorizontalAlignment="Left" Margin="2,0,0,0" Name="label9" VerticalAlignment="Top" Width="496" />
+        <Label Content="Characteristics of layers (delimeted by | ). Enter radiuses in absolute magnitude." Grid.Row="2" Height="37" HorizontalAlignment="Left" Margin="2,0,0,0" Name="label9" VerticalAlignment="Top" Width="496" />
     </Grid>
 </Window>

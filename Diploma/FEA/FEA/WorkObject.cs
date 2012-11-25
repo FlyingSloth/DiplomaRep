@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.IO;
 using FEA;
 using ei;
 
@@ -66,7 +67,7 @@ namespace FEA
 			int progress = 0;
 
             E1 = eigen(fe, 0, mode, L);
-            zeroValue = E1[mode-1];
+            zeroValue = E1[0];
             dispchar[0].k = 0;
             dispchar[0].y = zeroValue;
             for (int i1 = 1; i1 < Nsteps + 1; i1++)
@@ -79,8 +80,11 @@ namespace FEA
                 Complex[] tempbuf = new Complex[21];
 				E2 = eigen(fe, step * i1, mode, L);
 
-                for (int i2 = 0; i2 < 21; i2++)
-                    buf[i2] = new Complex(Math.Abs(zeroValue.Re() - E2[i2].Re()), Math.Abs(zeroValue.Im() - E2[i2].Im()));
+				for (int i2 = 0; i2 < 21; i2++)
+				{
+					Complex temp =  new Complex(Math.Abs(zeroValue.Re() - E2[i2].Re()), Math.Abs(zeroValue.Im() - E2[i2].Im()));
+					buf[i2] = new Complex(temp.Abs());
+				}
 
                 for (int i = 0; i < 21; i++) tempbuf[i] = buf[i];
                 zeroValue.quickSort(ref tempbuf,0,20);
@@ -88,8 +92,11 @@ namespace FEA
 
                 for (int i3 = 0; i3 < 21; i3++)
                 {
-                    if (buf[i3] == minVal)
-                        minN = i3;
+					if (buf[i3] == minVal)
+					{
+						minN = i3;
+						break;
+					}
                 }
                 dispchar[i1].k = step * i1;
                 dispchar[i1].y = E2[minN];
@@ -197,7 +204,6 @@ namespace FEA
 						critVal[i].R = buf[i].R;
 						for (int ii = Beg; ii <= End; ii++)
 						{
-
 							critVal[i].D[ii - Beg] = buf[i].D[ii];
 						}
 					}
@@ -223,7 +229,6 @@ namespace FEA
 				else
 				{
 					//deleting "null" in precrit
-					//TODO: починить смещение
 					int counter = 0;
 					CRIT[] bufcrit = new CRIT[N];
 					for (int i = 0; i < N; i++)
@@ -241,27 +246,6 @@ namespace FEA
 					{
 						critCond[i] = bufcrit[i];
 					}
-					/*
-					#region "Filling critical conditions"
-					CRIT[] critCond = new CRIT[2 * counter];
-					for (int i = 0; i < 2 * counter; i++)
-					{
-						critCond[i].D = new DISP[1];
-					}
-					for (int i = 0; i < counter; i++)
-					{
-						critCond[i].R = bufcrit[i].R;
-						critCond[i].D[0].k = bufcrit[i].D[0].k;
-						critCond[i].D[0].y = new Complex(0.0, bufcrit[i].D[0].y.Im());
-					}
-					for (int i = counter; i < 2 * counter; i++)
-					{
-						critCond[i].R = bufcrit[i - counter].R;
-						critCond[i].D[0].k = bufcrit[i - counter].D[1].k;
-						critCond[i].D[0].y = new Complex(0.0, bufcrit[i - counter].D[1].y.Im());
-					}
-					#endregion
-					 */
 				#endregion
 					return critCond;
 				}

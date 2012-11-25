@@ -64,7 +64,6 @@ public class Matrix
 	}
 	#endregion
 	#region "Final Matrices"
-	//TODO: Multilayer
 	/// <summary>
 	/// Setting of matrix A
 	/// </summary>
