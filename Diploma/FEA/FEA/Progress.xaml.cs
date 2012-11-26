@@ -92,6 +92,10 @@ namespace FEA
 			lblTime.Content = val;
 			lblPercent.Content = "100% completed";
 		}
+		public void Enable()
+		{
+			this.btnShowRes.IsEnabled = true;
+		}
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			_bg.RunWorkerAsync();

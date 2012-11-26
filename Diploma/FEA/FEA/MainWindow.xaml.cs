@@ -319,7 +319,6 @@ namespace FEA
 			}
 			return null;
 		}
-
 		private void ParseInt(string str, string objectName, out int output)
 		{
 			output = 0;
@@ -416,6 +415,7 @@ namespace FEA
 		void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			pr.SetTime("Process completed");
+			pr.Enable();
 		}
 		#endregion
 		#region "MenuItems"

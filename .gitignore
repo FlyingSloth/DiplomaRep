@@ -26,10 +26,11 @@ obj/
 *.vspscc
 .builds
 *.dotCover
-[0-9]Dispersion[*]/
-[0-9]Crit[*]/
 *.exe
 *.pdb
 *.baml
 *.cache
 *.g.*
+
+*.png
+*.csv

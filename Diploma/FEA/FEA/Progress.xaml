@@ -31,9 +31,8 @@
                 <ColumnDefinition Width="80" />
                 <ColumnDefinition Width="78" />
             </Grid.ColumnDefinitions>
-            <Button Content="Ok" Height="21" HorizontalAlignment="Left" Name="btnShowRes" VerticalAlignment="Top" Width="78" Grid.Column="3" Click="btnShowRes_Click" Margin="0,2,0,0" />
+            <Button Content="Ok" Height="21" HorizontalAlignment="Left" Name="btnShowRes" VerticalAlignment="Top" Width="78" Grid.Column="3" Click="btnShowRes_Click" Margin="0,2,0,0" IsEnabled="False" />
             <Button Content="Abort" Height="21" HorizontalAlignment="Left" Name="btnAbort" VerticalAlignment="Top" Width="78" Grid.Column="1" Click="btnAbort_Click" Margin="0,2,0,0" Grid.ColumnSpan="2" />
-            <!--<Button Content="Pause" Height="21" HorizontalAlignment="Left" Margin="1,2,0,0" Name="btnPause" VerticalAlignment="Top" Width="78" Grid.Column="2" Click="btnPause_Click" />-->
         </Grid>
     </Grid>
 </Window>

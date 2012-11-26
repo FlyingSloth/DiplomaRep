@@ -11,9 +11,9 @@
             <ColumnDefinition Width="66" MaxWidth="66" MinWidth="66" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="130*" />
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="130*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="1" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <WindowsFormsHost Height="Auto" Margin="0,0,0,1" Grid.RowSpan="2">
             <dvc:Chart x:Name="chartRe" IsAccessible="True" MouseMove="chartRe_MouseMove" MouseClick="chartRe_MouseClick" BackColor="White" BorderlineDashStyle="Solid"></dvc:Chart>
