@@ -142,13 +142,20 @@ public class Matrix
 
             for (int i1 = 1; i1 < n-3; i1++)
 			{
+				double pec1 = ec;
 				for (int ii = 1; ii < layers.Length; ii++)
 				{
-					ec1 = ec;
-					if ((i1 + 3) * hc > layers[ii-1].R - st2)
+					if (pec1 != ec) ec1 = pec1;
+					else ec1 = ec;
+					if ((i1 + 3) * hc > layers[ii - 1].R - st2)
+					{
 						ec1 = layers[ii].perm;
-					if ((i1 + 3) * hc > layers[ii-1].R - st1)
+						pec1 = ec1;
+					}
+					if ((i1 + 3) * hc > layers[ii - 1].R - st1)
+					{
 						ec = layers[ii].perm;
+					}
 				}
 				this.matrix[3 + i1 * 3, 6 + i1 * 3] = (pA12(2 + i1, hc, kc, ec));
 				this.matrix[3 + i1 * 3, 7 + i1 * 3] = (pA13(2 + i1, hc, mc));
@@ -225,13 +232,20 @@ public class Matrix
 
             for (int i1 = 1; i1 < n-3; i1++)
 			{
+				double pec1 = ec;
 				for (int ii = 1; ii < layers.Length; ii++)
 				{
-					ec1 = ec;
+					if (pec1 != ec) ec1 = pec1;
+					else ec1 = ec;
 					if ((i1 + 3) * hc > layers[ii - 1].R - st2)
+					{
 						ec1 = layers[ii].perm;
+						pec1 = ec1;
+					}
 					if ((i1 + 3) * hc > layers[ii - 1].R - st1)
+					{
 						ec = layers[ii].perm;
+					}
 				}
 				this.matrix[3 + i1*3,6 + i1*3] = (pB12(2 + i1,hc));
 				this.matrix[5 + i1*3,8 + i1*3] = (pB45(2 + i1,hc,ec));
