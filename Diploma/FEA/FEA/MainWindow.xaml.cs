@@ -264,7 +264,6 @@ namespace FEA
         }
         #endregion
 		#region "Parse"
-
 		private bool isR(string R)
 		{
 			string[] str = new string[layersN];

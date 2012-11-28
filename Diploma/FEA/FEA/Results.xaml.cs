@@ -39,6 +39,7 @@ namespace FEA
 			InitializeComponent();
 			_pr = pr;
 			_pr._f1.Show();
+			_pr._f1.Closing += new System.ComponentModel.CancelEventHandler(_f1_Closing);
 			_crit = crit;
 			_isCond = isCond;
 
@@ -110,10 +111,10 @@ namespace FEA
 					}
 					chartIm.Series[i].Points.DataBindXY(axisX[i], axisYIm[i]);
 					chartRe.Series[i].Points.DataBindXY(axisX[i], axisYRe[i]);
-					chartIm.ChartAreas[i.ToString()].AxisY.Title = "Im(y), R = " + crit[i].R.ToString();
-					chartRe.ChartAreas[i.ToString()].AxisY.Title = "Re(y), R = " + crit[i].R.ToString();
-					chartIm.ChartAreas[i.ToString()].AxisX.Title = "k - wavenumber";
-					chartRe.ChartAreas[i.ToString()].AxisX.Title = "k - wavenumber";
+					chartIm.ChartAreas[i.ToString()].AxisY.Title = "Im(y)";
+					chartRe.ChartAreas[i.ToString()].AxisY.Title = "Re(y)";
+					chartIm.ChartAreas[i.ToString()].AxisX.Title = "k - wavenumber, R = " + crit[i].R.ToString();
+					chartRe.ChartAreas[i.ToString()].AxisX.Title = "k - wavenumber, R = " + crit[i].R.ToString();
 				}
 
 			}
@@ -123,6 +124,7 @@ namespace FEA
 			InitializeComponent();
 			_pr = pr;
 			_pr._f1.Show();
+			_pr._f1.Closing += new System.ComponentModel.CancelEventHandler(_f1_Closing);
 			_disp = disp;
 
 			this.Title = "Dispersion characteristics";
@@ -174,6 +176,11 @@ namespace FEA
 			chartIm.ChartAreas["Im"].AxisX.Title = "k - wavenumber";
 			chartRe.ChartAreas["Re"].AxisY.Title = "Im(y) - propagation constant";
 			chartRe.ChartAreas["Re"].AxisX.Title = "k - wavenumber";
+		}
+		void _f1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			_pr.isExit = false;
+			this.Close();
 		}
 		#endregion
 		private void btnExit_Click(object sender, RoutedEventArgs e)
