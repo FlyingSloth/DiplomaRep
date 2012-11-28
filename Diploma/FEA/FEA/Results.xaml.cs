@@ -26,7 +26,7 @@ namespace FEA
 		bool _isCond = false;
 
 		System.Windows.Forms.ToolTip tooltip = new System.Windows.Forms.ToolTip();
-		System.Drawing.Point clickPosition = new System.Drawing.Point();
+		System.Drawing.Point? clickPosition = null;
 		System.Windows.Forms.SaveFileDialog sfd = new System.Windows.Forms.SaveFileDialog();
 
 		#region "Constructors"
@@ -112,8 +112,8 @@ namespace FEA
 					}
 					chartIm.Series[i].Points.DataBindXY(axisX[i], axisYIm[i]);
 					chartRe.Series[i].Points.DataBindXY(axisX[i], axisYRe[i]);
-					chartIm.ChartAreas[i.ToString()].AxisY.Title = "Im(y)";
-					chartRe.ChartAreas[i.ToString()].AxisY.Title = "Re(y)";
+					chartIm.ChartAreas[i.ToString()].AxisY.Title = "Im(y) - prop.const";
+					chartRe.ChartAreas[i.ToString()].AxisY.Title = "Re(y) - prop.const";
 					chartIm.ChartAreas[i.ToString()].AxisX.Title = "k - wavenumber, R = " + crit[i].R.ToString();
 					chartRe.ChartAreas[i.ToString()].AxisX.Title = "k - wavenumber, R = " + crit[i].R.ToString();
 				}
@@ -176,7 +176,7 @@ namespace FEA
 			chartRe.Series["ser1"].Points.DataBindXY(axisX, axisYRe);
 			chartIm.ChartAreas["Im"].AxisY.Title = "Im(y) - propagation constant";
 			chartIm.ChartAreas["Im"].AxisX.Title = "k - wavenumber";
-			chartRe.ChartAreas["Re"].AxisY.Title = "Im(y) - propagation constant";
+			chartRe.ChartAreas["Re"].AxisY.Title = "Re(y) - propagation constant";
 			chartRe.ChartAreas["Re"].AxisX.Title = "k - wavenumber";
 		}
 		void _f1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -193,10 +193,10 @@ namespace FEA
 		#region "Coordinates Hint"
 		private void chartRe_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			if (!clickPosition.IsEmpty && e.Location != clickPosition)
+			if (clickPosition.HasValue && e.Location != clickPosition)
 			{
 				tooltip.RemoveAll();
-				clickPosition = new System.Drawing.Point();
+				clickPosition = null;
 			}
 		}
 
@@ -220,10 +220,10 @@ namespace FEA
 
 		private void chartIm_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			if (!clickPosition.IsEmpty && e.Location != clickPosition)
+			if (clickPosition.HasValue && e.Location != clickPosition)
 			{
 				tooltip.RemoveAll();
-				clickPosition = new System.Drawing.Point();
+				clickPosition = null;
 			}
 		}
 
@@ -240,7 +240,7 @@ namespace FEA
 					var xVal = result.ChartArea.AxisX.PixelPositionToValue(pos.X);
 					var yVal = result.ChartArea.AxisY.PixelPositionToValue(pos.Y);
 
-					tooltip.Show("k = " + xVal + ", Re(y) = " + yVal, this.chartIm, e.Location.X, e.Location.Y - 10);
+					tooltip.Show("k = " + xVal + ", Im(y) = " + yVal, this.chartIm, e.Location.X, e.Location.Y - 10);
 				}
 			}
 		}
