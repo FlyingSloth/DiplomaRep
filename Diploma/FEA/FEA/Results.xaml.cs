@@ -39,6 +39,7 @@ namespace FEA
 			InitializeComponent();
 			_pr = pr;
 			_pr._f1.Show();
+			_pr._f1._res = this;
 			_pr._f1.Closing += new System.ComponentModel.CancelEventHandler(_f1_Closing);
 			_crit = crit;
 			_isCond = isCond;
@@ -124,6 +125,7 @@ namespace FEA
 			InitializeComponent();
 			_pr = pr;
 			_pr._f1.Show();
+			_pr._f1._res = this;
 			_pr._f1.Closing += new System.ComponentModel.CancelEventHandler(_f1_Closing);
 			_disp = disp;
 
@@ -313,6 +315,11 @@ namespace FEA
 		{
 			_pr.isExit = false;
 			this.Close();
+		}
+		private void Window_Closed(object sender, EventArgs e)
+		{
+			if (!_pr.isExit)
+				_pr.isExit = false;
 		}
 	}
 }

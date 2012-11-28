@@ -31,6 +31,7 @@ namespace FEA
 		public BackgroundWorker bw;
 		WorkObject obj;
 		Progress pr;
+		public Results _res;
 
 		//layers
 		double[] Rad;
@@ -357,6 +358,7 @@ namespace FEA
 				Layers = layers(isR(this.txtbxRadius.Text), isE(this.txtbxPerm.Text));
 				if (Layers != null)
 				{
+					if (this._res != null) this._res.Close();
 					if (stepRSize < pRad[layersN - 1])
 					{
 						pr = new Progress(this);
