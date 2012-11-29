@@ -55,7 +55,7 @@ namespace FEA
 		WorkObject.LAY[] Layers;
         #endregion
         #region "Entering data"
-        private void txtbLayersNumber_LostFocus(object sender, RoutedEventArgs e)
+		private void txtbLayersNumber_LostFocus(object sender, RoutedEventArgs e)
         {
 			this.txtbxRadius.Text = "";
 			this.txtbxPerm.Text = "";
@@ -96,11 +96,11 @@ namespace FEA
                 }
             }
         }
-        private void txtbFEN_LostFocus(object sender, RoutedEventArgs e)
+		private void txtbFEN_LostFocus(object sender, RoutedEventArgs e)
         {
             if (txtbFEN.Text.Length != 0)
             {
-                int test;
+                int test = 0;
 				ParseInt(txtbFEN.Text, label3.Content.ToString(), out test);
                 if (test != null)
                 {
@@ -115,21 +115,21 @@ namespace FEA
                 }
             }
         }
-        private void txtModeN_LostFocus(object sender, RoutedEventArgs e)
+		private void txtModeN_LostFocus(object sender, RoutedEventArgs e)
         {
 			ParseInt(txtModeN.Text, label2.Content.ToString(), out mode);
 			if (!Posit(mode) || mode > 25)
 				MessageBox.Show("Mode number is invalid");
         }
-        private void txtWNstepN_LostFocus(object sender, RoutedEventArgs e)
+		private void txtWNstepN_LostFocus(object sender, RoutedEventArgs e)
         {
 			ParseInt(txtWNstepN.Text, label6.Content.ToString(), out this.stepWNN);
         }
-        private void txtWNsteps_LostFocus(object sender, RoutedEventArgs e)
+		private void txtWNsteps_LostFocus(object sender, RoutedEventArgs e)
         {
 			ParseDouble(txtWNsteps.Text, label7.Content.ToString(), out this.stepWNSize);
         }
-        private void txtRStep_LostFocus(object sender, RoutedEventArgs e)
+		private void txtRStep_LostFocus(object sender, RoutedEventArgs e)
         {
 			ParseDouble(txtRStep.Text, label8.Content.ToString(), out this.stepRSize);
         }

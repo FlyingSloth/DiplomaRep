@@ -6,17 +6,19 @@
         <TabControl Height="327" HorizontalAlignment="Left" Margin="-2,-2,0,0" Name="tabControl1" VerticalAlignment="Top" Width="452">
             <TabItem Header="Brief" Name="tabItem1">
                 <Grid>
-                    <TextBlock Height="230" HorizontalAlignment="Left" Name="textBlock1" Text="    Program calculates dispersion characteristics and critical values and conditions of cylindric multilayer magnetodielectric waveguides using finite elements analysis. For correct work of this program you should enter initial data including characteristics of layers and wavenamber." VerticalAlignment="Top" Width="442" TextWrapping="Wrap" />
+                    <TextBlock HorizontalAlignment="Left" Name="textBlock1" Text="    Program calculates dispersion characteristics and critical values and conditions of cylindric multilayer magnetodielectric waveguides using finite elements analysis. For correct work of this program you should enter initial data including characteristics of layers and wavenamber." VerticalAlignment="Stretch" Width="442" TextWrapping="Wrap" />
                 </Grid>
             </TabItem>
             <TabItem Header="Initial Data Required" Name="tabItem2">
                 <Grid>
-                    <TextBlock Height="295" HorizontalAlignment="Left" Name="textBlock2" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" />
+                    <ScrollViewer>
+                        <TextBlock Height="Auto" HorizontalAlignment="Left" Name="textBlock2" Text="" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="442" />
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
             <TabItem Header="Instructions" Name="tabItem3">
                 <Grid>
-                    <TextBlock Height="295" HorizontalAlignment="Left" Margin="0,1,0,0" Name="textBlock3" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" />
+                    <TextBlock Height="Auto" HorizontalAlignment="Left" Margin="0,1,0,0" Name="textBlock3" Text="" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="442" />
                 </Grid>
             </TabItem>
         </TabControl>
