@@ -20,7 +20,7 @@ namespace FEA
 	/// </summary>
 	public partial class Progress : Window
 	{
-		#region "Global params"
+		#region Global params
 		public MainWindow _f1;
 		public BackgroundWorker _bg = new BackgroundWorker();
 		public bool isExit = false;
@@ -36,7 +36,7 @@ namespace FEA
 		}
 		public Data dt = new Data();
 		#endregion
-		#region "Constructors"
+		#region Constructors
 		public Progress()
 		{
 			InitializeComponent();

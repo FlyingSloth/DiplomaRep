@@ -108,7 +108,7 @@ namespace FEA {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/FEA;component/usage.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Waveguides Characteristics;component/usage.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\Usage.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

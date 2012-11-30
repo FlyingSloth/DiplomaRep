@@ -27,7 +27,7 @@ namespace FEA
 			txtbxRadius.Text = "";
 			txtbxPerm.Text = "";
 		}
-		#region "Global params"
+		#region Global params
 		public BackgroundWorker bw;
 		WorkObject obj;
 		Progress pr;
@@ -38,7 +38,7 @@ namespace FEA
 		double[] pRad;
 		double[] Perm;
 		#endregion
-		#region "Initial data"
+		#region Initial data
 		int layersN = 0;
         int FEN = 0;
         int mode = 0;
@@ -54,7 +54,7 @@ namespace FEA
 		public WorkObject.DISP[] disp;
 		WorkObject.LAY[] Layers;
         #endregion
-        #region "Entering data"
+        #region Entering data
 		private void txtbLayersNumber_LostFocus(object sender, RoutedEventArgs e)
         {
 			this.txtbxRadius.Text = "";
@@ -146,7 +146,7 @@ namespace FEA
 			this.isDispersion = true;
 		}
         #endregion
-        #region "Validation"
+        #region Validation
         private bool isValid()
         {
             string msg = "";
@@ -197,7 +197,7 @@ namespace FEA
 				}
 				else
 				{
-					msg += "Number of finite elements is invalid";
+					msg += "Number of finite elements is invalid\n";
 					allValid = false;
 				}
 			}
@@ -211,7 +211,7 @@ namespace FEA
 				}
 				else
 				{
-					msg += "Number of Steps of WaveNumber is invalid";
+					msg += "Number of Steps of WaveNumber is invalid\n";
 					allValid = false;
 				}
             }
@@ -225,7 +225,7 @@ namespace FEA
 				}
 				else
 				{
-					msg += "Size of Steps of WaveNumber is invalid";
+					msg += "Size of Steps of WaveNumber is invalid\n";
 					allValid = false;
 				}
             }
@@ -241,7 +241,7 @@ namespace FEA
 					}
 					else
 					{
-						msg += "Size of Steps of Radius is invalid";
+						msg += "Size of Steps of Radius is invalid\n";
 						allValid = false;
 					}
 				}
@@ -264,7 +264,7 @@ namespace FEA
             return false;
         }
         #endregion
-		#region "Parse"
+		#region Parse
 		private bool isR(string R)
 		{
 			string[] str = new string[layersN];
@@ -380,7 +380,7 @@ namespace FEA
 		{
 			if (pr.isExit) this.Close();
 		}
-		#region "BackGroundWorker functions"
+		#region BackGroundWorker functions
 		void bw_DoWork(object sender, DoWorkEventArgs e)
 		{
 			obj = new WorkObject();
@@ -419,7 +419,7 @@ namespace FEA
 			pr.Enable();
 		}
 		#endregion
-		#region "MenuItems"
+		#region MenuItems
 		private void MenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			this.Close();

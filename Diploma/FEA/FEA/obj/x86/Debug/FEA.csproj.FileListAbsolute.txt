@@ -18,10 +18,6 @@ D:\Diploma\FEA\FEA\obj\x86\Debug\FEA.csprojResolveAssemblyReference.cache
 D:\Diploma\FEA\FEA\obj\x86\Debug\Results.baml
 D:\Diploma\FEA\FEA\obj\x86\Debug\Results.g.cs
 D:\Diploma\FEA\FEA\obj\x86\Debug\FEA.csproj.GenerateResource.Cache
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.exe
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.pdb
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\bin\Debug\FEA.exe
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\bin\Debug\FEA.pdb
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\bin\Debug\ei.dll
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\bin\Debug\MWArray.dll
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\bin\Debug\ei.xml
@@ -34,8 +30,6 @@ C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\MainWin
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Progress.g.cs
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Results.g.cs
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\App.g.cs
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA_MarkupCompile.cache
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.g.resources
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.Properties.Resources.resources
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.csproj.GenerateResource.Cache
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\About.baml
@@ -70,3 +64,10 @@ C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA_MarkupCompile.cache
 C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.g.resources
 C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.Properties.Resources.resources
 C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.csproj.GenerateResource.Cache
+C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\bin\Debug\Waveguides Characteristics.exe.config
+C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\bin\Debug\Waveguides Characteristics.exe
+C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\bin\Debug\Waveguides Characteristics.pdb
+C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Waveguides Characteristics_MarkupCompile.cache
+C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Waveguides Characteristics.g.resources
+C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Waveguides Characteristics.exe
+C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Waveguides Characteristics.pdb

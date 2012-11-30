@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 public class Matrix
 {
-	#region "Private structures"
+	#region Private structures
 	private int cols, rows; // nubler of columns and rows
     public double[,] matrix; // array for matrix
 	private const double epsR = 0.000001; // radius of inside rod (to avoid singularity in 0)
 	private static double st1 = 0.0001, st2 = 0.0051;
 	#endregion
-	#region "Constructors"
+	#region Constructors
 	public Matrix()
 	{
 		this.cols = 0;
@@ -44,7 +44,7 @@ public class Matrix
 				this.matrix[i, j] = 0;
 	}
 	#endregion
-	#region "Rows&Cols"
+	#region Rows&Cols
 	/// <summary>
 	/// Number of rows
 	/// </summary>
@@ -63,7 +63,7 @@ public class Matrix
 		return this.cols;
 	}
 	#endregion
-	#region "Final Matrices"
+	#region Final Matrices
 	/// <summary>
 	/// Setting of matrix A
 	/// </summary>
@@ -262,7 +262,7 @@ public class Matrix
 		}
     }
 	#endregion
-	#region "Initial matrices"
+	#region Initial matrices
 	//elements of elementary matrices 5x5
     //A 1 row
     private double pA11(double j, double h, double k, double e)
@@ -409,7 +409,7 @@ public class Matrix
 		return 1.0 / 12 * e * Math.Pow(h,2) * (4 * j + 3.0);
     }
 	#endregion
-	#region "Copy&Inverse"
+	#region Copy&Inverse
 	public Matrix Copy(Matrix M)
 		{
 			this.cols = M.cols;
@@ -526,7 +526,7 @@ public class Matrix
 		return this;
 	}
 	#endregion
-	#region "Standart matrix operation"
+	#region Standart matrix operation
 	public static Matrix operator + (Matrix M1, Matrix M2)
 	{ 
 		if (M1.cols != M2.cols || M1.rows != M2.rows)
@@ -668,7 +668,7 @@ public class Matrix
 		return false;
 	}
 	#endregion
-	#region "Eigenvalues"
+	#region Eigenvalues
 	//Matlab Arrays for eigenvalues
 	private MWArray[] res = null;
 	private MWNumericArray real = null;

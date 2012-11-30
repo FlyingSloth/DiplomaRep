@@ -16,10 +16,10 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <WindowsFormsHost Height="Auto" Margin="0,0,0,1" Grid.RowSpan="2">
-            <dvc:Chart x:Name="chartRe" IsAccessible="True" MouseMove="chartRe_MouseMove" MouseClick="chartRe_MouseClick" BackColor="White" BorderlineDashStyle="Solid"></dvc:Chart>
+            <dvc:Chart x:Name="chartRe" IsAccessible="True"  BackColor="White" BorderlineDashStyle="Solid"></dvc:Chart>
         </WindowsFormsHost>
         <WindowsFormsHost Height="Auto" Grid.Row="1" Margin="0,1,0,0" Grid.RowSpan="2">
-            <dvc:Chart x:Name="chartIm" MouseMove="chartIm_MouseMove" MouseClick="chartIm_MouseClick" BackColor="White" BorderlineDashStyle="Solid"></dvc:Chart>
+            <dvc:Chart x:Name="chartIm" BackColor="White" BorderlineDashStyle="Solid"></dvc:Chart>
         </WindowsFormsHost>
         
         <Grid Grid.Column="1" Height="188" HorizontalAlignment="Left" Name="grid1" VerticalAlignment="Top" Width="66">

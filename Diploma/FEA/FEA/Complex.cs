@@ -8,7 +8,7 @@ namespace FEA
 	public class Complex
 	{
 		private double re, im;
-		#region "Constructors"
+		#region Constructors
 		public Complex()
 		{
 			this.re = 0;
@@ -21,7 +21,7 @@ namespace FEA
 			this.im = im;
 		}
 		#endregion
-		#region "Return of Re&Im"
+		#region Return of Re&Im
 		public double Re()
         {
             return this.re;
@@ -31,7 +31,7 @@ namespace FEA
             return this.im;
         }
 		#endregion
-		#region "Standart ariphmetical operations"
+		#region Standart ariphmetical operations
 		// +: compl+compl, compl+double,double+compl
 		public static Complex operator +(Complex c1, Complex c2)
 		{
@@ -115,7 +115,7 @@ namespace FEA
 			return (180 / Math.PI) * Math.Atan(this.im / this.re);
 		}
 		#endregion
-		#region "Comparsion"
+		#region Comparsion
 		//comparsion (according to MATLAB)
 		public static bool operator >(Complex c1, Complex c2)
 		{
@@ -243,7 +243,7 @@ namespace FEA
 			else return this;
 		}
 		#endregion
-		#region "Conversions"
+		#region Conversions
 		public double ToDouble()
 		{
 			if (this.im == 0) return this.re;
@@ -261,7 +261,7 @@ namespace FEA
 			return compl;
 		}
 		#endregion
-		#region "Pow"
+		#region Pow
 		// d > 1, d = 0, d = 1/2;
 		public Complex Pow(double d)
 		{
@@ -298,7 +298,7 @@ namespace FEA
 				return new Complex(0, Math.Sqrt(Math.Abs(this.re)));
 		}
 		#endregion
-		#region "Complexity"
+		#region Complexity
 		public bool isReal()
 		{
 			if (this.im == 0) return true;
@@ -317,7 +317,7 @@ namespace FEA
 			else return false;
 		}
 		#endregion
-		#region "Sorting"
+		#region Sorting
 		public void quickSort(ref Complex[] arr, int left, int right)
 		{
 			int i = left, j = right;

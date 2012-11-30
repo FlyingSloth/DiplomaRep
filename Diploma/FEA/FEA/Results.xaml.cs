@@ -27,9 +27,9 @@ namespace FEA
 
 		System.Windows.Forms.ToolTip tooltip = new System.Windows.Forms.ToolTip();
 		System.Drawing.Point? clickPosition = null;
-		System.Windows.Forms.SaveFileDialog sfd = new System.Windows.Forms.SaveFileDialog();
+		System.Windows.Forms.FolderBrowserDialog sfd = new System.Windows.Forms.FolderBrowserDialog();
 
-		#region "Constructors"
+		#region Constructors
 		public Results()
 		{
 			InitializeComponent();
@@ -58,6 +58,10 @@ namespace FEA
 				chartIm.Series.Add(new Series("ser2"));
 				chartIm.Series["ser2"].ChartArea = "Im";
 				chartIm.Series["ser2"].ChartType = SeriesChartType.Line;
+
+				chartIm.ChartAreas["Im"].AxisX.Interval = 0.5;
+				chartRe.ChartAreas["Re"].AxisX.Interval = 0.5;
+
 				string[] axisX = new string[crit.Length];
 				double[] axisYIm1 = new double[crit.Length];
 				double[] axisYIm2 = new double[crit.Length];
@@ -69,6 +73,9 @@ namespace FEA
 				}
 				chartIm.Series["ser1"].Points.DataBindXY(axisX, axisYIm1);
 				chartIm.Series["ser2"].Points.DataBindXY(axisX, axisYIm2);
+
+				chartIm.Series["ser1"].ToolTip = "k=#VALX, Im(y)=#VALY";
+				chartIm.Series["ser2"].ToolTip = "k=#VALX, Im(y)=#VALY";
 				for (int i = 0; i < crit.Length; i++)
 				{
 					chartIm.Series["ser1"].Points[i].Label = crit[i].R.ToString();
@@ -89,6 +96,9 @@ namespace FEA
 					chartIm.ChartAreas.Add(new ChartArea(i.ToString()));
 
 					chartIm.ChartAreas[i.ToString()].AxisY.IsReversed = true;
+
+					chartIm.ChartAreas[i.ToString()].AxisX.Interval = 0.5;
+					chartRe.ChartAreas[i.ToString()].AxisX.Interval = 0.5;
 					
 					axisX[i] = new string[crit[i].D.Length];
 					axisYIm[i] = new double[crit[i].D.Length];
@@ -112,6 +122,8 @@ namespace FEA
 					}
 					chartIm.Series[i].Points.DataBindXY(axisX[i], axisYIm[i]);
 					chartRe.Series[i].Points.DataBindXY(axisX[i], axisYRe[i]);
+					chartIm.Series[i].ToolTip = "k=#VALX, Im(y)=#VALY";
+					chartRe.Series[i].ToolTip = "k=#VALX, Re(y)=#VALY";
 					chartIm.ChartAreas[i.ToString()].AxisY.Title = "Im(y) - prop.const";
 					chartRe.ChartAreas[i.ToString()].AxisY.Title = "Re(y) - prop.const";
 					chartIm.ChartAreas[i.ToString()].AxisX.Title = "k - wavenumber, R = " + crit[i].R.ToString();
@@ -142,25 +154,16 @@ namespace FEA
 			chartIm.Series["ser1"].ChartType = SeriesChartType.Line;
 			chartIm.ChartAreas["Im"].AxisY.IsReversed = true;
 
-
 			chartRe.Series.Add(new Series("0"));
 			chartRe.Series[0].ChartArea = "Re";
 			chartRe.Series[0].ChartType = SeriesChartType.Line;
 			chartIm.Series.Add(new Series("0"));
 			chartIm.Series[0].ChartArea = "Im";
 			chartIm.Series[0].ChartType = SeriesChartType.Line;
-
-
-			string[] axisX1 = new string[2];
-			double[] axisY1 = new double[2];
-			axisX1[0] = "-1";
-			axisX1[1] = "0";
-			axisY1[0] = 0;
-			axisY1[1] = 0;
-
-			chartIm.Series[0].Points.DataBindXY(axisX1, axisY1);
-			chartRe.Series[0].Points.DataBindXY(axisX1, axisY1);
-
+			
+			chartIm.ChartAreas["Im"].AxisX.Interval = 0.5;
+			chartRe.ChartAreas["Re"].AxisX.Interval = 0.5;
+			
 			string[] axisX = new string[disp.Length];
 			double[] axisYIm = new double[disp.Length];
 			double[] axisYRe = new double[disp.Length];
@@ -174,6 +177,10 @@ namespace FEA
 
 			chartIm.Series["ser1"].Points.DataBindXY(axisX, axisYIm);
 			chartRe.Series["ser1"].Points.DataBindXY(axisX, axisYRe);
+
+			chartIm.Series["ser1"].ToolTip = "k=#VALX, Im(y)=#VALY";
+			chartRe.Series["ser1"].ToolTip = "k=#VALX, Re(y)=#VALY";
+
 			chartIm.ChartAreas["Im"].AxisY.Title = "Im(y) - propagation constant";
 			chartIm.ChartAreas["Im"].AxisX.Title = "k - wavenumber";
 			chartRe.ChartAreas["Re"].AxisY.Title = "Re(y) - propagation constant";
@@ -190,126 +197,68 @@ namespace FEA
 			_pr.isExit = true;
 			this.Close();
 		}
-		#region "Coordinates Hint"
-		private void chartRe_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
-		{
-			if (clickPosition.HasValue && e.Location != clickPosition)
-			{
-				tooltip.RemoveAll();
-				clickPosition = null;
-			}
-		}
-
-		private void chartRe_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
-		{
-			var pos = e.Location;
-			clickPosition = pos;
-			var res = chartRe.HitTest(pos.X, pos.Y, false, ChartElementType.PlottingArea);
-
-			foreach (var result in res)
-			{
-				if (result.ChartElementType == ChartElementType.PlottingArea)
-				{
-					var xVal = result.ChartArea.AxisX.PixelPositionToValue(pos.X);
-					var yVal = result.ChartArea.AxisY.PixelPositionToValue(pos.Y);
-
-					tooltip.Show("k = " + xVal + ", Re(y) = " + yVal, this.chartRe, e.Location.X, e.Location.Y - 10);
-				}
-			}
-		}
-
-		private void chartIm_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
-		{
-			if (clickPosition.HasValue && e.Location != clickPosition)
-			{
-				tooltip.RemoveAll();
-				clickPosition = null;
-			}
-		}
-
-		private void chartIm_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
-		{
-			var pos = e.Location;
-			clickPosition = pos;
-			var res = chartIm.HitTest(pos.X, pos.Y, false, ChartElementType.PlottingArea);
-
-			foreach (var result in res)
-			{
-				if (result.ChartElementType == ChartElementType.PlottingArea)
-				{
-					var xVal = result.ChartArea.AxisX.PixelPositionToValue(pos.X);
-					var yVal = result.ChartArea.AxisY.PixelPositionToValue(pos.Y);
-
-					tooltip.Show("k = " + xVal + ", Im(y) = " + yVal, this.chartIm, e.Location.X, e.Location.Y - 10);
-				}
-			}
-		}
-		#endregion
 		private void btnSaveRes_Click(object sender, RoutedEventArgs e)
 		{
-			sfd.ShowDialog();
 			string activeDir = "";
-			if (sfd.FileName.Length != 0) activeDir = sfd.FileName;
-			else
+			if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
-				activeDir = @"";
-				MessageBox.Show("Characteristics are saved to program folder", "Warning");
-			}
-			string subPath = DateTime.Now.Day.ToString() + "_" + DateTime.Now.Month.ToString() + "_" + DateTime.Now.Year.ToString() + "_" + DateTime.Now.Hour.ToString() + "_" + DateTime.Now.Minute.ToString() + "_" + DateTime.Now.Second.ToString();
-			string newPath = System.IO.Path.Combine(activeDir, subPath);
-			string newPathData = "";
-			string newPathGraphRe = "";
-			string newPathGraphIm = "";
+				activeDir = sfd.SelectedPath;
+				string subPath = DateTime.Now.Day.ToString() + "_" + DateTime.Now.Month.ToString() + "_" + DateTime.Now.Year.ToString() + "_" + DateTime.Now.Hour.ToString() + "_" + DateTime.Now.Minute.ToString() + "_" + DateTime.Now.Second.ToString();
+				string newPath = System.IO.Path.Combine(activeDir, subPath);
+				string newPathData = "";
+				string newPathGraphRe = "";
+				string newPathGraphIm = "";
 
-			System.IO.Directory.CreateDirectory(newPath);
-			string fileName = "characteristics.csv";
+				System.IO.Directory.CreateDirectory(newPath);
+				string fileName = "characteristics.csv";
 
-			newPathData = System.IO.Path.Combine(newPath, fileName);
-			newPathGraphIm = System.IO.Path.Combine(newPath, "Im.png");
-			newPathGraphRe = System.IO.Path.Combine(newPath, "Re.png");
+				newPathData = System.IO.Path.Combine(newPath, fileName);
+				newPathGraphIm = System.IO.Path.Combine(newPath, "Im.png");
+				newPathGraphRe = System.IO.Path.Combine(newPath, "Re.png");
 
-			chartIm.SaveImage(newPathGraphIm, ChartImageFormat.Png);
-			chartRe.SaveImage(newPathGraphRe, ChartImageFormat.Png);
+				chartIm.SaveImage(newPathGraphIm, ChartImageFormat.Png);
+				chartRe.SaveImage(newPathGraphRe, ChartImageFormat.Png);
 
-			StreamWriter strwr = new StreamWriter(newPathData);
+				StreamWriter strwr = new StreamWriter(newPathData);
 
-			strwr.WriteLine(_pr.dt.calculatingtype + ",Mode number," + _pr.dt.mode);
-			strwr.WriteLine("Initial layer's characteristics");
-			string R = "";
-			string E = "";
-			R = "Radius,";
-			E = "Permittivity,";
-			for (int i = 0; i < _pr.dt.Layers.Length; i++)
-			{
-				R += _pr.dt.Layers[i].R.ToString() + ",";
-				E += _pr.dt.Layers[i].perm.ToString() + ",";
-			}
-			strwr.WriteLine(R);
-			strwr.WriteLine(E);
-			strwr.WriteLine("Wavenumber changes:,Number os steps,"+_pr.dt.stepWNN+",Size of step," + _pr.dt.stepWNS);
-			if (_crit != null)
-			{
-				strwr.WriteLine("Step of changes of radius," + _pr.dt.stepRS);
-				strwr.WriteLine("R,k,y");
-				for (int i = 0; i < _crit.Length; i++)
+				strwr.WriteLine(_pr.dt.calculatingtype + ",Mode number," + _pr.dt.mode);
+				strwr.WriteLine("Initial layer's characteristics");
+				string R = "";
+				string E = "";
+				R = "Radius,";
+				E = "Permittivity,";
+				for (int i = 0; i < _pr.dt.Layers.Length; i++)
 				{
-					for (int j = 0; j < _crit[i].D.Length; j++)
+					R += _pr.dt.Layers[i].R.ToString() + ",";
+					E += _pr.dt.Layers[i].perm.ToString() + ",";
+				}
+				strwr.WriteLine(R);
+				strwr.WriteLine(E);
+				strwr.WriteLine("Wavenumber changes:,Number os steps," + _pr.dt.stepWNN + ",Size of step," + _pr.dt.stepWNS);
+				if (_crit != null)
+				{
+					strwr.WriteLine("Step of changes of radius," + _pr.dt.stepRS);
+					strwr.WriteLine("R,k,y");
+					for (int i = 0; i < _crit.Length; i++)
 					{
-						string str = _crit[i].R.ToString() + "," + _crit[i].D[j].k + "," + _crit[i].D[j].y.ToString();
+						for (int j = 0; j < _crit[i].D.Length; j++)
+						{
+							string str = _crit[i].R.ToString() + "," + _crit[i].D[j].k + "," + _crit[i].D[j].y.ToString();
+							strwr.WriteLine(str);
+						}
+					}
+				}
+				if (_disp != null)
+				{
+					strwr.WriteLine("k,y");
+					for (int i = 0; i < _disp.Length; i++)
+					{
+						string str = _disp[i].k.ToString() + "," + _disp[i].y.ToString();
 						strwr.WriteLine(str);
 					}
 				}
+				strwr.Close();
 			}
-			if (_disp != null)
-			{
-				strwr.WriteLine("k,y");
-				for (int i = 0; i < _disp.Length; i++)
-				{
-					string str = _disp[i].k.ToString() + "," + _disp[i].y.ToString();
-					strwr.WriteLine(str);
-				}
-			}
-			strwr.Close();
 		}
 		private void btnBack_Click(object sender, RoutedEventArgs e)
 		{
