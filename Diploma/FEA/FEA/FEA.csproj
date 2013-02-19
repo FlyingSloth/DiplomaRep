@@ -37,8 +37,9 @@
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ei">
-      <HintPath>..\..\ei\src\ei.dll</HintPath>
+    <Reference Include="ei, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ei\distrib\ei.dll</HintPath>
     </Reference>
     <Reference Include="MWArray, Version=2.12.1.0, Culture=neutral, PublicKeyToken=e1d84a0da19db86f, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>

@@ -4,7 +4,7 @@
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:wfi="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
         xmlns:dvc="clr-namespace:System.Windows.Forms.DataVisualization.Charting;assembly=System.Windows.Forms.DataVisualization"
-        Title="Results" Height="417" Width="553" Closed="Window_Closed">
+        Title="Результаты" Height="417" Width="553" Closed="Window_Closed">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400*" />
@@ -30,9 +30,9 @@
                 <RowDefinition Height="27" />
                 <RowDefinition Height="83*" />
             </Grid.RowDefinitions>
-            <Button Content="Exit" Height="23" HorizontalAlignment="Left" Name="btnExit" VerticalAlignment="Top" Width="66" Click="btnExit_Click" Grid.Row="3" Margin="0,1,0,0" />
-            <Button Content="Save" Height="23" HorizontalAlignment="Left" Name="btnSaveRes" VerticalAlignment="Top" Width="66" Click="btnSaveRes_Click" Grid.Row="1" Margin="0,1,0,0" />
-            <Button Content="Back" HorizontalAlignment="Left" Name="btnBack" Width="66" Grid.Row="2" Click="btnBack_Click" Margin="0,1,0,3" />
+            <Button Content="Выход" Height="23" HorizontalAlignment="Left" Name="btnExit" VerticalAlignment="Top" Width="66" Click="btnExit_Click" Grid.Row="3" Margin="0,1,0,0" />
+            <Button Content="Сохранить" Height="23" HorizontalAlignment="Left" Name="btnSaveRes" VerticalAlignment="Top" Width="66" Click="btnSaveRes_Click" Grid.Row="1" Margin="0,1,0,0" />
+            <Button Content="Назад" HorizontalAlignment="Left" Name="btnBack" Width="66" Grid.Row="2" Click="btnBack_Click" Margin="0,1,0,3" />
         </Grid>
     </Grid>
 </Window>

@@ -45,6 +45,7 @@ namespace FEA
 		{
 			InitializeComponent();
 			_f1 = f1;
+			if (_bg != null) _bg = new BackgroundWorker();
 			_bg.ProgressChanged += new ProgressChangedEventHandler(_bg_ProgressChanged);
 			_bg.WorkerSupportsCancellation = true;
 			_bg.WorkerReportsProgress = true;
@@ -53,15 +54,15 @@ namespace FEA
 		void _bg_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
 			progrCalculation.Value = (int)(progrCalculation.Maximum * e.ProgressPercentage/100);
-			if (e.ProgressPercentage >= 99) lblPercent.Content = "99% completed";
-			lblPercent.Content = e.ProgressPercentage.ToString() + "% completed";
+			if (e.ProgressPercentage >= 99) lblPercent.Content = "99% завершено";
+			lblPercent.Content = e.ProgressPercentage.ToString() + "% завершено";
 			int time = Convert.ToInt32(e.UserState);
-			if (time <= 0) lblTime.Content = "Process is finilazing";
-			if (time < 60 && time > 0) lblTime.Content = time + " sec left";
+			if (time <= 0) lblTime.Content = "Окончание вычислений...";
+			if (time < 60 && time > 0) lblTime.Content = time + " сек";
 			if (time > 60)
 			{
 				time = (int)(Convert.ToDouble(time) / 60 + 1.0/3);
-				lblTime.Content = "About " +  time + " min left";
+				lblTime.Content = "Около " +  time + " мин";
 			}
 			if (time > 9000*60) lblTime.Content = "OVER9000. All your waveguides are belong to us.";
 		}
@@ -72,7 +73,10 @@ namespace FEA
 		private void btnAbort_Click(object sender, RoutedEventArgs e)
 		{
 			if (_bg.IsBusy)
+			{
 				_bg.CancelAsync();
+				_bg.Dispose();
+			}
 			_f1.Show();
 			this.Close();
 		}
@@ -90,7 +94,7 @@ namespace FEA
 		public void SetTime(string val)
 		{
 			lblTime.Content = val;
-			lblPercent.Content = "100% completed";
+			lblPercent.Content = "100% выполнено";
 		}
 		public void Enable()
 		{

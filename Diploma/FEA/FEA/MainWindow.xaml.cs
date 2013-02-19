@@ -109,7 +109,7 @@ namespace FEA
                     else
                     {
                         this.FEN = 200;
-                        MessageBox.Show("Number of finite elements might not be less than 200. Now it's automatically set as 200.", "Warning", MessageBoxButton.OK);
+                        MessageBox.Show("Число конечных элементов не может быть меньше 200. Количество элементов автоматически выставлено 200", "Предупреждение", MessageBoxButton.OK);
 
                     }
                 }
@@ -119,7 +119,7 @@ namespace FEA
         {
 			ParseInt(txtModeN.Text, label2.Content.ToString(), out mode);
 			if (!Posit(mode) || mode > 25)
-				MessageBox.Show("Mode number is invalid");
+				MessageBox.Show("Номер моды находится вне вычисляемых границ");
         }
 		private void txtWNstepN_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -275,7 +275,7 @@ namespace FEA
 			for (int i = 0; i < layersN; i++)
 			{
 				double r = 0.0;
-				ParseDouble(str[i], "Layer's radius #" + Convert.ToString(i+1), out r);
+				ParseDouble(str[i], "Радиус слоя #" + Convert.ToString(i+1), out r);
 				if (r > 0)
 				{
 					pRad[i] = r;
@@ -297,7 +297,7 @@ namespace FEA
 			for (int i = 0; i < layersN; i++)
 			{
 				double e = 0.0;
-				ParseDouble(str[i], "Permettivity #" + Convert.ToString(i+1), out e);
+				ParseDouble(str[i], "Проницаемость слоя #" + Convert.ToString(i+1), out e);
 				if (e != 0.0)
 				{
 					Perm[i] = e;
@@ -331,7 +331,7 @@ namespace FEA
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show("Cannot parse field " + "\"" + objectName + "\". Check if value is valid.");
+				MessageBox.Show("Невозможно чтение поля с названием " + "\"" + objectName + "\". Проверьте правильность ввода.");
 			}
 		}
 		private void ParseDouble(string str, string objectName, out double output)
@@ -346,7 +346,7 @@ namespace FEA
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show("Cannot parse field " + "\"" + objectName + "\". Check if value is valid.");
+				MessageBox.Show("Невозможно чтение поля с названием " + "\"" + objectName + "\". Проверьте правильность ввода.");
 			}
 		}
 		#endregion
@@ -367,11 +367,11 @@ namespace FEA
 						pr.Show();
 						pr.Closed += new EventHandler(pr_Closed);
 					}
-					else MessageBox.Show("Cannot calculate critical values/conditions: size of radius step is larger than the biggest radius", "Logical error!");
+					else MessageBox.Show("Вычисление критических значений невозможно: заданный шаг радиуса выходит за границы волновода", "Ошибка!");
 				}
 				else
 				{
-					System.Windows.Forms.MessageBox.Show("Enter characteristics of Layers!", "Error", System.Windows.Forms.MessageBoxButtons.OK);
+					System.Windows.Forms.MessageBox.Show("Введите характеристики слоёв волновода", "Ошибка!", System.Windows.Forms.MessageBoxButtons.OK);
 				}
             }
 			
@@ -388,13 +388,13 @@ namespace FEA
 			if (this.isDispersion)
 			{
 				disp = new WorkObject.DISP[stepWNN];
-				int coef = 0;
+				int iniprog = 0;
 				pr.dt.calculatingtype = "Dispersion";
 				pr.dt.Layers = Layers;
 				pr.dt.mode = mode;
 				pr.dt.stepWNN = stepWNN;
 				pr.dt.stepWNS = stepWNSize;
-				disp = obj.dispersion(FEN, stepWNN, stepWNSize, mode, Layers, ref bgw, ref coef, 1, false);
+				disp = obj.dispersion(FEN, stepWNN, stepWNSize, mode, Layers, ref bgw, ref iniprog, 1, false);
 			}
 			else
 			{
@@ -415,7 +415,7 @@ namespace FEA
 		}
 		void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			pr.SetTime("Process completed");
+			pr.SetTime("Процесс завершён");
 			pr.Enable();
 		}
 		#endregion

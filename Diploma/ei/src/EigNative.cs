@@ -1,11 +1,11 @@
 /*
 * MATLAB Compiler: 4.14 (R2010b)
-* Date: Tue Oct 16 16:36:59 2012
+* Date: Wed Dec 12 18:27:13 2012
 * Arguments: "-B" "macro_default" "-W" "dotnet:ei,Eig,0.0,private" "-T" "link:lib" "-d"
-* "C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\ei\src" "-w"
+* "C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\ei\src" "-w"
 * "enable:specified_file_mismatch" "-w" "enable:repeated_file" "-w"
 * "enable:switch_ignored" "-w" "enable:missing_lib_sentinel" "-w" "enable:demo_license"
-* "-v" "class{Eig:C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\Eigenvalues.m}" 
+* "-v" "class{Eig:C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\Eigenvalues.m}" 
 */
 using System;
 using System.Reflection;
@@ -23,7 +23,7 @@ namespace eiNative
   /// The Eig class provides a CLS compliant, Object (native) interface to the
   /// M-functions contained in the files:
   /// <newpara></newpara>
-  /// C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\Eigenvalues.m
+  /// C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\Eigenvalues.m
   /// <newpara></newpara>
   /// deployprint.m
   /// <newpara></newpara>

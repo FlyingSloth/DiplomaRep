@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.IO;
+using System.Globalization;
+using System.ComponentModel;
 
 namespace FEA
 {
@@ -46,7 +48,7 @@ namespace FEA
 
 			if (isCond)
 			{
-				this.Title = "Critical conditions";
+				this.Title = "Критические условия";
 				chartIm.ChartAreas.Add(new ChartArea("Im"));
 
 				chartIm.ChartAreas["Im"].AxisY.IsReversed = true;
@@ -59,8 +61,8 @@ namespace FEA
 				chartIm.Series["ser2"].ChartArea = "Im";
 				chartIm.Series["ser2"].ChartType = SeriesChartType.Line;
 
-				chartIm.ChartAreas["Im"].AxisX.Interval = 0.5;
-				chartRe.ChartAreas["Re"].AxisX.Interval = 0.5;
+				chartIm.ChartAreas["Im"].AxisX.Interval = 2;
+				chartRe.ChartAreas["Re"].AxisX.Interval = 2;
 
 				string[] axisX = new string[crit.Length];
 				double[] axisYIm1 = new double[crit.Length];
@@ -81,12 +83,12 @@ namespace FEA
 					chartIm.Series["ser1"].Points[i].Label = crit[i].R.ToString();
 					chartIm.Series["ser2"].Points[i].Label = crit[i].R.ToString();
 				}
-				chartIm.ChartAreas["Im"].AxisY.Title = "Im(y) - propagation constant";
-				chartIm.ChartAreas["Im"].AxisX.Title = "k - wavenumber";
+				chartIm.ChartAreas["Im"].AxisY.Title = "Im(y) - постоянная распространения";
+				chartIm.ChartAreas["Im"].AxisX.Title = "k - волновое число";
 			}
 			else
 			{
-				this.Title = "Critical values";
+				this.Title = "Критические значения";
 				string[][] axisX = new string[crit.Length][];
 				double[][] axisYIm = new double[crit.Length][];
 				double[][] axisYRe = new double[crit.Length][];
@@ -97,8 +99,8 @@ namespace FEA
 
 					chartIm.ChartAreas[i.ToString()].AxisY.IsReversed = true;
 
-					chartIm.ChartAreas[i.ToString()].AxisX.Interval = 0.5;
-					chartRe.ChartAreas[i.ToString()].AxisX.Interval = 0.5;
+					chartIm.ChartAreas[i.ToString()].AxisX.Interval = 2;
+					chartRe.ChartAreas[i.ToString()].AxisX.Interval = 2;
 					
 					axisX[i] = new string[crit[i].D.Length];
 					axisYIm[i] = new double[crit[i].D.Length];
@@ -124,10 +126,10 @@ namespace FEA
 					chartRe.Series[i].Points.DataBindXY(axisX[i], axisYRe[i]);
 					chartIm.Series[i].ToolTip = "k=#VALX, Im(y)=#VALY";
 					chartRe.Series[i].ToolTip = "k=#VALX, Re(y)=#VALY";
-					chartIm.ChartAreas[i.ToString()].AxisY.Title = "Im(y) - prop.const";
-					chartRe.ChartAreas[i.ToString()].AxisY.Title = "Re(y) - prop.const";
-					chartIm.ChartAreas[i.ToString()].AxisX.Title = "k - wavenumber, R = " + crit[i].R.ToString();
-					chartRe.ChartAreas[i.ToString()].AxisX.Title = "k - wavenumber, R = " + crit[i].R.ToString();
+					chartIm.ChartAreas[i.ToString()].AxisY.Title = "Im(y) - постоянная распространения";
+					chartRe.ChartAreas[i.ToString()].AxisY.Title = "Re(y) - постоянная распространения";
+					chartIm.ChartAreas[i.ToString()].AxisX.Title = "k - волновое число, R = " + crit[i].R.ToString();
+					chartRe.ChartAreas[i.ToString()].AxisX.Title = "k - волновое число, R = " + crit[i].R.ToString();
 				}
 
 			}
@@ -141,7 +143,7 @@ namespace FEA
 			_pr._f1.Closing += new System.ComponentModel.CancelEventHandler(_f1_Closing);
 			_disp = disp;
 
-			this.Title = "Dispersion characteristics";
+			this.Title = "Дисперсионные характеристики";
 			chartRe.ChartAreas.Add(new ChartArea("Re"));
 			chartIm.ChartAreas.Add(new ChartArea("Im"));
 
@@ -161,8 +163,8 @@ namespace FEA
 			chartIm.Series[0].ChartArea = "Im";
 			chartIm.Series[0].ChartType = SeriesChartType.Line;
 			
-			chartIm.ChartAreas["Im"].AxisX.Interval = 0.5;
-			chartRe.ChartAreas["Re"].AxisX.Interval = 0.5;
+			chartIm.ChartAreas["Im"].AxisX.Interval = 2;
+			chartRe.ChartAreas["Re"].AxisX.Interval = 2;
 			
 			string[] axisX = new string[disp.Length];
 			double[] axisYIm = new double[disp.Length];
@@ -181,10 +183,10 @@ namespace FEA
 			chartIm.Series["ser1"].ToolTip = "k=#VALX, Im(y)=#VALY";
 			chartRe.Series["ser1"].ToolTip = "k=#VALX, Re(y)=#VALY";
 
-			chartIm.ChartAreas["Im"].AxisY.Title = "Im(y) - propagation constant";
-			chartIm.ChartAreas["Im"].AxisX.Title = "k - wavenumber";
-			chartRe.ChartAreas["Re"].AxisY.Title = "Re(y) - propagation constant";
-			chartRe.ChartAreas["Re"].AxisX.Title = "k - wavenumber";
+			chartIm.ChartAreas["Im"].AxisY.Title = "Im(y) - постоянная распространения";
+			chartIm.ChartAreas["Im"].AxisX.Title = "k - волновое число";
+			chartRe.ChartAreas["Re"].AxisY.Title = "Re(y) - постоянная распространения";
+			chartRe.ChartAreas["Re"].AxisX.Title = "k - волновое число";
 		}
 		void _f1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
@@ -219,25 +221,25 @@ namespace FEA
 				chartIm.SaveImage(newPathGraphIm, ChartImageFormat.Png);
 				chartRe.SaveImage(newPathGraphRe, ChartImageFormat.Png);
 
-				StreamWriter strwr = new StreamWriter(newPathData);
+				StreamWriter strwr = new StreamWriter(newPathData, false, Encoding.Unicode);
 
-				strwr.WriteLine(_pr.dt.calculatingtype + ",Mode number," + _pr.dt.mode);
-				strwr.WriteLine("Initial layer's characteristics");
+				strwr.WriteLine(_pr.dt.calculatingtype + ",Номер моды," + _pr.dt.mode);
+				strwr.WriteLine("Начальные характеристики волновода");
 				string R = "";
 				string E = "";
-				R = "Radius,";
-				E = "Permittivity,";
+				R = "Радиус,";
+				E = "Проницаемость,";
 				for (int i = 0; i < _pr.dt.Layers.Length; i++)
 				{
 					R += _pr.dt.Layers[i].R.ToString() + ",";
 					E += _pr.dt.Layers[i].perm.ToString() + ",";
 				}
-				strwr.WriteLine(R);
+				strwr.WriteLine(Convert.ToString(R,new CultureInfo("ru-Ru")));
 				strwr.WriteLine(E);
-				strwr.WriteLine("Wavenumber changes:,Number os steps," + _pr.dt.stepWNN + ",Size of step," + _pr.dt.stepWNS);
+				strwr.WriteLine("Изменения волновода:,Число шагов волнового числа k," + _pr.dt.stepWNN + ",Шаг k," + _pr.dt.stepWNS);
 				if (_crit != null)
 				{
-					strwr.WriteLine("Step of changes of radius," + _pr.dt.stepRS);
+					strwr.WriteLine("Шаг изменения радиуса," + _pr.dt.stepRS);
 					strwr.WriteLine("R,k,y");
 					for (int i = 0; i < _crit.Length; i++)
 					{

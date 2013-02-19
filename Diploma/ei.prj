@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deployment-project>
-  <configuration target="target.net.component" target-name=".NET Assembly" name="ei" location="C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA" file="C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\ei.prj" build-checksum="2311017364">
-    <param.project.name>C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\ei.prj</param.project.name>
+  <configuration target="target.net.component" target-name=".NET Assembly" name="ei" location="C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma" file="C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\ei.prj" build-checksum="2299118899">
+    <param.project.name>C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\ei.prj</param.project.name>
     <param.target.type>.NET Assembly</param.target.type>
     <param.appname>ei</param.appname>
     <param.intermediate>${PROJECT_ROOT}\ei\src</param.intermediate>
@@ -47,10 +47,10 @@
       <file special-file="file.mcr" reference-mode="direct">${MATLAB_ROOT}\toolbox\compiler\deploy\win64\MCRInstaller.exe</file>
     </fileset.package>
     <build-deliverables>
-      <file name="ei.dll" location="${PROJECT_ROOT}\ei\distrib">C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\ei\distrib\ei.dll</file>
-      <file name="ei_overview.html" location="${PROJECT_ROOT}\ei\distrib">C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\ei\distrib\ei_overview.html</file>
-      <file name="eiNative.dll" location="${PROJECT_ROOT}\ei\distrib">C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\ei\distrib\eiNative.dll</file>
-      <file name="readme.txt" location="${PROJECT_ROOT}\ei\distrib">C:\Users\Sloth\Documents\GitHub\DiplomaRep\FEA\ei\distrib\readme.txt</file>
+      <file name="eiNative.dll" location="${PROJECT_ROOT}\ei\distrib">C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\ei\distrib\eiNative.dll</file>
+      <file name="readme.txt" location="${PROJECT_ROOT}\ei\distrib">C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\ei\distrib\readme.txt</file>
+      <file name="ei_overview.html" location="${PROJECT_ROOT}\ei\distrib">C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\ei\distrib\ei_overview.html</file>
+      <file name="ei.dll" location="${PROJECT_ROOT}\ei\distrib">C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\ei\distrib\ei.dll</file>
     </build-deliverables>
     <matlab>
       <root>C:\MATLAB\R2010b</root>

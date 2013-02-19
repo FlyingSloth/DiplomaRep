@@ -25,31 +25,31 @@ namespace FEA
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			textBlock2.Text = "Common characteristics:" + Environment.NewLine + 
+			textBlock2.Text = "Общие характеристики:" + Environment.NewLine + 
 								Environment.NewLine + 
-								"Layers characteristics:" + Environment.NewLine +
-"                               Number of Layers: integer number between 1 and 20;" + Environment.NewLine +
-"                               Radiuses: decimal numbers, showing distanve between waveguide's center and layer edge;" + Environment.NewLine +
-"                               Permittivities: decimal numbers." + Environment.NewLine +
+								"Характеристики слоёв:" + Environment.NewLine +
+"                               Число слоёв: целое число между 1 и 20;" + Environment.NewLine +
+"                               Радиусы: числа, показывающие расстояние между центром волновода и границей слоя;" + Environment.NewLine +
+"                               Диэлектрическая проницаемость." + Environment.NewLine +
 							    Environment.NewLine +
-								"Mode number: integer number between 1 and 25;" + Environment.NewLine +
+								"Номер моды: целое число между 1 и 20;" + Environment.NewLine +
 							    Environment.NewLine +
-								"Number of finite elements: integer number between 200 and 1100 - to have best precision and not to overload PC." + Environment.NewLine + 
+								"Число конечных элементов: целое число между 200 и 1100 - для работы программы с достаточной точностью, но без перегрузки процессора." + Environment.NewLine + 
 								Environment.NewLine +
-								"Dispersion characteristics (propagation constants of waveguide for every wavenumber):" + Environment.NewLine +
-"                               Number of steps of wavenumber;" + Environment.NewLine +
-"                               Size of step of wavenumber." + Environment.NewLine +
+								"Дисперсионные характеристики(зависимость постоянной распространения от частоты):" + Environment.NewLine +
+"                               Число шагов волнового числа;" + Environment.NewLine +
+"                               Размер шага волнового числа." + Environment.NewLine +
 							    Environment.NewLine +
-								"Critical conditions/values(for 2 layers only):" + Environment.NewLine +
-"                               data for dispchar and step of radius change.";
+								"Критические условия предельного затухания (для двуслойного волновода):" + Environment.NewLine +
+"                               анализ дисперсионных характеристик в зависимости от радиуса внутреннего слоя.";
 
-			textBlock3.Text = "    All required data is entered on Introduction Page. Layers characteristics are entered using delimeter '|'. At every field you can see hint."
+			textBlock3.Text = "    Все данные вводятся в главном окне. Характеристики вводятся в соответсвующие поля через разделитель '|'. Каждому полю соответствует подсказка."
 				+ Environment.NewLine +
-				"   After entering data press \"Go\"-button and the dialog showing progress appears. Process may last for a long time. During this time program night be interrupted by pressing \"Abort\"-button. This action rolls the program back to Initial Data Page make changes or to terminate program."
+				"   После ввода данных надо нажать кнопку \"Рассчитать\", в результате чего появляется окно, показывающее текущий прогресс рассчётов. Вычисления могут быть довольно длительными. Вычисления могут быть прерваны кнопкой \"Отмена\". Эта кнопка возвращает на начальную страницу, на которой можно изменить характеристики волновода либо завершить программу."
 				+ Environment.NewLine +
-				"   When timer and progressbar show that process is completed, press \"Ok\"-button to see the results"
+				"   Когда таймер показывает, что процесс завершился, нажмите \"Ok\" для просмотра результатов."
 				+ Environment.NewLine +
-				"   Finally, you can see the results on charts and you can save them (button \"Save\"). The results are saved in folder which automatically appears in program folder, this folder contains file with numerical data and png-pictures of charts.";
+				"   В итоге, можно видеть данные, отображённые на графиках, данные и графики можно сохранить (кнопка \"Сохранить\").";
 		}
 	}
 }
