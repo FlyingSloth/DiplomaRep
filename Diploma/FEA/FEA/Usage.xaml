@@ -3,22 +3,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Об использовании программы" Height="364" Width="470" Loaded="Window_Loaded">
     <Grid>
-        <TabControl Height="327" HorizontalAlignment="Left" Margin="-2,-2,0,0" Name="tabControl1" VerticalAlignment="Top" Width="452">
+        <TabControl Height="Auto" HorizontalAlignment="Stretch" Margin="-2,-2,0,0" Name="tabControl1" VerticalAlignment="Stretch" Width="Auto" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top">
             <TabItem Header="О программе" Name="tabItem1">
                 <Grid>
-                    <TextBlock HorizontalAlignment="Left" Name="textBlock1" Text="    Программа вычисляет дисперсионные характеристики и критические условия предельного затухания многослойных цилиндрических магнитодиэлектрических волноводов с использованием метода смешанных конечных элементов. Для корректной работы программы необходимо ввести характеристики волновода и данные об изменении волнового числа." VerticalAlignment="Stretch" Width="442" TextWrapping="Wrap" />
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <TextBlock HorizontalAlignment="Left" Name="textBlock1" Text="    Программа вычисляет дисперсионные характеристики и критические условия предельного затухания многослойных цилиндрических магнитодиэлектрических волноводов с использованием метода смешанных конечных элементов. Для корректной работы программы необходимо ввести характеристики волновода и данные об изменении волнового числа." VerticalAlignment="Stretch" Width="442" TextWrapping="Wrap" />
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
             <TabItem Header="Начальные данные" Name="tabItem2">
                 <Grid>
-                    <ScrollViewer>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <TextBlock Height="Auto" HorizontalAlignment="Left" Name="textBlock2" Text="" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="442" />
                     </ScrollViewer>
                 </Grid>
             </TabItem>
             <TabItem Header="Инструкции по работе с программой" Name="tabItem3">
                 <Grid>
-                    <TextBlock Height="Auto" HorizontalAlignment="Left" Margin="0,1,0,0" Name="textBlock3" Text="" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="442" />
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <TextBlock Height="Auto" HorizontalAlignment="Left" Margin="0,1,0,0" Name="textBlock3" Text="" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="442" />
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
         </TabControl>
