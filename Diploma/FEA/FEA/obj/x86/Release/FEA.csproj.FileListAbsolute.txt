@@ -51,3 +51,28 @@ C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\Gener
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\GenerateResource.write.1.tlog
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\Waveguides Characteristics.exe
 C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\Waveguides Characteristics.pdb
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\ResolveAssemblyReference.cache
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\About.baml
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\Authors.baml
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\MainWindow.baml
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\Progress.baml
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\Results.baml
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\Usage.baml
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\About.g.cs
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\Authors.g.cs
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\MainWindow.g.cs
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\Progress.g.cs
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\Results.g.cs
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\Usage.g.cs
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\App.g.cs
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\Waveguides Characteristics_MarkupCompile.cache
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\Waveguides Characteristics.g.resources
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\FEA.Properties.Resources.resources
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\GenerateResource.read.1.tlog
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\GenerateResource.write.1.tlog
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\Waveguides Characteristics.exe
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\bin\Release\Waveguides Characteristics.exe.config
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\bin\Release\Waveguides Characteristics.exe
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\bin\Release\Waveguides Characteristics.pdb
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\bin\Release\ei.dll
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Release\Waveguides Characteristics.pdb

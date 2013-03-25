@@ -70,8 +70,8 @@ namespace FEA
 				for (int i = 0; i < crit.Length; i++)
 				{
 					axisX[i] = crit[i].D[0].k.ToString();
-					axisYIm1[i] = crit[i].D[0].y.Im();
-					axisYIm2[i] = crit[i].D[1].y.Im();
+					axisYIm1[i] = crit[i].D[0].y1.Im();
+					axisYIm2[i] = crit[i].D[1].y1.Im();
 				}
 				chartIm.Series["ser1"].Points.DataBindXY(axisX, axisYIm1);
 				chartIm.Series["ser2"].Points.DataBindXY(axisX, axisYIm2);
@@ -119,8 +119,8 @@ namespace FEA
 					for (int j = 0; j < crit[i].D.Length; j++)
 					{
 						axisX[i][j]= crit[i].D[j].k.ToString();
-						axisYIm[i][j] = crit[i].D[j].y.Im();
-						axisYRe[i][j] = crit[i].D[j].y.Re();
+						axisYIm[i][j] = crit[i].D[j].y1.Im();
+						axisYRe[i][j] = crit[i].D[j].y1.Re();
 					}
 					chartIm.Series[i].Points.DataBindXY(axisX[i], axisYIm[i]);
 					chartRe.Series[i].Points.DataBindXY(axisX[i], axisYRe[i]);
@@ -156,6 +156,15 @@ namespace FEA
 			chartIm.Series["ser1"].ChartType = SeriesChartType.Line;
 			chartIm.ChartAreas["Im"].AxisY.IsReversed = true;
 
+            chartRe.Series.Add(new Series("ser2"));
+            chartRe.Series["ser2"].ChartArea = "Re";
+            chartRe.Series["ser2"].ChartType = SeriesChartType.Line;
+
+            chartIm.Series.Add(new Series("ser2"));
+            chartIm.Series["ser2"].ChartArea = "Im";
+            chartIm.Series["ser2"].ChartType = SeriesChartType.Line;
+            chartIm.ChartAreas["Im"].AxisY.IsReversed = true;
+
 			chartRe.Series.Add(new Series("0"));
 			chartRe.Series[0].ChartArea = "Re";
 			chartRe.Series[0].ChartType = SeriesChartType.Line;
@@ -167,21 +176,29 @@ namespace FEA
 			chartRe.ChartAreas["Re"].AxisX.Interval = 2;
 			
 			string[] axisX = new string[disp.Length];
-			double[] axisYIm = new double[disp.Length];
-			double[] axisYRe = new double[disp.Length];
+			double[] axisY1Im = new double[disp.Length];
+			double[] axisY1Re = new double[disp.Length];
+            double[] axisY2Im = new double[disp.Length];
+            double[] axisY2Re = new double[disp.Length];
 
 			for (int i = 0; i < disp.Length; i++)
 			{
 				axisX[i] = disp[i].k.ToString();
-				axisYIm[i] = disp[i].y.Im();
-				axisYRe[i] = disp[i].y.Re();
+				axisY1Im[i] = disp[i].y1.Im();
+				axisY1Re[i] = disp[i].y1.Re();
+                axisY2Im[i] = disp[i].y2.Im();
+                axisY2Re[i] = disp[i].y2.Re();
 			}
 
-			chartIm.Series["ser1"].Points.DataBindXY(axisX, axisYIm);
-			chartRe.Series["ser1"].Points.DataBindXY(axisX, axisYRe);
+			chartIm.Series["ser1"].Points.DataBindXY(axisX, axisY1Im);
+			chartRe.Series["ser1"].Points.DataBindXY(axisX, axisY1Re);
+            chartIm.Series["ser2"].Points.DataBindXY(axisX, axisY2Im);
+            chartRe.Series["ser2"].Points.DataBindXY(axisX, axisY2Re);
 
 			chartIm.Series["ser1"].ToolTip = "k=#VALX, Im(y)=#VALY";
 			chartRe.Series["ser1"].ToolTip = "k=#VALX, Re(y)=#VALY";
+            chartIm.Series["ser2"].ToolTip = "k=#VALX, Im(y)=#VALY";
+            chartRe.Series["ser2"].ToolTip = "k=#VALX, Re(y)=#VALY";
 
 			chartIm.ChartAreas["Im"].AxisY.Title = "Im(y) - постоянная распространения";
 			chartIm.ChartAreas["Im"].AxisX.Title = "k - волновое число";
@@ -201,7 +218,8 @@ namespace FEA
 		}
 		private void btnSaveRes_Click(object sender, RoutedEventArgs e)
 		{
-			string activeDir = "";
+			/*
+            string activeDir = "";
 			if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
 				activeDir = sfd.SelectedPath;
@@ -261,6 +279,7 @@ namespace FEA
 				}
 				strwr.Close();
 			}
+             * */
 		}
 		private void btnBack_Click(object sender, RoutedEventArgs e)
 		{

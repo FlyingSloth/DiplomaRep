@@ -309,11 +309,11 @@ namespace FEA
 		}
         private bool isC()
         {
-            if (txtCurvNum.Text.Length != 0)
+            if (this.txtCurvNum.Text.Length != 0)
             {
                 string[] str = new string[2];
                 char[] sep = { '|' };
-                str = txtCurvNum.Text.Split(sep);
+                str = this.txtCurvNum.Text.Split(sep);
                 curves = new int[2];
                 for (int i = 0; i < 2; i++)
                 {
@@ -424,7 +424,7 @@ namespace FEA
 				pr.dt.mode = mode;
 				pr.dt.stepWNN = stepWNN;
 				pr.dt.stepWNS = stepWNSize;
-				disp = obj.dispersion(FEN, stepWNN, stepWNSize, mode, Layers, ref bgw, ref iniprog, 1, false);
+				disp = obj.dispersion(FEN, stepWNN, stepWNSize, mode, Layers, curves, ref bgw, ref iniprog, 1, false);
 			}
 			else
 			{
@@ -439,7 +439,7 @@ namespace FEA
 				pr.dt.stepWNN = stepWNN;
 				pr.dt.stepWNS = stepWNSize;
 				pr.dt.stepRS = stepRSize;
-				crit = obj.Crit(FEN, stepRSize / pRad[layersN - 1], stepWNN, stepWNSize, mode, Layers, ref bgw, !isCritVal);
+				//crit = obj.Crit(FEN, stepRSize / pRad[layersN - 1], stepWNN, stepWNSize, mode, Layers, ref bgw, !isCritVal);
 			}
 			pr._bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
 		}

@@ -12,11 +12,12 @@ namespace FEA
 {
     public class WorkObject
 	{
-		#region "Structs of characteristics and critical values"
+		#region Structs of characteristics and critical values
 		public struct DISP
         {
             public double k;
-            public Complex y;
+            public Complex y1;
+            public Complex y2;
         };
 
 		public struct CRIT
@@ -33,7 +34,7 @@ namespace FEA
 
 		#endregion
 		public DISP[] dispchar; //dispersion characteristics of waveguide
-		#region "Dispersion characteristics"
+		#region Dispersion characteristics
 		private Complex[] eigen(int fen, double kc, int mc, LAY[] L)
         {
 			Matrix A = new Matrix(fen);
@@ -58,49 +59,72 @@ namespace FEA
         /// <param name="Nsteps">Number of steps</param>
         /// <param name="step">Step</param>
         /// <param name="R">Radius of layer</param>
-        public DISP[] dispersion(int fe, int Nsteps, double step, int mode, LAY[] L, ref System.ComponentModel.BackgroundWorker bg, ref int iniProgress, int coef, bool isChecked)
+        public DISP[] dispersion(int fe, int Nsteps, double step, int mode, LAY[] L, int[] curves, ref System.ComponentModel.BackgroundWorker bg, ref int iniProgress, int coef, bool isChecked)
         {
 			dispchar = new DISP[Nsteps+1];
             Complex[] E1 = new Complex[21];
-            Complex zeroValue = new Complex();
-            int minN = 0;
+            Complex firstAbsValue = new Complex();
+            Complex secondAbsValue = new Complex();
+            int firstMinN = 0, secondMinN = 0;
 			int progress = 0;
 
             E1 = eigen(fe, 0, mode, L);
-            zeroValue = E1[0];
+            firstAbsValue = E1[curves[0]-1];
+            secondAbsValue = E1[curves[1]-1];
             dispchar[0].k = 0;
-            dispchar[0].y = zeroValue;
+            dispchar[0].y1 = firstAbsValue;
+            dispchar[0].y2 = secondAbsValue;
             for (int i1 = 1; i1 < Nsteps + 1; i1++)
             {
 				Stopwatch sw = new Stopwatch();
 				sw.Start();
 				
 				Complex[] E2 = new Complex[21];
-                Complex[] buf = new Complex[21];
-                Complex[] tempbuf = new Complex[21];
+                Complex[] firstbuf = new Complex[21];
+                Complex[] firsttempbuf = new Complex[21];
+                Complex[] secondbuf = new Complex[21];
+                Complex[] secondtempbuf = new Complex[21];
 				E2 = eigen(fe, step * i1, mode, L);
 
 				for (int i2 = 0; i2 < 21; i2++)
 				{
-					Complex temp =  new Complex(Math.Abs(zeroValue.Re() - E2[i2].Re()), Math.Abs(zeroValue.Im() - E2[i2].Im()));
-					buf[i2] = new Complex(temp.Abs());
+					Complex firsttemp =  new Complex(Math.Abs(firstAbsValue.Re() - E2[i2].Re()), Math.Abs(firstAbsValue.Im() - E2[i2].Im()));
+                    Complex secondtemp = new Complex(Math.Abs(secondAbsValue.Re() - E2[i2].Re()), Math.Abs(secondAbsValue.Im() - E2[i2].Im()));
+
+                    firstbuf[i2] = new Complex(firsttemp.Abs());
+                    secondbuf[i2] = new Complex(secondtemp.Abs());
 				}
 
-                for (int i = 0; i < 21; i++) tempbuf[i] = buf[i];
-                zeroValue.quickSort(ref tempbuf,0,20);
-                Complex minVal = tempbuf[0];
+                for (int i = 0; i < 21; i++)
+                {
+                    firsttempbuf[i] = firstbuf[i];
+                    secondtempbuf[i] = secondbuf[i];
+                }
+                firstAbsValue.quickSort(ref firsttempbuf, 0, 20);
+                Complex firstMinVal = firsttempbuf[0];
+                Complex secondMinVal = secondtempbuf[0];
 
                 for (int i3 = 0; i3 < 21; i3++)
                 {
-					if (buf[i3] == minVal)
+                    if (firstbuf[i3] == firstMinVal)
 					{
-						minN = i3;
+						firstMinN = i3;
 						break;
 					}
                 }
+                for (int i3 = 0; i3 < 21; i3++)
+                {
+                    if (secondbuf[i3] == secondMinVal)
+                    {
+                        secondMinN = i3;
+                        break;
+                    }
+                }
                 dispchar[i1].k = step * i1;
-                dispchar[i1].y = E2[minN];
-                zeroValue = E2[minN];
+                dispchar[i1].y1 = E2[firstMinN];
+                dispchar[i1].y2 = E2[secondMinN];
+                firstAbsValue = E2[firstMinN];
+                secondAbsValue = E2[secondMinN];
 
 				if (sw.IsRunning)
 					sw.Stop();
@@ -123,7 +147,7 @@ namespace FEA
             return dispchar;
 		}
 		#endregion
-		#region "Critical values and conditions"
+		#region Critical values and conditions
 		/// <summary>
 		/// Function searches critical values and condition. Result depends on param "isCond"
 		/// </summary>
@@ -139,6 +163,7 @@ namespace FEA
 		/// dispersion characteristics
 		/// If isCond = false: function returns critical values: all the numbers between critical(including them)
 		/// </returns>
+        /*
 		public CRIT[] Crit(int fe, double Cstep, int Nsteps, double step, int mode, LAY[] L, ref System.ComponentModel.BackgroundWorker bg, bool isCond = true)
 		{
 			if (L.Length == 2)
@@ -168,7 +193,7 @@ namespace FEA
 					if (i == 0) isChecked = false;
 					else isChecked = true;
 
-					buf[i].D = dispersion(fe, Nsteps, step, mode, bufL, ref bg, ref iniProgress, coef, isChecked);
+					//buf[i].D = dispersion(fe, Nsteps, step, mode, bufL, ref bg, ref iniProgress, coef, isChecked);
 				}
 				#region "Filling critical values and conditions"
 				for (int i = 0; i < N; i++)
@@ -260,6 +285,7 @@ namespace FEA
 				return c;
 			}
 		}
+        */
 		#endregion
 		public bool isNull<T>(T value)
 		{
