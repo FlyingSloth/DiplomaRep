@@ -43,6 +43,7 @@ namespace FEA
         int FEN = 0;
         int mode = 0;
         int stepWNN = 0;
+        int[] curves;
 
         double stepWNSize = 0.0;
         double stepRSize = 0.0;
@@ -306,6 +307,28 @@ namespace FEA
 			}
 			return true;
 		}
+        private bool isC()
+        {
+            if (txtCurvNum.Text.Length != 0)
+            {
+                string[] str = new string[2];
+                char[] sep = { '|' };
+                str = txtCurvNum.Text.Split(sep);
+                curves = new int[2];
+                for (int i = 0; i < 2; i++)
+                {
+                    int cu = 0;
+                    ParseInt(str[i], "Номер дисперсионной кривой #" + Convert.ToString(i + 1), out cu);
+                    if (cu > 0)
+                    {
+                        curves[i] = cu;
+                    }
+                    else return false;
+                }
+                return true;
+            }
+            return false;
+        }
 		private WorkObject.LAY[] layers(bool isR, bool isE)
 		{
 			if (isR && isE)
@@ -356,23 +379,30 @@ namespace FEA
             {
 				Layers = new WorkObject.LAY[layersN];
 				Layers = layers(isR(this.txtbxRadius.Text), isE(this.txtbxPerm.Text));
-				if (Layers != null)
-				{
-					if (this._res != null) this._res.Close();
-					if (stepRSize < pRad[layersN - 1])
-					{
-						pr = new Progress(this);
-						pr._bg.DoWork += new DoWorkEventHandler(bw_DoWork);
-						this.Hide();
-						pr.Show();
-						pr.Closed += new EventHandler(pr_Closed);
-					}
-					else MessageBox.Show("Вычисление критических значений невозможно: заданный шаг радиуса выходит за границы волновода", "Ошибка!");
-				}
-				else
-				{
-					System.Windows.Forms.MessageBox.Show("Введите характеристики слоёв волновода", "Ошибка!", System.Windows.Forms.MessageBoxButtons.OK);
-				}
+                if (isC())
+                {
+                    if (Layers != null)
+                    {
+                        if (this._res != null) this._res.Close();
+                        if (stepRSize < pRad[layersN - 1])
+                        {
+                            pr = new Progress(this);
+                            pr._bg.DoWork += new DoWorkEventHandler(bw_DoWork);
+                            this.Hide();
+                            pr.Show();
+                            pr.Closed += new EventHandler(pr_Closed);
+                        }
+                        else MessageBox.Show("Вычисление критических значений невозможно: заданный шаг радиуса выходит за границы волновода", "Ошибка!");
+                    }
+                    else
+                    {
+                        System.Windows.Forms.MessageBox.Show("Введите характеристики слоёв волновода", "Ошибка!", System.Windows.Forms.MessageBoxButtons.OK);
+                    }
+                }
+                else 
+                {
+                    System.Windows.Forms.MessageBox.Show("Введите номера дисперсионных кривых", "Ошибка!", System.Windows.Forms.MessageBoxButtons.OK);
+                }
             }
 			
         }
