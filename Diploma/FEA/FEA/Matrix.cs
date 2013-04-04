@@ -684,9 +684,9 @@ public class Matrix
 	public Complex[] eige(Matrix B)
 	{
 		//calling Matlab API
-		Eig testob = new Eig();
+		Eig eigeob = new Eig();
 		//Matlab Array which gets result of Matlab function eig(A,B)
-		res = testob.Eigenvalues(2, (MWNumericArray)this.matrix, (MWNumericArray)B.matrix, this.Rows());
+        res = eigeob.Eigenvalues(2, (MWNumericArray)this.matrix, (MWNumericArray)B.matrix, this.Rows());
 		//arrays for real and imaginary parts
 		real = (MWNumericArray)res[0];
 		imag = (MWNumericArray)res[1];

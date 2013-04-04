@@ -85,7 +85,7 @@ namespace FEA
 		{
 			Results res;
 			if (!_f1.isDispersion)
-				res = new Results(this, _f1.crit);
+				res = new Results(this, _f1.crit, _f1.isQuad);
 			else
 				res = new Results(this, _f1.disp, _f1.isQuad);
 			this.Hide();

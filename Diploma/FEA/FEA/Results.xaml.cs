@@ -35,7 +35,7 @@ namespace FEA
 		{
 			InitializeComponent();
 		}
-		public Results(Progress pr, WorkObject.CRIT[] crit)
+		public Results(Progress pr, WorkObject.CRIT[] crit, bool isQuad)
 		{
 			
             InitializeComponent();
@@ -45,41 +45,67 @@ namespace FEA
 			_pr._f1.Closing += new System.ComponentModel.CancelEventHandler(_f1_Closing);
 			_crit = crit;
 			
-				this.Title = "Критические условия";
-				chartRe.ChartAreas.Add(new ChartArea("Im"));
+			this.Title = "Критические условия. ";
+            if (isQuad) this.Title += "Квадратичные оси";
+			chartRe.ChartAreas.Add(new ChartArea("Im"));
 
-				chartRe.ChartAreas["Im"].AxisY.IsReversed = true;
-				chartRe.ChartAreas["Im"].AxisX.IsReversed = true;
+			chartRe.ChartAreas["Im"].AxisY.IsReversed = true;
+			chartRe.ChartAreas["Im"].AxisX.IsReversed = true;
 
-				chartRe.Series.Add(new Series("ser1"));
-				chartRe.Series["ser1"].ChartArea = "Im";
-				chartRe.Series["ser1"].ChartType = SeriesChartType.Line;
-				chartRe.Series.Add(new Series("ser2"));
-				chartRe.Series["ser2"].ChartArea = "Im";
-				chartRe.Series["ser2"].ChartType = SeriesChartType.Line;
+			chartRe.Series.Add(new Series("ser1"));
+			chartRe.Series["ser1"].ChartArea = "Im";
+			chartRe.Series["ser1"].ChartType = SeriesChartType.Line;
+			chartRe.Series.Add(new Series("ser2"));
+			chartRe.Series["ser2"].ChartArea = "Im";
+			chartRe.Series["ser2"].ChartType = SeriesChartType.Line;
 
-				chartRe.ChartAreas["Im"].AxisX.Interval = 2;
+			chartRe.ChartAreas["Im"].AxisX.Interval = 2;
 				
-				string[] axisX = new string[crit.Length];
-				double[] axisYIm1 = new double[crit.Length];
-				double[] axisYIm2 = new double[crit.Length];
-				for (int i = 0; i < crit.Length; i++)
-				{
-					axisX[i] = crit[i].D[0].k.ToString();
-					axisYIm1[i] = crit[i].D[0].y1.Im();
-					axisYIm2[i] = crit[i].D[1].y1.Im();
-				}
-				chartRe.Series["ser1"].Points.DataBindXY(axisX, axisYIm1);
-				chartRe.Series["ser2"].Points.DataBindXY(axisX, axisYIm2);
+			string[] axisX = new string[crit.Length];
+			double[] axisYIm1 = new double[crit.Length];
+			double[] axisYIm2 = new double[crit.Length];
 
-				chartRe.Series["ser1"].ToolTip = "k=#VALX, Im(y)=#VALY";
-				chartRe.Series["ser2"].ToolTip = "k=#VALX, Im(y)=#VALY";
-				for (int i = 0; i < crit.Length; i++)
-				{
-					chartRe.Series["ser1"].Points[i].Label = crit[i].R.ToString();
-					chartRe.Series["ser2"].Points[i].Label = crit[i].R.ToString();
-				}
-				chartRe.ChartAreas["im"].AxisX.Title = "k - волновое число";
+            
+            WorkObject.CRIT[] bufcrit = new WorkObject.CRIT[crit.Length];
+            for (int i = 0; i < crit.Length; i++)
+            {
+                bufcrit[i].D = new WorkObject.DISP[1];
+            }
+
+            for (int i = 0; i < crit.Length; i++)
+            {
+                bufcrit[i].R = crit[i].R;
+                bufcrit[i].D[0].k = crit[i].D[0].k;
+                if (isQuad)
+                {
+                    bufcrit[i].D[0].y1 = crit[i].D[0].y1.Pow(2);
+                    bufcrit[i].D[0].y2 = crit[i].D[0].y2.Pow(2);
+                }
+                else
+                {
+                    bufcrit[i].D[0].y1 = crit[i].D[0].y1;
+                    bufcrit[i].D[0].y2 = crit[i].D[0].y2;
+                }
+            }
+            
+			for (int i = 0; i < crit.Length; i++)
+			{
+				axisX[i] = crit[i].D[0].k.ToString();
+				axisYIm1[i] = bufcrit[i].D[0].y1.Im();
+				axisYIm2[i] = bufcrit[i].D[0].y2.Im();
+			}
+			chartRe.Series["ser1"].Points.DataBindXY(axisX, axisYIm1);
+			chartRe.Series["ser2"].Points.DataBindXY(axisX, axisYIm2);
+
+			chartRe.Series["ser1"].ToolTip = "k=#VALX, Im(y)=#VALY";
+			chartRe.Series["ser2"].ToolTip = "k=#VALX, Im(y)=#VALY";
+			for (int i = 0; i < crit.Length; i++)
+			{
+				chartRe.Series["ser1"].Points[i].Label = bufcrit[i].R.ToString();
+				chartRe.Series["ser2"].Points[i].Label = bufcrit[i].R.ToString();
+			}
+			chartRe.ChartAreas["Im"].AxisX.Title = "k - волновое число";
+            chartRe.ChartAreas["Im"].AxisY.Title = "Im(y) - постоянная распространения";
 		}
 
         public Results(Progress pr, WorkObject.DISP[] disp, bool isQuad)
@@ -91,7 +117,8 @@ namespace FEA
 			_pr._f1.Closing += new System.ComponentModel.CancelEventHandler(_f1_Closing);
 			_disp = disp;
 
-			this.Title = "Дисперсионные характеристики";
+			this.Title = "Дисперсионные характеристики. ";
+            if (isQuad) this.Title += "Квадратичные оси";
 			chartRe.ChartAreas.Add(new ChartArea("Re"));
 			chartRe.ChartAreas.Add(new ChartArea("Im"));
 

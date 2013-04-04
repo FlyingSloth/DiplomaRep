@@ -176,10 +176,8 @@ namespace FEA
 
 				for (int i = 0; i < N; i++)
 				{
-					precrit[i].D = new DISP[2];
+					precrit[i].D = new DISP[1];
 				}
-
-				CRIT[] critVal = new CRIT[N];
 
 				bool isChecked = false;
 				int iniProgress = 0;
@@ -202,10 +200,10 @@ namespace FEA
                     //выполнять проверки на то, край какой кривой является граничным условием
 					for (int ii = 0; ii < Nsteps; ii++)
 					{
-						if (buf[i].D[ii].y1.isComplex())
+                        if (buf[i].D[ii].y1.isComplex() || buf[i].D[ii].y1.isComplex())
 						{
 							precrit[i].R = buf[i].R;
-							precrit[i].D[0] = buf[i].D[ii];
+                            precrit[i].D[0].y1 = (buf[i].D[ii].y1.isComplex()) ? buf[i].D[ii].y1 : buf[i].D[ii].y2;
 							Beg = ii;
 							break;
 						}
@@ -217,7 +215,7 @@ namespace FEA
 							if (buf[i].D[ii].y1.isComplex()) 
 							{
 								precrit[i].R = buf[i].R;
-								precrit[i].D[1] = buf[i].D[ii];
+                                precrit[i].D[0].y2 = (buf[i].D[ii].y1.isComplex()) ? buf[i].D[ii].y1 : buf[i].D[ii].y2;
 								End = ii;
 								break;
 							}
