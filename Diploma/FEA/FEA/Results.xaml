@@ -11,17 +11,11 @@
             <ColumnDefinition Width="66" MaxWidth="66" MinWidth="66" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="1" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="188*" />
         </Grid.RowDefinitions>
-        <WindowsFormsHost Height="Auto" Margin="0,0,0,1" Grid.RowSpan="2">
+        <WindowsFormsHost Grid.RowSpan="2">
             <dvc:Chart x:Name="chartRe" IsAccessible="True"  BackColor="White" BorderlineDashStyle="Solid"></dvc:Chart>
         </WindowsFormsHost>
-        <WindowsFormsHost Height="Auto" Grid.Row="1" Margin="0,1,0,0" Grid.RowSpan="2">
-            <dvc:Chart x:Name="chartIm" BackColor="White" BorderlineDashStyle="Solid"></dvc:Chart>
-        </WindowsFormsHost>
-        
         <Grid Grid.Column="1" Height="188" HorizontalAlignment="Left" Name="grid1" VerticalAlignment="Top" Width="66">
             <Grid.RowDefinitions>
                 <RowDefinition Height="24*" />

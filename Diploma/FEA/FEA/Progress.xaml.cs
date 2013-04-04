@@ -33,6 +33,7 @@ namespace FEA
 			public double stepWNS;
 			public double stepRS;
 			public WorkObject.LAY[] Layers;
+            public int[] curves;
 		}
 		public Data dt = new Data();
 		#endregion
@@ -84,9 +85,9 @@ namespace FEA
 		{
 			Results res;
 			if (!_f1.isDispersion)
-				res = new Results(this, _f1.crit, !_f1.isCritVal);
+				res = new Results(this, _f1.crit);
 			else
-				res = new Results(this, _f1.disp);
+				res = new Results(this, _f1.disp, _f1.isQuad);
 			this.Hide();
 			res.Show();
 			res.Closed += new EventHandler(res_Closed);

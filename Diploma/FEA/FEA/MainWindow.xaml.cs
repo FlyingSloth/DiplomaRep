@@ -48,7 +48,7 @@ namespace FEA
         double stepWNSize = 0.0;
         double stepRSize = 0.0;
         
-        public bool isCritVal = false;
+        public bool isQuad = false;
 		public bool isDispersion = true;
 
 		public WorkObject.CRIT[] crit;
@@ -83,7 +83,6 @@ namespace FEA
 					{
 						rdbtnCrit.IsEnabled = true;
 						label8.IsEnabled = true;
-						chbCritVal.IsEnabled = true;
 						txtRStep.IsEnabled = true;
 
 					}
@@ -91,7 +90,6 @@ namespace FEA
 					{
 						rdbtnCrit.IsEnabled = false;
 						label8.IsEnabled = false;
-						chbCritVal.IsEnabled = false;
 						txtRStep.IsEnabled = false;
 					}
                 }
@@ -134,9 +132,9 @@ namespace FEA
         {
 			ParseDouble(txtRStep.Text, label8.Content.ToString(), out this.stepRSize);
         }
-        private void chbCritVal_Checked(object sender, RoutedEventArgs e)
+        private void chbQuad_Checked(object sender, RoutedEventArgs e)
         {
-            this.isCritVal = true;
+            this.isQuad = true;
         }
         private void rdbtnCrit_Checked(object sender, RoutedEventArgs e)
         {
@@ -415,31 +413,28 @@ namespace FEA
 		{
 			obj = new WorkObject();
 			var bgw = sender as BackgroundWorker;
+            pr.dt.curves = new int[2];
+            pr.dt.Layers = Layers;
+			pr.dt.mode = mode;
+			pr.dt.stepWNN = stepWNN;
+			pr.dt.stepWNS = stepWNSize;
+            pr.dt.curves[0] = curves[0];
+            pr.dt.curves[1] = curves[1];
 			if (this.isDispersion)
 			{
 				disp = new WorkObject.DISP[stepWNN];
 				int iniprog = 0;
 				pr.dt.calculatingtype = "Dispersion";
-				pr.dt.Layers = Layers;
-				pr.dt.mode = mode;
-				pr.dt.stepWNN = stepWNN;
-				pr.dt.stepWNS = stepWNSize;
+				
 				disp = obj.dispersion(FEN, stepWNN, stepWNSize, mode, Layers, curves, ref bgw, ref iniprog, 1, false);
 			}
 			else
 			{
 				int N = Convert.ToInt32(1.0 / stepRSize);
 				crit = new WorkObject.CRIT[2*N];
-				if (isCritVal)
-					pr.dt.calculatingtype = "Critical values";
-				else
-					pr.dt.calculatingtype = "Critical conditions";
-				pr.dt.Layers = Layers;
-				pr.dt.mode = mode;
-				pr.dt.stepWNN = stepWNN;
-				pr.dt.stepWNS = stepWNSize;
+				pr.dt.calculatingtype = "Critical conditions";
 				pr.dt.stepRS = stepRSize;
-				//crit = obj.Crit(FEN, stepRSize / pRad[layersN - 1], stepWNN, stepWNSize, mode, Layers, ref bgw, !isCritVal);
+				crit = obj.Crit(FEN, stepRSize / pRad[layersN - 1], stepWNN, stepWNSize, mode, Layers, curves, ref bgw);
 			}
 			pr._bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
 		}

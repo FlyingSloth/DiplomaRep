@@ -25,7 +25,6 @@ namespace FEA
 		Progress _pr;
 		WorkObject.CRIT[] _crit;
 		WorkObject.DISP[] _disp;
-		bool _isCond = false;
 
 		System.Windows.Forms.ToolTip tooltip = new System.Windows.Forms.ToolTip();
 		System.Drawing.Point? clickPosition = null;
@@ -36,34 +35,31 @@ namespace FEA
 		{
 			InitializeComponent();
 		}
-		public Results(Progress pr, WorkObject.CRIT[] crit, bool isCond)
+		public Results(Progress pr, WorkObject.CRIT[] crit)
 		{
-			InitializeComponent();
+			
+            InitializeComponent();
 			_pr = pr;
 			_pr._f1.Show();
 			_pr._f1._res = this;
 			_pr._f1.Closing += new System.ComponentModel.CancelEventHandler(_f1_Closing);
 			_crit = crit;
-			_isCond = isCond;
-
-			if (isCond)
-			{
+			
 				this.Title = "Критические условия";
-				chartIm.ChartAreas.Add(new ChartArea("Im"));
+				chartRe.ChartAreas.Add(new ChartArea("Im"));
 
-				chartIm.ChartAreas["Im"].AxisY.IsReversed = true;
-				chartIm.ChartAreas["Im"].AxisX.IsReversed = true;
+				chartRe.ChartAreas["Im"].AxisY.IsReversed = true;
+				chartRe.ChartAreas["Im"].AxisX.IsReversed = true;
 
-				chartIm.Series.Add(new Series("ser1"));
-				chartIm.Series["ser1"].ChartArea = "Im";
-				chartIm.Series["ser1"].ChartType = SeriesChartType.Line;
-				chartIm.Series.Add(new Series("ser2"));
-				chartIm.Series["ser2"].ChartArea = "Im";
-				chartIm.Series["ser2"].ChartType = SeriesChartType.Line;
+				chartRe.Series.Add(new Series("ser1"));
+				chartRe.Series["ser1"].ChartArea = "Im";
+				chartRe.Series["ser1"].ChartType = SeriesChartType.Line;
+				chartRe.Series.Add(new Series("ser2"));
+				chartRe.Series["ser2"].ChartArea = "Im";
+				chartRe.Series["ser2"].ChartType = SeriesChartType.Line;
 
-				chartIm.ChartAreas["Im"].AxisX.Interval = 2;
-				chartRe.ChartAreas["Re"].AxisX.Interval = 2;
-
+				chartRe.ChartAreas["Im"].AxisX.Interval = 2;
+				
 				string[] axisX = new string[crit.Length];
 				double[] axisYIm1 = new double[crit.Length];
 				double[] axisYIm2 = new double[crit.Length];
@@ -73,68 +69,20 @@ namespace FEA
 					axisYIm1[i] = crit[i].D[0].y1.Im();
 					axisYIm2[i] = crit[i].D[1].y1.Im();
 				}
-				chartIm.Series["ser1"].Points.DataBindXY(axisX, axisYIm1);
-				chartIm.Series["ser2"].Points.DataBindXY(axisX, axisYIm2);
+				chartRe.Series["ser1"].Points.DataBindXY(axisX, axisYIm1);
+				chartRe.Series["ser2"].Points.DataBindXY(axisX, axisYIm2);
 
-				chartIm.Series["ser1"].ToolTip = "k=#VALX, Im(y)=#VALY";
-				chartIm.Series["ser2"].ToolTip = "k=#VALX, Im(y)=#VALY";
+				chartRe.Series["ser1"].ToolTip = "k=#VALX, Im(y)=#VALY";
+				chartRe.Series["ser2"].ToolTip = "k=#VALX, Im(y)=#VALY";
 				for (int i = 0; i < crit.Length; i++)
 				{
-					chartIm.Series["ser1"].Points[i].Label = crit[i].R.ToString();
-					chartIm.Series["ser2"].Points[i].Label = crit[i].R.ToString();
+					chartRe.Series["ser1"].Points[i].Label = crit[i].R.ToString();
+					chartRe.Series["ser2"].Points[i].Label = crit[i].R.ToString();
 				}
-				chartIm.ChartAreas["Im"].AxisY.Title = "Im(y) - постоянная распространения";
-				chartIm.ChartAreas["Im"].AxisX.Title = "k - волновое число";
-			}
-			else
-			{
-				this.Title = "Критические значения";
-				string[][] axisX = new string[crit.Length][];
-				double[][] axisYIm = new double[crit.Length][];
-				double[][] axisYRe = new double[crit.Length][];
-				for (int i = 0; i < crit.Length; i++)
-				{
-					chartRe.ChartAreas.Add(new ChartArea(i.ToString()));
-					chartIm.ChartAreas.Add(new ChartArea(i.ToString()));
-
-					chartIm.ChartAreas[i.ToString()].AxisY.IsReversed = true;
-
-					chartIm.ChartAreas[i.ToString()].AxisX.Interval = 2;
-					chartRe.ChartAreas[i.ToString()].AxisX.Interval = 2;
-					
-					axisX[i] = new string[crit[i].D.Length];
-					axisYIm[i] = new double[crit[i].D.Length];
-					axisYRe[i] = new double[crit[i].D.Length];
-
-					chartIm.Series.Add(new Series(i.ToString()));
-					chartIm.Series[i].ChartArea = i.ToString();
-					chartIm.Series[i].ChartType = SeriesChartType.Line;
-					chartRe.Series.Add(new Series(i.ToString()));
-					chartRe.Series[i].ChartArea = i.ToString();
-					chartRe.Series[i].ChartType = SeriesChartType.Line;
-
-					chartIm.Series[i].AxisLabel = crit[i].R.ToString();
-					chartRe.Series[i].AxisLabel = crit[i].R.ToString();
-					
-					for (int j = 0; j < crit[i].D.Length; j++)
-					{
-						axisX[i][j]= crit[i].D[j].k.ToString();
-						axisYIm[i][j] = crit[i].D[j].y1.Im();
-						axisYRe[i][j] = crit[i].D[j].y1.Re();
-					}
-					chartIm.Series[i].Points.DataBindXY(axisX[i], axisYIm[i]);
-					chartRe.Series[i].Points.DataBindXY(axisX[i], axisYRe[i]);
-					chartIm.Series[i].ToolTip = "k=#VALX, Im(y)=#VALY";
-					chartRe.Series[i].ToolTip = "k=#VALX, Re(y)=#VALY";
-					chartIm.ChartAreas[i.ToString()].AxisY.Title = "Im(y) - постоянная распространения";
-					chartRe.ChartAreas[i.ToString()].AxisY.Title = "Re(y) - постоянная распространения";
-					chartIm.ChartAreas[i.ToString()].AxisX.Title = "k - волновое число, R = " + crit[i].R.ToString();
-					chartRe.ChartAreas[i.ToString()].AxisX.Title = "k - волновое число, R = " + crit[i].R.ToString();
-				}
-
-			}
+				chartRe.ChartAreas["im"].AxisX.Title = "k - волновое число";
 		}
-		public Results(Progress pr, WorkObject.DISP[] disp)
+
+        public Results(Progress pr, WorkObject.DISP[] disp, bool isQuad)
 		{
 			InitializeComponent();
 			_pr = pr;
@@ -145,34 +93,24 @@ namespace FEA
 
 			this.Title = "Дисперсионные характеристики";
 			chartRe.ChartAreas.Add(new ChartArea("Re"));
-			chartIm.ChartAreas.Add(new ChartArea("Im"));
+			chartRe.ChartAreas.Add(new ChartArea("Im"));
 
 			chartRe.Series.Add(new Series("ser1"));
 			chartRe.Series["ser1"].ChartArea = "Re";
 			chartRe.Series["ser1"].ChartType = SeriesChartType.Line;
-
-			chartIm.Series.Add(new Series("ser1"));
-			chartIm.Series["ser1"].ChartArea = "Im";
-			chartIm.Series["ser1"].ChartType = SeriesChartType.Line;
-			chartIm.ChartAreas["Im"].AxisY.IsReversed = true;
-
+            chartRe.Series.Add(new Series("ser11"));
+            chartRe.Series["ser11"].ChartArea = "Re";
+            chartRe.Series["ser11"].ChartType = SeriesChartType.Line;
+            
             chartRe.Series.Add(new Series("ser2"));
-            chartRe.Series["ser2"].ChartArea = "Re";
+            chartRe.Series["ser2"].ChartArea = "Im";
             chartRe.Series["ser2"].ChartType = SeriesChartType.Line;
-
-            chartIm.Series.Add(new Series("ser2"));
-            chartIm.Series["ser2"].ChartArea = "Im";
-            chartIm.Series["ser2"].ChartType = SeriesChartType.Line;
-            chartIm.ChartAreas["Im"].AxisY.IsReversed = true;
-
-			chartRe.Series.Add(new Series("0"));
-			chartRe.Series[0].ChartArea = "Re";
-			chartRe.Series[0].ChartType = SeriesChartType.Line;
-			chartIm.Series.Add(new Series("0"));
-			chartIm.Series[0].ChartArea = "Im";
-			chartIm.Series[0].ChartType = SeriesChartType.Line;
-			
-			chartIm.ChartAreas["Im"].AxisX.Interval = 2;
+            chartRe.ChartAreas["Im"].AxisY.IsReversed = true;
+            chartRe.Series.Add(new Series("ser21"));
+            chartRe.Series["ser21"].ChartArea = "Im";
+            chartRe.Series["ser21"].ChartType = SeriesChartType.Line;
+            
+			chartRe.ChartAreas["Im"].AxisX.Interval = 2;
 			chartRe.ChartAreas["Re"].AxisX.Interval = 2;
 			
 			string[] axisX = new string[disp.Length];
@@ -181,27 +119,44 @@ namespace FEA
             double[] axisY2Im = new double[disp.Length];
             double[] axisY2Re = new double[disp.Length];
 
+            WorkObject.DISP[] bufdisp = new WorkObject.DISP[disp.Length];
+            for (int i = 0; i < disp.Length; i++)
+            {
+                bufdisp[i].k = disp[i].k;
+                if (isQuad)
+                {
+                    bufdisp[i].y1 = disp[i].y1.Pow(2);
+                    bufdisp[i].y2 = disp[i].y2.Pow(2);
+                }
+                else
+                {
+                    bufdisp[i].y1 = disp[i].y1;
+                    bufdisp[i].y2 = disp[i].y2;
+                }
+            }
+
 			for (int i = 0; i < disp.Length; i++)
 			{
-				axisX[i] = disp[i].k.ToString();
-				axisY1Im[i] = disp[i].y1.Im();
-				axisY1Re[i] = disp[i].y1.Re();
-                axisY2Im[i] = disp[i].y2.Im();
-                axisY2Re[i] = disp[i].y2.Re();
+				axisX[i] = bufdisp[i].k.ToString();
+                axisY1Im[i] = bufdisp[i].y1.Im();
+                axisY1Re[i] = bufdisp[i].y1.Re();
+                axisY2Im[i] = bufdisp[i].y2.Im();
+                axisY2Re[i] = bufdisp[i].y2.Re();
 			}
 
-			chartIm.Series["ser1"].Points.DataBindXY(axisX, axisY1Im);
+			chartRe.Series["ser2"].Points.DataBindXY(axisX, axisY1Im);
 			chartRe.Series["ser1"].Points.DataBindXY(axisX, axisY1Re);
-            chartIm.Series["ser2"].Points.DataBindXY(axisX, axisY2Im);
-            chartRe.Series["ser2"].Points.DataBindXY(axisX, axisY2Re);
+            chartRe.Series["ser21"].Points.DataBindXY(axisX, axisY2Im);
+            chartRe.Series["ser11"].Points.DataBindXY(axisX, axisY2Re);
 
-			chartIm.Series["ser1"].ToolTip = "k=#VALX, Im(y)=#VALY";
+			
 			chartRe.Series["ser1"].ToolTip = "k=#VALX, Re(y)=#VALY";
-            chartIm.Series["ser2"].ToolTip = "k=#VALX, Im(y)=#VALY";
-            chartRe.Series["ser2"].ToolTip = "k=#VALX, Re(y)=#VALY";
+            chartRe.Series["ser2"].ToolTip = "k=#VALX, Im(y)=#VALY";
+            chartRe.Series["ser11"].ToolTip = "k=#VALX, Re(y)=#VALY";
+            chartRe.Series["ser21"].ToolTip = "k=#VALX, Im(y)=#VALY";
 
-			chartIm.ChartAreas["Im"].AxisY.Title = "Im(y) - постоянная распространения";
-			chartIm.ChartAreas["Im"].AxisX.Title = "k - волновое число";
+			chartRe.ChartAreas["Im"].AxisY.Title = "Im(y) - постоянная распространения";
+			chartRe.ChartAreas["Im"].AxisX.Title = "k - волновое число";
 			chartRe.ChartAreas["Re"].AxisY.Title = "Re(y) - постоянная распространения";
 			chartRe.ChartAreas["Re"].AxisX.Title = "k - волновое число";
 		}
@@ -218,7 +173,7 @@ namespace FEA
 		}
 		private void btnSaveRes_Click(object sender, RoutedEventArgs e)
 		{
-			/*
+            string delim = "\t";
             string activeDir = "";
 			if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
@@ -227,59 +182,56 @@ namespace FEA
 				string newPath = System.IO.Path.Combine(activeDir, subPath);
 				string newPathData = "";
 				string newPathGraphRe = "";
-				string newPathGraphIm = "";
 
 				System.IO.Directory.CreateDirectory(newPath);
-				string fileName = "characteristics.csv";
+				string fileName = "characteristics.tsv";
 
 				newPathData = System.IO.Path.Combine(newPath, fileName);
-				newPathGraphIm = System.IO.Path.Combine(newPath, "Im.png");
-				newPathGraphRe = System.IO.Path.Combine(newPath, "Re.png");
+				newPathGraphRe = System.IO.Path.Combine(newPath, _pr.dt.calculatingtype+".png");
 
-				chartIm.SaveImage(newPathGraphIm, ChartImageFormat.Png);
 				chartRe.SaveImage(newPathGraphRe, ChartImageFormat.Png);
 
 				StreamWriter strwr = new StreamWriter(newPathData, false, Encoding.Unicode);
 
-				strwr.WriteLine(_pr.dt.calculatingtype + ",Номер моды," + _pr.dt.mode);
+                strwr.WriteLine(_pr.dt.calculatingtype + delim + "Номер моды:" + delim + _pr.dt.mode + delim + "Номера кривых:" + delim + _pr.dt.curves[0] + delim + _pr.dt.curves[1]);
 				strwr.WriteLine("Начальные характеристики волновода");
 				string R = "";
 				string E = "";
-				R = "Радиус,";
-				E = "Проницаемость,";
+				R = "Радиус:"+ delim;
+				E = "Проницаемость:"+ delim;
 				for (int i = 0; i < _pr.dt.Layers.Length; i++)
 				{
-					R += _pr.dt.Layers[i].R.ToString() + ",";
-					E += _pr.dt.Layers[i].perm.ToString() + ",";
+					R += _pr.dt.Layers[i].R.ToString() + delim;
+					E += _pr.dt.Layers[i].perm.ToString()+ delim;
 				}
 				strwr.WriteLine(Convert.ToString(R,new CultureInfo("ru-Ru")));
-				strwr.WriteLine(E);
-				strwr.WriteLine("Изменения волновода:,Число шагов волнового числа k," + _pr.dt.stepWNN + ",Шаг k," + _pr.dt.stepWNS);
+                strwr.WriteLine(Convert.ToString(E, new CultureInfo("ru-Ru")));
+                strwr.WriteLine("Изменения волновода:");
+                strwr.WriteLine("Число шагов волнового числа k:" + delim + _pr.dt.stepWNN + delim + "Шаг k:" + delim +_pr.dt.stepWNS);
 				if (_crit != null)
 				{
-					strwr.WriteLine("Шаг изменения радиуса," + _pr.dt.stepRS);
-					strwr.WriteLine("R,k,y");
+                    strwr.WriteLine("Шаг изменения радиуса" + delim +_pr.dt.stepRS);
+					strwr.WriteLine("R" + delim +"k"+ delim + "y");
 					for (int i = 0; i < _crit.Length; i++)
 					{
 						for (int j = 0; j < _crit[i].D.Length; j++)
 						{
-							string str = _crit[i].R.ToString() + "," + _crit[i].D[j].k + "," + _crit[i].D[j].y.ToString();
+                            string str = _crit[i].R.ToString() + delim + _crit[i].D[j].k + delim + _crit[i].D[j].y1.ToString();
 							strwr.WriteLine(str);
 						}
 					}
 				}
 				if (_disp != null)
 				{
-					strwr.WriteLine("k,y");
+                    strwr.WriteLine("k" + delim + "y1" + delim + "y2");
 					for (int i = 0; i < _disp.Length; i++)
 					{
-						string str = _disp[i].k.ToString() + "," + _disp[i].y.ToString();
+                        string str = _disp[i].k.ToString() + delim + _disp[i].y1.ToString() + delim + _disp[i].y2.ToString();
 						strwr.WriteLine(str);
 					}
 				}
 				strwr.Close();
 			}
-             * */
 		}
 		private void btnBack_Click(object sender, RoutedEventArgs e)
 		{

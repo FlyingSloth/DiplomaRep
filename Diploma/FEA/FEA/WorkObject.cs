@@ -101,6 +101,7 @@ namespace FEA
                     secondtempbuf[i] = secondbuf[i];
                 }
                 firstAbsValue.quickSort(ref firsttempbuf, 0, 20);
+                firstAbsValue.quickSort(ref secondtempbuf, 0, 20);
                 Complex firstMinVal = firsttempbuf[0];
                 Complex secondMinVal = secondtempbuf[0];
 
@@ -163,8 +164,7 @@ namespace FEA
 		/// dispersion characteristics
 		/// If isCond = false: function returns critical values: all the numbers between critical(including them)
 		/// </returns>
-        /*
-		public CRIT[] Crit(int fe, double Cstep, int Nsteps, double step, int mode, LAY[] L, ref System.ComponentModel.BackgroundWorker bg, bool isCond = true)
+		public CRIT[] Crit(int fe, double Cstep, int Nsteps, double step, int mode, LAY[] L, int[] curves, ref System.ComponentModel.BackgroundWorker bg, bool isCond = true)
 		{
 			if (L.Length == 2)
 			{
@@ -193,15 +193,16 @@ namespace FEA
 					if (i == 0) isChecked = false;
 					else isChecked = true;
 
-					//buf[i].D = dispersion(fe, Nsteps, step, mode, bufL, ref bg, ref iniProgress, coef, isChecked);
+					buf[i].D = dispersion(fe, Nsteps, step, mode, bufL, curves, ref bg, ref iniProgress, coef, isChecked);
 				}
-				#region "Filling critical values and conditions"
+				#region Filling critical values and conditions
 				for (int i = 0; i < N; i++)
 				{
 					int Beg = 0, End = 0;
+                    //выполнять проверки на то, край какой кривой является граничным условием
 					for (int ii = 0; ii < Nsteps; ii++)
 					{
-						if (buf[i].D[ii].y.isComplex())
+						if (buf[i].D[ii].y1.isComplex())
 						{
 							precrit[i].R = buf[i].R;
 							precrit[i].D[0] = buf[i].D[ii];
@@ -213,7 +214,7 @@ namespace FEA
 					{
 						for (int ii = Nsteps - 1; ii > 1; ii--)
 						{
-							if (buf[i].D[ii].y.isComplex())
+							if (buf[i].D[ii].y1.isComplex()) 
 							{
 								precrit[i].R = buf[i].R;
 								precrit[i].D[1] = buf[i].D[ii];
@@ -222,36 +223,8 @@ namespace FEA
 							}
 						}
 					}
-
-					if (Beg != 0 && End != 0 && !isCond)
-					{
-						critVal[i].D = new DISP[End - Beg + 1];
-						critVal[i].R = buf[i].R;
-						for (int ii = Beg; ii <= End; ii++)
-						{
-							critVal[i].D[ii - Beg] = buf[i].D[ii];
-						}
-					}
 				}
-				if (!isCond)
-				{
-
-					int counter = 0;
-					CRIT[] bufcrit = new CRIT[N];
-					for (int j = 0; j < N; j++)
-					{
-						if (!isNull(critVal[j].R))
-						{
-							bufcrit[counter] = critVal[j];
-							counter++;
-						}
-					}
-					critVal = new CRIT[counter];
-					for (int j = 0; j < counter; j++)
-						critVal[j] = bufcrit[j];
-					return critVal;
-				}
-				else
+				
 				{
 					//deleting "null" in precrit
 					int counter = 0;
@@ -274,6 +247,7 @@ namespace FEA
 				#endregion
 					return critCond;
 				}
+                     
 			}
 			else
 			{
@@ -281,11 +255,12 @@ namespace FEA
 				c[0].R = 0.0;
 				c[0].D = new DISP[1];
 				c[0].D[0].k = 0.0;
-				c[0].D[0].y = new Complex();
+				c[0].D[0].y1 = new Complex();
+                c[0].D[0].y2 = new Complex();
 				return c;
 			}
 		}
-        */
+        
 		#endregion
 		public bool isNull<T>(T value)
 		{
