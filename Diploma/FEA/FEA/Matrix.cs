@@ -141,44 +141,44 @@ public class Matrix
 			this.matrix[8,8] = (pA55(2,hc,ec,mc) + pA44(3,hc,ec,mc));
 
             for (int i1 = 1; i1 < n-3; i1++)
-			{
-				double pec1 = ec;
-				for (int ii = 1; ii < layers.Length; ii++)
-				{
-					if (pec1 != ec) ec1 = pec1;
-					else ec1 = ec;
-					if ((i1 + 3) * hc > layers[ii - 1].R - st2)
-					{
-						ec1 = layers[ii].perm;
-						pec1 = ec1;
-					}
-					if ((i1 + 3) * hc > layers[ii - 1].R - st1)
-					{
-						ec = layers[ii].perm;
-					}
-				}
-				this.matrix[3 + i1 * 3, 6 + i1 * 3] = (pA12(2 + i1, hc, kc, ec));
-				this.matrix[3 + i1 * 3, 7 + i1 * 3] = (pA13(2 + i1, hc, mc));
-				this.matrix[3 + i1 * 3, 8 + i1 * 3] = (pA15(2 + i1, hc, kc, ec, mc));
-				this.matrix[5 + i1 * 3, 6 + i1 * 3] = (pA42(2 + i1, hc, kc, ec, mc));
-				this.matrix[5 + i1 * 3, 7 + i1 * 3] = (pA43(2 + i1, hc, kc, ec));
-				this.matrix[5 + i1 * 3, 8 + i1 * 3] = (pA45(2 + i1, hc, ec, mc));
-				this.matrix[6 + i1 * 3, 3 + i1 * 3] = (pA21(2 + i1, hc, kc, ec));
-				this.matrix[6 + i1 * 3, 5 + i1 * 3] = (pA24(2 + i1, hc, kc, ec, mc));
-				this.matrix[6 + i1 * 3, 6 + i1 * 3] = (pA22(2 + i1, hc, kc, ec) + pA11(3 + i1, hc, kc, ec1));
-				this.matrix[6 + i1 * 3, 7 + i1 * 3] = (pA23(2 + i1, hc, mc));
-				this.matrix[6 + i1 * 3, 8 + i1 * 3] = (pA25(2 + i1, hc, kc, ec, mc) + pA14(3 + i1, hc, kc, ec1, mc));
-				this.matrix[7 + i1 * 3, 3 + i1 * 3] = (pA31(2 + i1, hc, mc));
-				this.matrix[7 + i1 * 3, 5 + i1 * 3] = (pA34(2 + i1, hc, kc, ec));
-				this.matrix[7 + i1 * 3, 6 + i1 * 3] = (pA32(2 + i1, hc, mc));
-				this.matrix[7 + i1 * 3, 7 + i1 * 3] = (pA33(2 + i1, hc, kc, ec, mc));
-				this.matrix[7 + i1 * 3, 8 + i1 * 3] = (pA35(2 + i1, hc, kc, ec));
-				this.matrix[8 + i1 * 3, 3 + i1 * 3] = (pA51(2 + i1, hc, kc, ec, mc));
-				this.matrix[8 + i1 * 3, 5 + i1 * 3] = (pA54(2 + i1, hc, ec, mc));
-				this.matrix[8 + i1 * 3, 6 + i1 * 3] = (pA52(2 + i1, hc, kc, ec, mc) + pA41(3 + i1, hc, kc, ec1, mc));
-				this.matrix[8 + i1 * 3, 7 + i1 * 3] = (pA53(2 + i1, hc, kc, ec));
-				this.matrix[8 + i1 * 3, 8 + i1 * 3] = (pA55(2 + i1, hc, ec, mc) + pA44(3 + i1, hc, ec1, mc));
-			}
+            {
+                double pec1 = ec;
+                for (int ii = 1; ii < layers.Length; ii++)
+                {
+                    if (pec1 != ec) ec1 = pec1;
+                    else ec1 = ec;
+                    if ((i1 + 3) * hc > layers[ii - 1].R - st2)
+                    {
+                        ec1 = layers[ii].perm;
+                        pec1 = ec1;
+                    }
+                    if ((i1 + 3) * hc > layers[ii - 1].R - st1)
+                    {
+                        ec = layers[ii].perm;
+                    }
+                }
+                this.matrix[3 + i1 * 3, 6 + i1 * 3] = (pA12(2 + i1, hc, kc, ec));
+                this.matrix[3 + i1 * 3, 7 + i1 * 3] = (pA13(2 + i1, hc, mc));
+                this.matrix[3 + i1 * 3, 8 + i1 * 3] = (pA15(2 + i1, hc, kc, ec, mc));
+                this.matrix[5 + i1 * 3, 6 + i1 * 3] = (pA42(2 + i1, hc, kc, ec, mc));
+                this.matrix[5 + i1 * 3, 7 + i1 * 3] = (pA43(2 + i1, hc, kc, ec));
+                this.matrix[5 + i1 * 3, 8 + i1 * 3] = (pA45(2 + i1, hc, ec, mc));
+                this.matrix[6 + i1 * 3, 3 + i1 * 3] = (pA21(2 + i1, hc, kc, ec));
+                this.matrix[6 + i1 * 3, 5 + i1 * 3] = (pA24(2 + i1, hc, kc, ec, mc));
+                this.matrix[6 + i1 * 3, 6 + i1 * 3] = (pA22(2 + i1, hc, kc, ec) + pA11(3 + i1, hc, kc, ec1));
+                this.matrix[6 + i1 * 3, 7 + i1 * 3] = (pA23(2 + i1, hc, mc));
+                this.matrix[6 + i1 * 3, 8 + i1 * 3] = (pA25(2 + i1, hc, kc, ec, mc) + pA14(3 + i1, hc, kc, ec1, mc));
+                this.matrix[7 + i1 * 3, 3 + i1 * 3] = (pA31(2 + i1, hc, mc));
+                this.matrix[7 + i1 * 3, 5 + i1 * 3] = (pA34(2 + i1, hc, kc, ec));
+                this.matrix[7 + i1 * 3, 6 + i1 * 3] = (pA32(2 + i1, hc, mc));
+                this.matrix[7 + i1 * 3, 7 + i1 * 3] = (pA33(2 + i1, hc, kc, ec, mc));
+                this.matrix[7 + i1 * 3, 8 + i1 * 3] = (pA35(2 + i1, hc, kc, ec));
+                this.matrix[8 + i1 * 3, 3 + i1 * 3] = (pA51(2 + i1, hc, kc, ec, mc));
+                this.matrix[8 + i1 * 3, 5 + i1 * 3] = (pA54(2 + i1, hc, ec, mc));
+                this.matrix[8 + i1 * 3, 6 + i1 * 3] = (pA52(2 + i1, hc, kc, ec, mc) + pA41(3 + i1, hc, kc, ec1, mc));
+                this.matrix[8 + i1 * 3, 7 + i1 * 3] = (pA53(2 + i1, hc, kc, ec));
+                this.matrix[8 + i1 * 3, 8 + i1 * 3] = (pA55(2 + i1, hc, ec, mc) + pA44(3 + i1, hc, ec1, mc));
+            }
 
 			this.matrix[6 + 3 * (n - 4), 9 + 3 * (n - 4)] = (pA13(3 + n - 4, hc, mc));
 			this.matrix[8 + 3 * (n - 4), 9 + 3 * (n - 4)] = (pA43(3 + n - 4, hc, kc, ec));
@@ -231,30 +231,30 @@ public class Matrix
 			this.matrix[8, 8] = (pB55(2, hc, ec) + pB44(3, hc, ec));
 
             for (int i1 = 1; i1 < n-3; i1++)
-			{
-				double pec1 = ec;
-				for (int ii = 1; ii < layers.Length; ii++)
-				{
-					if (pec1 != ec) ec1 = pec1;
-					else ec1 = ec;
-					if ((i1 + 3) * hc > layers[ii - 1].R - st2)
-					{
-						ec1 = layers[ii].perm;
-						pec1 = ec1;
-					}
-					if ((i1 + 3) * hc > layers[ii - 1].R - st1)
-					{
-						ec = layers[ii].perm;
-					}
-				}
-				this.matrix[3 + i1*3,6 + i1*3] = (pB12(2 + i1,hc));
-				this.matrix[5 + i1*3,8 + i1*3] = (pB45(2 + i1,hc,ec));
-				this.matrix[6 + i1*3,3 + i1*3] = (pB21(2 + i1,hc));
-				this.matrix[6 + i1*3,6 + i1*3] = (pB22(2 + i1,hc) + pB11(3 + i1,hc));
-				this.matrix[7 + i1*3,7 + i1*3] = (pB33(2 + i1,hc));
-				this.matrix[8 + i1*3,5 + i1*3] = (pB54(2 + i1,hc,ec));
-				this.matrix[8 + i1*3,8 + i1*3] = (pB55(2 + i1,hc,ec) + pB44(3 + i1,hc,ec1));
-			}
+            {
+                double pec1 = ec;
+                for (int ii = 1; ii < layers.Length; ii++)
+                {
+                    if (pec1 != ec) ec1 = pec1;
+                    else ec1 = ec;
+                    if ((i1 + 3) * hc > layers[ii - 1].R - st2)
+                    {
+                        ec1 = layers[ii].perm;
+                        pec1 = ec1;
+                    }
+                    if ((i1 + 3) * hc > layers[ii - 1].R - st1)
+                    {
+                        ec = layers[ii].perm;
+                    }
+                }
+                this.matrix[3 + i1 * 3, 6 + i1 * 3] = (pB12(2 + i1, hc));
+                this.matrix[5 + i1 * 3, 8 + i1 * 3] = (pB45(2 + i1, hc, ec));
+                this.matrix[6 + i1 * 3, 3 + i1 * 3] = (pB21(2 + i1, hc));
+                this.matrix[6 + i1 * 3, 6 + i1 * 3] = (pB22(2 + i1, hc) + pB11(3 + i1, hc));
+                this.matrix[7 + i1 * 3, 7 + i1 * 3] = (pB33(2 + i1, hc));
+                this.matrix[8 + i1 * 3, 5 + i1 * 3] = (pB54(2 + i1, hc, ec));
+                this.matrix[8 + i1 * 3, 8 + i1 * 3] = (pB55(2 + i1, hc, ec) + pB44(3 + i1, hc, ec1));
+            }
 
 			this.matrix[6 + 3*(n-4),9 + 3*(n-4)] = (pB12(3 + n-4,hc));
 			this.matrix[9 + 3*(n-4),6 + 3*(n-4)] = (pB21(3 + n-4,hc));
@@ -698,10 +698,10 @@ public class Matrix
 		Complex[] eigenbuf = new Complex[this.rows];
 		
 		for (int i = 0; i < this.rows; i++)
-		{
-			eigenbuf[i] = new Complex(resCR[i, 0], resCI[i,0]);
-			eigenbuf[i] = eigenbuf[i].Pow(0.5);
-		}
+        {
+            eigenbuf[i] = new Complex(resCR[i, 0], resCI[i, 0]);
+            eigenbuf[i] = eigenbuf[i].Pow(0.5);
+        }
 
 		Complex buf = new Complex();
 		

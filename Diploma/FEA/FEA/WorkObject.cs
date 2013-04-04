@@ -74,16 +74,16 @@ namespace FEA
             dispchar[0].k = 0;
             dispchar[0].y1 = firstAbsValue;
             dispchar[0].y2 = secondAbsValue;
+            Complex[] E2 = new Complex[21];
+            Complex[] firstbuf = new Complex[21];
+            Complex[] firsttempbuf = new Complex[21];
+            Complex[] secondbuf = new Complex[21];
+            Complex[] secondtempbuf = new Complex[21];
             for (int i1 = 1; i1 < Nsteps + 1; i1++)
             {
 				Stopwatch sw = new Stopwatch();
 				sw.Start();
 				
-				Complex[] E2 = new Complex[21];
-                Complex[] firstbuf = new Complex[21];
-                Complex[] firsttempbuf = new Complex[21];
-                Complex[] secondbuf = new Complex[21];
-                Complex[] secondtempbuf = new Complex[21];
 				E2 = eigen(fe, step * i1, mode, L);
 
 				for (int i2 = 0; i2 < 21; i2++)
@@ -182,17 +182,17 @@ namespace FEA
 				bool isChecked = false;
 				int iniProgress = 0;
 				int coef = N;
-				//all the dispersion characteristics for every radius
+                //all the dispersion characteristics for every radius
 				for (int i = 0; i < N; i++)
-				{
-					buf[i].R = i * Cstep;
-					bufL[0].R = i * Cstep;
+                {
+                    buf[i].R = i * Cstep;
+                    bufL[0].R = i * Cstep;
 
-					if (i == 0) isChecked = false;
-					else isChecked = true;
+                    if (i == 0) isChecked = false;
+                    else isChecked = true;
 
-					buf[i].D = dispersion(fe, Nsteps, step, mode, bufL, curves, ref bg, ref iniProgress, coef, isChecked);
-				}
+                    buf[i].D = dispersion(fe, Nsteps, step, mode, bufL, curves, ref bg, ref iniProgress, coef, isChecked);
+                }
 				#region Filling critical values and conditions
 				for (int i = 0; i < N; i++)
 				{
@@ -223,29 +223,26 @@ namespace FEA
 					}
 				}
 				
+				//deleting "null" in precrit
+				int counter = 0;
+				CRIT[] bufcrit = new CRIT[N];
+				for (int i = 0; i < N; i++)
 				{
-					//deleting "null" in precrit
-					int counter = 0;
-					CRIT[] bufcrit = new CRIT[N];
-					for (int i = 0; i < N; i++)
+					if (!isNull(precrit[i].R))
 					{
-						if (!isNull(precrit[i].R))
-						{
-							bufcrit[counter] = precrit[i];
-							counter++;
-						}
+						bufcrit[counter] = precrit[i];
+						counter++;
 					}
-
-					CRIT[] critCond = new CRIT[counter];
-					//final array of critical conditions
-					for (int i = 0; i < counter; i++)
-					{
-						critCond[i] = bufcrit[i];
-					}
-				#endregion
-					return critCond;
 				}
-                     
+
+				CRIT[] critCond = new CRIT[counter];
+				//final array of critical conditions
+				for (int i = 0; i < counter; i++)
+				{
+					critCond[i] = bufcrit[i];
+				}
+			#endregion
+				return critCond;                    
 			}
 			else
 			{
