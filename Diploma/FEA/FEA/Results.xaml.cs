@@ -78,6 +78,7 @@ namespace FEA
                 bufcrit[i].D[0].k = crit[i].D[0].k;
                 if (isQuad)
                 {
+                    bufcrit[i].D[0].k = crit[i].D[0].k * crit[i].D[0].k;
                     bufcrit[i].D[0].y1 = crit[i].D[0].y1.Pow(2);
                     bufcrit[i].D[0].y2 = crit[i].D[0].y2.Pow(2);
                 }
@@ -149,14 +150,16 @@ namespace FEA
             WorkObject.DISP[] bufdisp = new WorkObject.DISP[disp.Length];
             for (int i = 0; i < disp.Length; i++)
             {
-                bufdisp[i].k = disp[i].k;
+                
                 if (isQuad)
                 {
+                    bufdisp[i].k = disp[i].k * disp[i].k;
                     bufdisp[i].y1 = disp[i].y1.Pow(2);
                     bufdisp[i].y2 = disp[i].y2.Pow(2);
                 }
                 else
                 {
+                    bufdisp[i].k = disp[i].k;
                     bufdisp[i].y1 = disp[i].y1;
                     bufdisp[i].y2 = disp[i].y2;
                 }

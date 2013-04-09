@@ -266,7 +266,7 @@ namespace FEA
 		#region Parse
 		private bool isR(string R)
 		{
-			string[] str = new string[layersN];
+			string[] str = new string[layersN];//обернуть в try-catch
 			char[] sep = {'|'};
 			str = R.Split(sep);
 			pRad = new double[layersN];
