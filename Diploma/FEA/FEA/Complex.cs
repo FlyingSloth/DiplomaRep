@@ -274,9 +274,13 @@ namespace FEA
 			Complex res2 = new Complex();
 			if (d > 1)
 			{
-				rr = Math.Cos(d * acos);
-				ri = Math.Sin(d * asin);
-                return new Complex(Math.Pow(abs, d) * rr, Math.Pow(abs, d) * ri);
+                if (d == 2) return this * this;
+                else
+                {
+                    rr = Math.Cos(d * acos);
+                    ri = Math.Sin(d * asin);
+                    return new Complex(Math.Pow(abs, d) * rr, Math.Pow(abs, d) * ri);
+                }
 			}
 			if (d == 0) return new Complex(1);
 			if (d == 0.5)

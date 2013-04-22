@@ -25,6 +25,8 @@ namespace FEA
 		Progress _pr;
 		WorkObject.CRIT[] _crit;
 		WorkObject.DISP[] _disp;
+        WorkObject.CRIT[] bufcrit;
+        WorkObject.DISP[] bufdisp;
 
 		System.Windows.Forms.ToolTip tooltip = new System.Windows.Forms.ToolTip();
 		System.Drawing.Point? clickPosition = null;
@@ -66,7 +68,7 @@ namespace FEA
 			double[] axisYIm2 = new double[crit.Length];
 
             
-            WorkObject.CRIT[] bufcrit = new WorkObject.CRIT[crit.Length];
+            bufcrit = new WorkObject.CRIT[crit.Length];
             for (int i = 0; i < crit.Length; i++)
             {
                 bufcrit[i].D = new WorkObject.DISP[1];
@@ -147,7 +149,7 @@ namespace FEA
             double[] axisY2Im = new double[disp.Length];
             double[] axisY2Re = new double[disp.Length];
 
-            WorkObject.DISP[] bufdisp = new WorkObject.DISP[disp.Length];
+            bufdisp = new WorkObject.DISP[disp.Length];
             for (int i = 0; i < disp.Length; i++)
             {
                 
@@ -174,10 +176,11 @@ namespace FEA
                 axisY2Re[i] = bufdisp[i].y2.Re();
 			}
 
-			chartRe.Series["ser2"].Points.DataBindXY(axisX, axisY1Im);
 			chartRe.Series["ser1"].Points.DataBindXY(axisX, axisY1Re);
-            chartRe.Series["ser21"].Points.DataBindXY(axisX, axisY2Im);
+            chartRe.Series["ser2"].Points.DataBindXY(axisX, axisY1Im);
             chartRe.Series["ser11"].Points.DataBindXY(axisX, axisY2Re);
+			chartRe.Series["ser21"].Points.DataBindXY(axisX, axisY2Im);
+            
 
 			
 			chartRe.Series["ser1"].ToolTip = "k=#VALX, Re(y)=#VALY";
@@ -242,11 +245,11 @@ namespace FEA
 				{
                     strwr.WriteLine("Шаг изменения радиуса" + delim +_pr.dt.stepRS);
 					strwr.WriteLine("R" + delim +"k"+ delim + "y");
-					for (int i = 0; i < _crit.Length; i++)
+					for (int i = 0; i < bufcrit.Length; i++)
 					{
-						for (int j = 0; j < _crit[i].D.Length; j++)
+						for (int j = 0; j < bufcrit[i].D.Length; j++)
 						{
-                            string str = _crit[i].R.ToString() + delim + _crit[i].D[j].k + delim + _crit[i].D[j].y1.ToString();
+                            string str = bufcrit[i].R.ToString() + delim + bufcrit[i].D[j].k + delim + bufcrit[i].D[j].y1.ToString();
 							strwr.WriteLine(str);
 						}
 					}
@@ -254,9 +257,9 @@ namespace FEA
 				if (_disp != null)
 				{
                     strwr.WriteLine("k" + delim + "y1" + delim + "y2");
-					for (int i = 0; i < _disp.Length; i++)
+					for (int i = 0; i < bufdisp.Length; i++)
 					{
-                        string str = _disp[i].k.ToString() + delim + _disp[i].y1.ToString() + delim + _disp[i].y2.ToString();
+                        string str = bufdisp[i].k.ToString() + delim + bufdisp[i].y1.ToString() + delim + bufdisp[i].y2.ToString();
 						strwr.WriteLine(str);
 					}
 				}

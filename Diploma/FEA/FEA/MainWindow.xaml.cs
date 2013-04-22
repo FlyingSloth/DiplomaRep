@@ -136,6 +136,10 @@ namespace FEA
         {
             this.isQuad = true;
         }
+        private void chbQuad_Unchecked(object sender, RoutedEventArgs e)
+        {
+            this.isQuad = false;
+        }
         private void rdbtnCrit_Checked(object sender, RoutedEventArgs e)
         {
             this.isDispersion = false;
@@ -465,5 +469,6 @@ namespace FEA
 			au.Show();
 		}
 		#endregion
+        
 	}
 }
