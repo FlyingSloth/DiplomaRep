@@ -1,73 +1,25 @@
-D:\Diploma\FEA\FEA\obj\x86\Debug\MainWindow.baml
-D:\Diploma\FEA\FEA\obj\x86\Debug\MainWindow.g.cs
-D:\Diploma\FEA\FEA\obj\x86\Debug\App.g.cs
-D:\Diploma\FEA\FEA\obj\x86\Debug\FEA_MarkupCompile.cache
-D:\Diploma\FEA\FEA\obj\x86\Debug\FEA.g.resources
-D:\Diploma\FEA\FEA\obj\x86\Debug\FEA.Properties.Resources.resources
-D:\Diploma\FEA\FEA\bin\Debug\FEA.exe
-D:\Diploma\FEA\FEA\bin\Debug\FEA.pdb
-D:\Diploma\FEA\FEA\obj\x86\Debug\Progress.baml
-D:\Diploma\FEA\FEA\obj\x86\Debug\Progress.g.cs
-D:\Diploma\FEA\FEA\obj\x86\Debug\FEA.exe
-D:\Diploma\FEA\FEA\obj\x86\Debug\FEA.pdb
-D:\Diploma\FEA\FEA\bin\Debug\ei.dll
-D:\Diploma\FEA\FEA\bin\Debug\MWArray.dll
-D:\Diploma\FEA\FEA\bin\Debug\ei.xml
-D:\Diploma\FEA\FEA\bin\Debug\MWArray.xml
-D:\Diploma\FEA\FEA\obj\x86\Debug\FEA.csprojResolveAssemblyReference.cache
-D:\Diploma\FEA\FEA\obj\x86\Debug\Results.baml
-D:\Diploma\FEA\FEA\obj\x86\Debug\Results.g.cs
-D:\Diploma\FEA\FEA\obj\x86\Debug\FEA.csproj.GenerateResource.Cache
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.exe
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.pdb
-C:\DiplomaRep\Diploma\FEA\FEA\bin\Debug\FEA.exe
-C:\DiplomaRep\Diploma\FEA\FEA\bin\Debug\FEA.pdb
-C:\DiplomaRep\Diploma\FEA\FEA\bin\Debug\ei.dll
-C:\DiplomaRep\Diploma\FEA\FEA\bin\Debug\MWArray.dll
-C:\DiplomaRep\Diploma\FEA\FEA\bin\Debug\ei.xml
-C:\DiplomaRep\Diploma\FEA\FEA\bin\Debug\MWArray.xml
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.csprojResolveAssemblyReference.cache
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\About.baml
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Authors.baml
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\MainWindow.baml
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Progress.baml
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Results.baml
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Usage.baml
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\About.g.cs
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Authors.g.cs
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\MainWindow.g.cs
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Progress.g.cs
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Results.g.cs
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Usage.g.cs
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\App.g.cs
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA_MarkupCompile.cache
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.g.resources
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.Properties.Resources.resources
-C:\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.csproj.GenerateResource.Cache
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\bin\Debug\Waveguides Characteristics.exe.config
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\bin\Debug\Waveguides Characteristics.exe
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\bin\Debug\Waveguides Characteristics.pdb
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\bin\Debug\ei.dll
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\bin\Debug\MWArray.dll
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\bin\Debug\MWArray.xml
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\About.baml
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Authors.baml
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\MainWindow.baml
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Progress.baml
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Results.baml
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Usage.baml
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\About.g.cs
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Authors.g.cs
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\MainWindow.g.cs
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Progress.g.cs
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Results.g.cs
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Usage.g.cs
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\App.g.cs
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Waveguides Characteristics_MarkupCompile.cache
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Waveguides Characteristics.g.resources
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.Properties.Resources.resources
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\GenerateResource.read.1.tlog
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\GenerateResource.write.1.tlog
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Waveguides Characteristics.exe
-C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Waveguides Characteristics.pdb
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\bin\Debug\Waveguides Characteristics.exe.config
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\bin\Debug\Waveguides Characteristics.exe
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\bin\Debug\Waveguides Characteristics.pdb
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\bin\Debug\ei.dll
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\About.baml
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Authors.baml
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\MainWindow.baml
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Progress.baml
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Results.baml
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Usage.baml
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\About.g.cs
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Authors.g.cs
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\MainWindow.g.cs
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Progress.g.cs
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Results.g.cs
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Usage.g.cs
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\App.g.cs
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Waveguides Characteristics_MarkupCompile.cache
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Waveguides Characteristics.g.resources
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\FEA.Properties.Resources.resources
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Waveguides Characteristics.exe
+C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\FEA\FEA\obj\x86\Debug\Waveguides Characteristics.pdb

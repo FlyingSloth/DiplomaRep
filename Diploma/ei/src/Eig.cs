@@ -1,11 +1,11 @@
 /*
 * MATLAB Compiler: 4.14 (R2010b)
-* Date: Wed Dec 12 18:27:13 2012
+* Date: Tue Apr 30 17:21:02 2013
 * Arguments: "-B" "macro_default" "-W" "dotnet:ei,Eig,0.0,private" "-T" "link:lib" "-d"
-* "C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\ei\src" "-w"
-* "enable:specified_file_mismatch" "-w" "enable:repeated_file" "-w"
-* "enable:switch_ignored" "-w" "enable:missing_lib_sentinel" "-w" "enable:demo_license"
-* "-v" "class{Eig:C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\Eigenvalues.m}" 
+* "C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\ei\src" "-w" "enable:specified_file_mismatch"
+* "-w" "enable:repeated_file" "-w" "enable:switch_ignored" "-w"
+* "enable:missing_lib_sentinel" "-w" "enable:demo_license" "-v" "class{Eig:C:\учеба
+* МИРЭА\Dip\DiplomaRep\Diploma\Eigenvalues.m}" 
 */
 using System;
 using System.Reflection;
@@ -23,7 +23,7 @@ namespace ei
   /// The Eig class provides a CLS compliant, MWArray interface to the M-functions
   /// contained in the files:
   /// <newpara></newpara>
-  /// C:\Users\Sloth\Documents\GitHub\DiplomaRep\Diploma\Eigenvalues.m
+  /// C:\учеба МИРЭА\Dip\DiplomaRep\Diploma\Eigenvalues.m
   /// <newpara></newpara>
   /// deployprint.m
   /// <newpara></newpara>

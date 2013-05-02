@@ -176,7 +176,7 @@ namespace FEA
 
 				for (int i = 0; i < N; i++)
 				{
-					precrit[i].D = new DISP[1];
+					precrit[i].D = new DISP[2];
 				}
 
 				bool isChecked = false;
@@ -200,24 +200,46 @@ namespace FEA
                     //выполнять проверки на то, край какой кривой является граничным условием
 					for (int ii = 0; ii < Nsteps; ii++)
 					{
-                        if (buf[i].D[ii].y1.isComplex() || buf[i].D[ii].y1.isComplex())
+                        if (buf[i].D[ii].y1.isComplex() || buf[i].D[ii].y2.isComplex())
 						{
-							precrit[i].R = buf[i].R;
-                            precrit[i].D[0].y1 = (buf[i].D[ii].y1.isComplex()) ? buf[i].D[ii].y1 : buf[i].D[ii].y2;
-							Beg = ii;
-							break;
+                            /*if (buf[i].D[ii].y1.isComplex() && buf[i].D[ii].y2.isComplex())
+                            {
+                                precrit[i].R = buf[i].R;
+                                precrit[i].D[0].y1 = ((buf[i].D[ii].y1 < buf[i].D[ii].y2)) ? buf[i].D[ii].y1 : buf[i].D[ii].y2;
+                                precrit[i].D[0].k = buf[i].D[ii].k;
+                                Beg = ii;
+                            }
+                            else */
+                            {
+                                precrit[i].R = buf[i].R;
+                                precrit[i].D[0].y1 = (buf[i].D[ii].y1.isComplex()) ? buf[i].D[ii].y1 : buf[i].D[ii].y2;
+                                precrit[i].D[0].k = buf[i].D[ii].k;
+                                Beg = ii;
+                            }
+                            break;
 						}
 					}
 					if (Beg != 0)
 					{
 						for (int ii = Nsteps - 1; ii > 1; ii--)
 						{
-							if (buf[i].D[ii].y1.isComplex()) 
+                            if (buf[i].D[ii].y1.isComplex() || buf[i].D[ii].y2.isComplex()) 
 							{
-								precrit[i].R = buf[i].R;
-                                precrit[i].D[0].y2 = (buf[i].D[ii].y1.isComplex()) ? buf[i].D[ii].y1 : buf[i].D[ii].y2;
-								End = ii;
-								break;
+                                /*if (buf[i].D[ii].y1.isComplex() && buf[i].D[ii].y2.isComplex())
+                                {
+                                    precrit[i].R = buf[i].R;
+                                    precrit[i].D[1].y1 = ((buf[i].D[ii].y1 < buf[i].D[ii].y2)) ? buf[i].D[ii].y1 : buf[i].D[ii].y2;
+                                    precrit[i].D[1].k = buf[i].D[ii].k;
+                                    Beg = ii;
+                                }
+                                else*/
+                                {
+                                    precrit[i].R = buf[i].R;
+                                    precrit[i].D[1].y1 = (buf[i].D[ii].y1.isComplex()) ? buf[i].D[ii].y1 : buf[i].D[ii].y2;
+                                    precrit[i].D[1].k = buf[i].D[ii].k;
+                                    Beg = ii;
+                                }
+                                break;
 							}
 						}
 					}

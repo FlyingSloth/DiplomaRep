@@ -82,12 +82,12 @@ namespace FEA
                 {
                     bufcrit[i].D[0].k = crit[i].D[0].k * crit[i].D[0].k;
                     bufcrit[i].D[0].y1 = crit[i].D[0].y1.Pow(2);
-                    bufcrit[i].D[0].y2 = crit[i].D[0].y2.Pow(2);
+                    bufcrit[i].D[0].y2 = crit[i].D[1].y1.Pow(2);
                 }
                 else
                 {
                     bufcrit[i].D[0].y1 = crit[i].D[0].y1;
-                    bufcrit[i].D[0].y2 = crit[i].D[0].y2;
+                    bufcrit[i].D[0].y2 = crit[i].D[1].y1;
                 }
             }
             
@@ -249,7 +249,7 @@ namespace FEA
 					{
 						for (int j = 0; j < bufcrit[i].D.Length; j++)
 						{
-                            string str = bufcrit[i].R.ToString() + delim + bufcrit[i].D[j].k + delim + bufcrit[i].D[j].y1.ToString();
+                            string str = bufcrit[i].R.ToString() + delim + bufcrit[i].D[j].k + delim + bufcrit[i].D[j].y1.ToString() + delim + bufcrit[i].D[j].y2.ToString();
 							strwr.WriteLine(str);
 						}
 					}
