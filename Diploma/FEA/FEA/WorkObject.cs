@@ -88,37 +88,28 @@ namespace FEA
 
 				for (int i2 = 0; i2 < 21; i2++)
 				{
-					Complex firsttemp =  new Complex(Math.Abs(firstAbsValue.Re() - E2[i2].Re()), Math.Abs(firstAbsValue.Im() - E2[i2].Im()));
+                    Complex firsttemp = new Complex(Math.Abs(firstAbsValue.Re() - E2[i2].Re()),Math.Abs(firstAbsValue.Im() - E2[i2].Im()));
                     Complex secondtemp = new Complex(Math.Abs(secondAbsValue.Re() - E2[i2].Re()), Math.Abs(secondAbsValue.Im() - E2[i2].Im()));
 
-                    firstbuf[i2] = new Complex(firsttemp.Abs());
-                    secondbuf[i2] = new Complex(secondtemp.Abs());
+                    firstbuf[i2] = firsttemp;
+                    secondbuf[i2] = secondtemp;
 				}
 
-                for (int i = 0; i < 21; i++)
-                {
-                    firsttempbuf[i] = firstbuf[i];
-                    secondtempbuf[i] = secondbuf[i];
-                }
-                firstAbsValue.quickSort(ref firsttempbuf, 0, 20);
-                firstAbsValue.quickSort(ref secondtempbuf, 0, 20);
-                Complex firstMinVal = firsttempbuf[0];
-                Complex secondMinVal = secondtempbuf[0];
+                Complex firstMinVal = new Complex();
+                firstMinVal.MinVal(firstbuf);
+                Complex secondMinVal = new Complex();
+                secondMinVal.MinVal(secondbuf);
 
                 for (int i3 = 0; i3 < 21; i3++)
                 {
                     if (firstbuf[i3] == firstMinVal)
-					{
-						firstMinN = i3;
-						break;
-					}
-                }
-                for (int i3 = 0; i3 < 21; i3++)
-                {
+                    {
+                        firstMinN = i3;
+                    }
+                
                     if (secondbuf[i3] == secondMinVal)
                     {
                         secondMinN = i3;
-                        break;
                     }
                 }
                 dispchar[i1].k = step * i1;

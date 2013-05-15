@@ -285,11 +285,25 @@ namespace FEA
 			if (d == 0) return new Complex(1);
 			if (d == 0.5)
 			{
-				if (this.im == 0) return this.Sqrt();
-				rr = Math.Sqrt(Convert.ToDouble(1 + acos) / 2);
-				ri = Math.Sqrt(Convert.ToDouble(1 - acos) / 2);
-				res1 = new Complex(Math.Sqrt(abs) * rr, Math.Sqrt(abs) * ri);
-				return res1;
+                if (this.im == 0) return this.Sqrt();
+                if (this.im > 0)
+                {
+                    rr = Math.Sqrt(Convert.ToDouble(1 + acos) / 2);
+                    ri = Math.Sqrt(Convert.ToDouble(1 - acos) / 2);
+                    res1 = new Complex(Math.Sqrt(abs) * rr, Math.Sqrt(abs) * ri);
+
+                    rr = -Math.Sqrt(Convert.ToDouble(1 + acos) / 2);
+                    ri = -Math.Sqrt(Convert.ToDouble(1 - acos) / 2);
+                    res2 = new Complex(Math.Sqrt(abs) * rr, Math.Sqrt(abs) * ri);
+                    return (res1 > res2) ? res1 : res2;
+                }
+                if (this.im < 0)
+                {
+                    rr = Math.Sqrt(Convert.ToDouble(1 + acos) / 2);
+                    ri = Math.Sqrt(Convert.ToDouble(1 - acos) / 2);
+                    res1 = new Complex(Math.Sqrt(abs) * rr, -Math.Sqrt(abs) * ri);
+                    return (res1);
+                }
 			}
 			return new Complex();
 		}
@@ -351,6 +365,18 @@ namespace FEA
 			if (i < right)
 				quickSort(ref arr, i, right);
 		}
+
+        public void MinVal(Complex [] complArr)
+        {
+            Complex[] temp = new Complex[complArr.Length];
+            for (int i = 0; i < complArr.Length; i++)
+            {
+                temp[i] = complArr[i];
+            }
+            this.quickSort(ref temp,0,temp.Length-1);
+            this.re = temp[0].Re();
+            this.im = temp[0].Im();
+        }
 		#endregion
 	}
 }
