@@ -21,7 +21,7 @@
         <Label Content="RAM: 2GB" Margin="0,0,0,22" Name="label1" Grid.Row="2" Grid.RowSpan="2" />
         <Label Content="Доп. компоненты: Matlab 7.1+, .Net 4.0" Margin="0,0,0,16" Name="label2" Grid.Row="3" Grid.RowSpan="2" />
         <Label Content="Краткое описание: " Name="label3" Height="25" VerticalAlignment="Bottom" Grid.Row="5" />
-        <Label Content=" Программа вычисояет дисперсионные" Margin="0,0,0,16" Name="label4" Grid.Row="6" Grid.RowSpan="2" />
+        <Label Content=" Программа вычисляет дисперсионные" Margin="0,0,0,16" Name="label4" Grid.Row="6" Grid.RowSpan="2" />
         <Label Content=" характеристики и критические значения " Margin="0,0,0,17" Name="label5" Grid.Row="7" Grid.RowSpan="2" />
         <Label Content=" предельного затухания цилиндрических" Margin="1,0,-1,22" Name="label6" Grid.Row="8" Grid.RowSpan="2" />
         <Label Content=" магнитодиэлектрических волноводов " Name="label7" Grid.Row="9" />

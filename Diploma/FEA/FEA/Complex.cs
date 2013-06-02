@@ -285,7 +285,10 @@ namespace FEA
 			if (d == 0) return new Complex(1);
 			if (d == 0.5)
 			{
-                if (this.im == 0) return this.Sqrt();
+                if (this.im == 0)
+                {
+                    return this.Sqrt();
+                }
                 if (this.im > 0)
                 {
                     rr = Math.Sqrt(Convert.ToDouble(1 + acos) / 2);
